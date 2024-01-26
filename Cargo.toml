@@ -11,4 +11,4 @@ serde = "1.0.195"
 serde_derive = "1.0.195"
 serialport = "4.3.0"
 toml = "0.8.8"
-uuid = "1.7.0"
+uuid = { version = "1.7.0", features = ["v4"] }
