@@ -19,7 +19,8 @@ struct ConfigFile {
 #[derive(Deserialize)]
 struct ConfigAcquire {
     node_id: String,
-    serial_port: String
+    serial_port: String,
+    baud_rate: u32
 }
 
 
@@ -32,15 +33,15 @@ fn main() {
         Err(e) => panic!("Unable to open the config file: {:?}", e),
     };
 
-    let data: ConfigFile = match toml::from_str(&config_contents) {
+    let config: ConfigFile = match toml::from_str(&config_contents) {
         Ok(data) => data,
         Err(e) => panic!("Unable to parse the config file: {:?}", e),
     };
     
-    println!("Found node id: {}", data.acquire.node_id);
+    println!("Found node id: {}", config.acquire.node_id);
 
-    println!("Opening serial port: {}", data.acquire.serial_port);
-    let mut port = serialport::new(data.acquire.serial_port, 115200)
+    println!("Opening serial port: {}", config.acquire.serial_port);
+    let mut port = serialport::new(config.acquire.serial_port, config.acquire.baud_rate)
         .timeout(std::time::Duration::from_millis(10000))
         .open()
         .expect("Failed to open serial port");

@@ -1,3 +1,4 @@
 [acquire]
 node_id="ET0001"
 serial_port="/dev/tty.usbmodem146173701"
+baud_rate=1000000
