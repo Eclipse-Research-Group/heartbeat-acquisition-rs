@@ -57,6 +57,9 @@ fn main() {
             Err(e) => println!("Error: {:?}", e)
         }       
 
+        let print_line = line.chars().skip(1).take(40).collect::<String>();
+        println!("Line: {}", print_line);
+
         let parts = line.split(",").collect::<Vec<&str>>();
         let line = line.chars().skip(1).collect::<String>();
         writer.write_all(line.as_bytes()).unwrap();
