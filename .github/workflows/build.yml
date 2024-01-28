@@ -3,7 +3,7 @@ on: [push]
 name: ARMv7 build
 
 jobs:
-  linux_arm7:
+  build_pi:
     name: Linux ARMv7
     runs-on: ubuntu-latest
     steps:
@@ -25,3 +25,14 @@ jobs:
         shell: bash
         run: |
           docker run -v ./:/project:rw marisusis/pi-build:latest build --release --target armv7-unknown-linux-gnueabihf
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: arm-build
+          path: ./target/armv7-unknown-linux-gnueabihf/release/heartbeat-acquisition
+  # publish-release:
+  #   needs: build_pi
+  #     name: Publish Github Release
+  #     runs-on: ubuntu-latest
+  #     steps:
+        
