@@ -36,4 +36,4 @@ WORKDIR /project
 
 RUN rustup target add armv7-unknown-linux-gnueabihf
 
-# ENTRYPOINT ["cargo"]
+ENTRYPOINT ["cargo"]

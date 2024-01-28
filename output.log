@@ -1,0 +1,1381 @@
+[2024-01-28T18:04:06Z [32mINFO[0m heartbeat_acquisition] Found node id: ET0000
+[2024-01-28T18:04:06Z [32mINFO[0m heartbeat_acquisition] Opening serial port: /dev/tty.usbmodem146173701
+[2024-01-28T18:04:50Z [32mINFO[0m heartbeat_acquisition] Found node id: ET0000
+[2024-01-28T18:04:50Z [32mINFO[0m heartbeat_acquisition] Opening serial port: /dev/tty.usbmodem146173701
+[2024-01-28T18:04:50Z [32mINFO[0m actix_server::builder] starting 10 workers
+[2024-01-28T18:04:50Z [32mINFO[0m actix_server::server] Tokio runtime found; starting in existing Tokio runtime
+[2024-01-28T18:04:51Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:04:52Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:04:52Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:04:52Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.347334ms
+[2024-01-28T18:04:52Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:04:53Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:04:53Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:04:53Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.526958ms
+[2024-01-28T18:04:54Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:04:54Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:04:54Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.632458ms
+[2024-01-28T18:04:55Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:04:55Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:04:55Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.956167ms
+[2024-01-28T18:04:56Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:04:56Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:04:56Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.59975ms
+[2024-01-28T18:04:57Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:04:57Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:04:57Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.420459ms
+[2024-01-28T18:04:57Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:04:58Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:04:58Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:04:58Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.192791ms
+[2024-01-28T18:04:59Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:04:59Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:04:59Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.085917ms
+[2024-01-28T18:05:00Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:00Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:00Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.664458ms
+[2024-01-28T18:05:01Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:01Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:01Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.023458ms
+[2024-01-28T18:05:02Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:02Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:02Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.00325ms
+[2024-01-28T18:05:02Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:05:03Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:03Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:03Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.735ms
+[2024-01-28T18:05:04Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:04Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:04Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.524083ms
+[2024-01-28T18:05:05Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:05Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:05Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.764ms
+[2024-01-28T18:05:06Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:06Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:06Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.460458ms
+[2024-01-28T18:05:07Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:07Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:07Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.652125ms
+[2024-01-28T18:05:07Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:05:08Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:08Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:08Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.036208ms
+[2024-01-28T18:05:09Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:09Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:09Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.589208ms
+[2024-01-28T18:05:10Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:10Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:10Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.311666ms
+[2024-01-28T18:05:11Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:11Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:11Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.11475ms
+[2024-01-28T18:05:12Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:12Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:12Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.975917ms
+[2024-01-28T18:05:12Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:05:13Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:13Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:13Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.394292ms
+[2024-01-28T18:05:14Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:14Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:14Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.618042ms
+[2024-01-28T18:05:15Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:15Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:15Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.34425ms
+[2024-01-28T18:05:16Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:16Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:16Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.769833ms
+[2024-01-28T18:05:17Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:17Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:17Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.755834ms
+[2024-01-28T18:05:17Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:05:18Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:18Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:18Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.362791ms
+[2024-01-28T18:05:19Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:19Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:19Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.372084ms
+[2024-01-28T18:05:20Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:20Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:20Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.629042ms
+[2024-01-28T18:05:21Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:21Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:21Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.959583ms
+[2024-01-28T18:05:22Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:22Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:22Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.431459ms
+[2024-01-28T18:05:22Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:05:23Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:23Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:23Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.3105ms
+[2024-01-28T18:05:24Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:24Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:24Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.788416ms
+[2024-01-28T18:05:25Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:25Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:25Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.497792ms
+[2024-01-28T18:05:26Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:26Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:26Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.900541ms
+[2024-01-28T18:05:27Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:27Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:27Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.021875ms
+[2024-01-28T18:05:27Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:05:28Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:28Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:28Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.033ms
+[2024-01-28T18:05:29Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:29Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:29Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.083958ms
+[2024-01-28T18:05:30Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:30Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:30Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.586792ms
+[2024-01-28T18:05:31Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:31Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:31Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.194667ms
+[2024-01-28T18:05:32Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:32Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:32Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.66525ms
+[2024-01-28T18:05:32Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:05:33Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:33Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:33Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.54325ms
+[2024-01-28T18:05:34Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:34Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:34Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.147417ms
+[2024-01-28T18:05:35Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:35Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:35Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.048667ms
+[2024-01-28T18:05:36Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:36Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:36Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.5645ms
+[2024-01-28T18:05:37Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:37Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:37Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.516375ms
+[2024-01-28T18:05:37Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:05:38Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:38Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:38Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.286209ms
+[2024-01-28T18:05:39Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:39Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:39Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.195375ms
+[2024-01-28T18:05:40Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:40Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:40Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.519708ms
+[2024-01-28T18:05:41Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:41Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:41Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.580958ms
+[2024-01-28T18:05:42Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:42Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:42Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.835042ms
+[2024-01-28T18:05:42Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:05:43Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:43Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:43Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.83575ms
+[2024-01-28T18:05:44Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:44Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:44Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.820584ms
+[2024-01-28T18:05:45Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:45Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:45Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.4405ms
+[2024-01-28T18:05:46Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:46Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:46Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.474208ms
+[2024-01-28T18:05:47Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:47Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:47Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.763959ms
+[2024-01-28T18:05:47Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:05:48Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:48Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:48Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.602625ms
+[2024-01-28T18:05:49Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:49Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:49Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.087333ms
+[2024-01-28T18:05:50Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:50Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:50Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.536125ms
+[2024-01-28T18:05:51Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:51Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:51Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.400709ms
+[2024-01-28T18:05:52Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:52Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:52Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.426875ms
+[2024-01-28T18:05:52Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:05:53Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:53Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:53Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.642166ms
+[2024-01-28T18:05:54Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:54Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:54Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.072375ms
+[2024-01-28T18:05:55Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:55Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:55Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.637583ms
+[2024-01-28T18:05:56Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:56Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:56Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.192292ms
+[2024-01-28T18:05:57Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:57Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:57Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.718375ms
+[2024-01-28T18:05:57Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:05:58Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:58Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:58Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.7125ms
+[2024-01-28T18:05:59Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:05:59Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:05:59Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.975125ms
+[2024-01-28T18:06:00Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:00Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:00Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.542917ms
+[2024-01-28T18:06:01Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:01Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:01Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.615125ms
+[2024-01-28T18:06:02Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:02Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:02Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.554542ms
+[2024-01-28T18:06:02Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:06:03Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:03Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:03Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.923833ms
+[2024-01-28T18:06:04Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:04Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:04Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.433583ms
+[2024-01-28T18:06:05Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:05Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:05Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.406792ms
+[2024-01-28T18:06:06Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:06Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:06Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.879708ms
+[2024-01-28T18:06:07Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:07Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:07Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.776041ms
+[2024-01-28T18:06:07Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:06:08Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:08Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:08Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.861167ms
+[2024-01-28T18:06:09Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:09Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:09Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.03275ms
+[2024-01-28T18:06:10Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:10Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:10Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.76575ms
+[2024-01-28T18:06:11Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:11Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:11Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.124625ms
+[2024-01-28T18:06:12Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:12Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:12Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.954083ms
+[2024-01-28T18:06:12Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:06:13Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:13Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:13Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.687167ms
+[2024-01-28T18:06:14Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:14Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:14Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.329292ms
+[2024-01-28T18:06:15Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:15Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:15Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.647459ms
+[2024-01-28T18:06:16Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:16Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:16Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.584209ms
+[2024-01-28T18:06:17Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:17Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:17Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.31625ms
+[2024-01-28T18:06:17Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:06:18Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:18Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:18Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.560958ms
+[2024-01-28T18:06:19Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:19Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:19Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.38025ms
+[2024-01-28T18:06:20Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:20Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:20Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.613625ms
+[2024-01-28T18:06:21Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:21Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:21Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.84725ms
+[2024-01-28T18:06:22Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:22Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:22Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.791541ms
+[2024-01-28T18:06:22Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:06:23Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:23Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:23Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.804417ms
+[2024-01-28T18:06:24Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:24Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:24Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.900292ms
+[2024-01-28T18:06:25Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:25Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:25Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.735708ms
+[2024-01-28T18:06:26Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:26Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:26Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.628875ms
+[2024-01-28T18:06:27Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:27Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:27Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.467583ms
+[2024-01-28T18:06:27Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:06:28Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:28Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:28Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.827ms
+[2024-01-28T18:06:29Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:29Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:29Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.515875ms
+[2024-01-28T18:06:30Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:30Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:30Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.936458ms
+[2024-01-28T18:06:31Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:31Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:31Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.892208ms
+[2024-01-28T18:06:32Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:32Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:32Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.270667ms
+[2024-01-28T18:06:32Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:06:33Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:33Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:33Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.554917ms
+[2024-01-28T18:06:34Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:34Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:34Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.104458ms
+[2024-01-28T18:06:35Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:35Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:35Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.76025ms
+[2024-01-28T18:06:36Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:36Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:36Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.643416ms
+[2024-01-28T18:06:37Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:37Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:37Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.033667ms
+[2024-01-28T18:06:37Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:06:38Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:38Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:38Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.122917ms
+[2024-01-28T18:06:39Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:39Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:39Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.601708ms
+[2024-01-28T18:06:40Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:40Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:40Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.550708ms
+[2024-01-28T18:06:41Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:41Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:41Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.568375ms
+[2024-01-28T18:06:42Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:42Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:42Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.612334ms
+[2024-01-28T18:06:42Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:06:43Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:43Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:43Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.834709ms
+[2024-01-28T18:06:44Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:44Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:44Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.512209ms
+[2024-01-28T18:06:45Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:45Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:45Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.386542ms
+[2024-01-28T18:06:46Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:46Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:46Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.312541ms
+[2024-01-28T18:06:47Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:47Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:47Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.234292ms
+[2024-01-28T18:06:47Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:06:48Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:48Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:48Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.554ms
+[2024-01-28T18:06:49Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:49Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:49Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.818958ms
+[2024-01-28T18:06:50Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:50Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:50Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.32875ms
+[2024-01-28T18:06:51Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:51Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:51Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.767708ms
+[2024-01-28T18:06:52Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:52Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:52Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.166625ms
+[2024-01-28T18:06:52Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:06:53Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:53Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:53Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.485834ms
+[2024-01-28T18:06:54Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:54Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:54Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.512125ms
+[2024-01-28T18:06:55Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:55Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:55Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.516334ms
+[2024-01-28T18:06:56Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:56Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:56Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.811459ms
+[2024-01-28T18:06:57Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:57Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:57Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.974333ms
+[2024-01-28T18:06:57Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:06:58Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:58Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:58Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.312916ms
+[2024-01-28T18:06:59Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:06:59Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:06:59Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.781292ms
+[2024-01-28T18:07:00Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:00Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:00Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.544458ms
+[2024-01-28T18:07:01Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:01Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:01Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.356875ms
+[2024-01-28T18:07:02Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:02Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:02Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.210792ms
+[2024-01-28T18:07:02Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:07:03Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:03Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:03Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.121333ms
+[2024-01-28T18:07:04Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:04Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:04Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.714083ms
+[2024-01-28T18:07:05Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:05Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:05Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.551959ms
+[2024-01-28T18:07:06Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:06Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:06Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.252583ms
+[2024-01-28T18:07:07Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:07Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:07Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.168041ms
+[2024-01-28T18:07:07Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:07:08Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:08Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:08Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.027583ms
+[2024-01-28T18:07:09Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:09Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:09Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.376292ms
+[2024-01-28T18:07:10Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:10Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:10Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.067709ms
+[2024-01-28T18:07:11Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:11Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:11Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.369125ms
+[2024-01-28T18:07:12Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:12Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:12Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.836917ms
+[2024-01-28T18:07:12Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:07:13Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:13Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:13Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.850292ms
+[2024-01-28T18:07:14Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:14Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:14Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.517291ms
+[2024-01-28T18:07:15Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:15Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:15Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.18125ms
+[2024-01-28T18:07:16Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:16Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:16Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 879.125µs
+[2024-01-28T18:07:17Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:17Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:17Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.687667ms
+[2024-01-28T18:07:17Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:07:18Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:18Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:18Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.072083ms
+[2024-01-28T18:07:19Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:19Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:19Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.817875ms
+[2024-01-28T18:07:20Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:20Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:20Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.745125ms
+[2024-01-28T18:07:21Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:21Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:21Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.792458ms
+[2024-01-28T18:07:22Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:22Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:22Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.63375ms
+[2024-01-28T18:07:22Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:07:23Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:23Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:23Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.595625ms
+[2024-01-28T18:07:24Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:24Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:24Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.179125ms
+[2024-01-28T18:07:25Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:25Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:25Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.976375ms
+[2024-01-28T18:07:26Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:26Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:26Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.832667ms
+[2024-01-28T18:07:27Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:27Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:27Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 11.976084ms
+[2024-01-28T18:07:27Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:07:28Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:28Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:28Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.689792ms
+[2024-01-28T18:07:29Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:29Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:29Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 13.096417ms
+[2024-01-28T18:07:30Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:30Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:30Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.9785ms
+[2024-01-28T18:07:31Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:31Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:31Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 13.911084ms
+[2024-01-28T18:07:32Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:32Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:32Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.499834ms
+[2024-01-28T18:07:32Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:07:33Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:33Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:33Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.823959ms
+[2024-01-28T18:07:34Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:34Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:34Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.809125ms
+[2024-01-28T18:07:35Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:35Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:35Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.815166ms
+[2024-01-28T18:07:36Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:36Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:36Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.509917ms
+[2024-01-28T18:07:37Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:37Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:37Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.999417ms
+[2024-01-28T18:07:37Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:07:38Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:38Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:38Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.173542ms
+[2024-01-28T18:07:39Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:39Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:39Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.326375ms
+[2024-01-28T18:07:40Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:40Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:40Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.240583ms
+[2024-01-28T18:07:41Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:41Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:41Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.855542ms
+[2024-01-28T18:07:42Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:42Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:42Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.082666ms
+[2024-01-28T18:07:42Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:07:43Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:43Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:43Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.038834ms
+[2024-01-28T18:07:44Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:44Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:44Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.071625ms
+[2024-01-28T18:07:45Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:45Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:45Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.253583ms
+[2024-01-28T18:07:46Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:46Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:46Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.796167ms
+[2024-01-28T18:07:47Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:47Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:47Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.031667ms
+[2024-01-28T18:07:47Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:07:48Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:48Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:48Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.845375ms
+[2024-01-28T18:07:49Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:49Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:49Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.740875ms
+[2024-01-28T18:07:50Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:50Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:50Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.035417ms
+[2024-01-28T18:07:51Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:51Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:51Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.446584ms
+[2024-01-28T18:07:52Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:52Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:52Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.859125ms
+[2024-01-28T18:07:52Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:07:53Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:53Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:53Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.968417ms
+[2024-01-28T18:07:54Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:54Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:54Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.018125ms
+[2024-01-28T18:07:55Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:55Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:55Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 10.412167ms
+[2024-01-28T18:07:56Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:56Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:56Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 10.108416ms
+[2024-01-28T18:07:57Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:57Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:57Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.320458ms
+[2024-01-28T18:07:57Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:07:58Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:58Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:58Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.665084ms
+[2024-01-28T18:07:59Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:07:59Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:07:59Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.193541ms
+[2024-01-28T18:08:00Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:00Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:00Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.862167ms
+[2024-01-28T18:08:01Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:01Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:01Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.866709ms
+[2024-01-28T18:08:02Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:02Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:02Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 14.457167ms
+[2024-01-28T18:08:02Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:08:03Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:03Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:03Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.080042ms
+[2024-01-28T18:08:04Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:04Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:04Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.258042ms
+[2024-01-28T18:08:05Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:05Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:05Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.997167ms
+[2024-01-28T18:08:06Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:06Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:06Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.133375ms
+[2024-01-28T18:08:07Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:07Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:07Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.650667ms
+[2024-01-28T18:08:07Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:08:08Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:08Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:08Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.696916ms
+[2024-01-28T18:08:09Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:09Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:09Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.309833ms
+[2024-01-28T18:08:10Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:10Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:10Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.853375ms
+[2024-01-28T18:08:11Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:11Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:11Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.349875ms
+[2024-01-28T18:08:12Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:12Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:12Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.696292ms
+[2024-01-28T18:08:12Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:08:13Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:13Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:13Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.656ms
+[2024-01-28T18:08:14Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:14Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:14Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.291625ms
+[2024-01-28T18:08:15Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:15Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:15Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.900375ms
+[2024-01-28T18:08:16Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:16Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:16Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.657458ms
+[2024-01-28T18:08:17Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:17Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:17Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.073167ms
+[2024-01-28T18:08:17Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:08:18Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:18Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:18Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.388458ms
+[2024-01-28T18:08:19Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:19Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:19Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.406ms
+[2024-01-28T18:08:20Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:20Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:20Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.099666ms
+[2024-01-28T18:08:21Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:21Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:21Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.496ms
+[2024-01-28T18:08:22Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:22Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:22Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.883625ms
+[2024-01-28T18:08:22Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:08:23Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:23Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:23Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.132417ms
+[2024-01-28T18:08:24Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:24Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:24Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.788083ms
+[2024-01-28T18:08:25Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:25Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:25Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.066542ms
+[2024-01-28T18:08:26Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:26Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:26Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.588875ms
+[2024-01-28T18:08:27Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:27Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:27Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.831041ms
+[2024-01-28T18:08:27Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:08:28Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:28Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:28Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.62875ms
+[2024-01-28T18:08:29Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:29Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:29Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.715458ms
+[2024-01-28T18:08:30Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:30Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:30Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.928417ms
+[2024-01-28T18:08:31Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:31Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:31Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.985709ms
+[2024-01-28T18:08:32Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:32Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:32Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 11.21225ms
+[2024-01-28T18:08:32Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:08:33Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:33Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:33Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.790208ms
+[2024-01-28T18:08:34Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:34Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:34Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.005375ms
+[2024-01-28T18:08:35Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:35Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:35Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.35975ms
+[2024-01-28T18:08:36Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:36Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:36Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.1245ms
+[2024-01-28T18:08:37Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:37Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:37Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 10.061709ms
+[2024-01-28T18:08:37Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:08:38Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:38Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:38Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.852792ms
+[2024-01-28T18:08:39Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:39Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:39Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.596167ms
+[2024-01-28T18:08:40Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:40Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:40Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.291333ms
+[2024-01-28T18:08:41Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:41Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:41Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.372167ms
+[2024-01-28T18:08:42Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:42Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:42Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.913333ms
+[2024-01-28T18:08:42Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:08:43Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:43Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:43Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.684334ms
+[2024-01-28T18:08:44Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:44Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:44Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.207041ms
+[2024-01-28T18:08:45Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:45Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:45Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.987ms
+[2024-01-28T18:08:46Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:46Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:46Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.356708ms
+[2024-01-28T18:08:47Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:47Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:47Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.109458ms
+[2024-01-28T18:08:47Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:08:48Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:48Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:48Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.711708ms
+[2024-01-28T18:08:49Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:49Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:49Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.147792ms
+[2024-01-28T18:08:50Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:50Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:50Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.099125ms
+[2024-01-28T18:08:51Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:51Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:51Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.673916ms
+[2024-01-28T18:08:52Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:52Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:52Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.918375ms
+[2024-01-28T18:08:52Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:08:53Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:53Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:53Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 10.036542ms
+[2024-01-28T18:08:54Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:54Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:54Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 10.227167ms
+[2024-01-28T18:08:55Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:55Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:55Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.61325ms
+[2024-01-28T18:08:56Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:56Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:56Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 10.641ms
+[2024-01-28T18:08:57Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:57Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:57Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.20525ms
+[2024-01-28T18:08:57Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:08:58Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:58Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:58Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 12.18ms
+[2024-01-28T18:08:59Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:08:59Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:08:59Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.519292ms
+[2024-01-28T18:09:00Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:00Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:00Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.865666ms
+[2024-01-28T18:09:01Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:01Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:01Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.760125ms
+[2024-01-28T18:09:02Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:02Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:02Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 876.583µs
+[2024-01-28T18:09:02Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:09:03Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:03Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:03Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.131417ms
+[2024-01-28T18:09:04Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:04Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:04Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.155208ms
+[2024-01-28T18:09:05Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:05Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:05Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.281208ms
+[2024-01-28T18:09:06Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:06Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:06Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.378333ms
+[2024-01-28T18:09:07Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:07Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:07Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.777833ms
+[2024-01-28T18:09:07Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:09:08Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:08Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:08Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.729ms
+[2024-01-28T18:09:09Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:09Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:09Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.543958ms
+[2024-01-28T18:09:10Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:10Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:10Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.863834ms
+[2024-01-28T18:09:11Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:11Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:11Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.521875ms
+[2024-01-28T18:09:12Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:12Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:12Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.281625ms
+[2024-01-28T18:09:12Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:09:13Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:13Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:13Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 11.854834ms
+[2024-01-28T18:09:14Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:14Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:14Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.848625ms
+[2024-01-28T18:09:15Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:15Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:15Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.435625ms
+[2024-01-28T18:09:16Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:16Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:16Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.019875ms
+[2024-01-28T18:09:17Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:17Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:17Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 12.141083ms
+[2024-01-28T18:09:17Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:09:18Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:18Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:18Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.006709ms
+[2024-01-28T18:09:19Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:19Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:19Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.663583ms
+[2024-01-28T18:09:20Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:20Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:20Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.999125ms
+[2024-01-28T18:09:21Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:21Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:21Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.663959ms
+[2024-01-28T18:09:22Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:22Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:22Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.889459ms
+[2024-01-28T18:09:22Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:09:23Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:23Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:23Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.426083ms
+[2024-01-28T18:09:24Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:24Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:24Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.155375ms
+[2024-01-28T18:09:25Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:25Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:25Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.628ms
+[2024-01-28T18:09:26Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:26Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:26Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 17.828583ms
+[2024-01-28T18:09:27Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:27Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:27Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.190208ms
+[2024-01-28T18:09:27Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:09:28Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:28Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:28Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 11.263166ms
+[2024-01-28T18:09:29Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:29Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:29Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.962ms
+[2024-01-28T18:09:30Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:30Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:30Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.281667ms
+[2024-01-28T18:09:31Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:31Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:31Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.089ms
+[2024-01-28T18:09:32Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:32Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:32Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.777958ms
+[2024-01-28T18:09:32Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:09:33Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:33Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:33Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.17125ms
+[2024-01-28T18:09:34Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:34Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:34Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.328ms
+[2024-01-28T18:09:35Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:35Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:35Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.053625ms
+[2024-01-28T18:09:36Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:36Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:36Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.78775ms
+[2024-01-28T18:09:37Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:37Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:37Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 855.667µs
+[2024-01-28T18:09:37Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:09:38Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:38Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:38Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.129834ms
+[2024-01-28T18:09:39Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:39Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:39Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.606125ms
+[2024-01-28T18:09:40Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:40Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:40Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.765708ms
+[2024-01-28T18:09:41Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:41Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:41Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.68175ms
+[2024-01-28T18:09:42Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:42Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:42Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.140708ms
+[2024-01-28T18:09:42Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:09:43Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:43Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:43Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.632542ms
+[2024-01-28T18:09:44Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:44Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:44Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.077375ms
+[2024-01-28T18:09:45Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:45Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:45Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.377666ms
+[2024-01-28T18:09:46Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:46Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:46Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.297583ms
+[2024-01-28T18:09:47Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:47Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:47Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.500666ms
+[2024-01-28T18:09:47Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:09:48Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:48Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:48Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.369458ms
+[2024-01-28T18:09:49Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:49Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:49Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.511167ms
+[2024-01-28T18:09:50Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:50Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:50Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.001292ms
+[2024-01-28T18:09:51Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:51Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:51Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.561583ms
+[2024-01-28T18:09:52Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:52Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:52Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.233084ms
+[2024-01-28T18:09:52Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:09:53Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:53Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:53Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.639459ms
+[2024-01-28T18:09:54Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:54Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:54Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.06375ms
+[2024-01-28T18:09:55Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:55Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:55Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.655292ms
+[2024-01-28T18:09:56Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:56Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:56Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.861583ms
+[2024-01-28T18:09:57Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:57Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:57Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.498ms
+[2024-01-28T18:09:57Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:09:58Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:58Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:58Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.331542ms
+[2024-01-28T18:09:59Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:09:59Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:09:59Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.018959ms
+[2024-01-28T18:10:00Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:00Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:00Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.195375ms
+[2024-01-28T18:10:01Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:01Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:01Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.148084ms
+[2024-01-28T18:10:02Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:02Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:02Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.663417ms
+[2024-01-28T18:10:02Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:10:03Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:03Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:03Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.718667ms
+[2024-01-28T18:10:04Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:04Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:04Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.961542ms
+[2024-01-28T18:10:05Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:05Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:05Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 867.791µs
+[2024-01-28T18:10:06Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:06Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:06Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.115292ms
+[2024-01-28T18:10:07Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:07Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:07Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.544208ms
+[2024-01-28T18:10:07Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:10:08Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:08Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:08Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.340375ms
+[2024-01-28T18:10:09Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:09Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:09Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.339625ms
+[2024-01-28T18:10:10Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:10Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:10Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.837708ms
+[2024-01-28T18:10:11Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:11Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:11Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.003375ms
+[2024-01-28T18:10:12Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:12Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:12Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 11.208291ms
+[2024-01-28T18:10:12Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:10:13Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:13Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:13Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.758708ms
+[2024-01-28T18:10:14Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:14Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:14Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.715375ms
+[2024-01-28T18:10:15Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:15Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:15Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.230375ms
+[2024-01-28T18:10:16Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:16Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:16Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.622542ms
+[2024-01-28T18:10:17Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:17Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:17Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.452084ms
+[2024-01-28T18:10:17Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:10:18Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:18Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:18Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 10.57975ms
+[2024-01-28T18:10:19Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:19Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:19Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.693ms
+[2024-01-28T18:10:20Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:20Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:20Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 11.23425ms
+[2024-01-28T18:10:21Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:21Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:21Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.642709ms
+[2024-01-28T18:10:22Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:22Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:22Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.765875ms
+[2024-01-28T18:10:22Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:10:23Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:23Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:23Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.186375ms
+[2024-01-28T18:10:24Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:24Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:24Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.998625ms
+[2024-01-28T18:10:25Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:25Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:25Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 10.45675ms
+[2024-01-28T18:10:26Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:26Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:26Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.616834ms
+[2024-01-28T18:10:27Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:27Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:27Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.7545ms
+[2024-01-28T18:10:27Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:10:28Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:28Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:28Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.351458ms
+[2024-01-28T18:10:29Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:29Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:29Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.827209ms
+[2024-01-28T18:10:30Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:30Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:30Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.766334ms
+[2024-01-28T18:10:31Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:31Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:31Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.678583ms
+[2024-01-28T18:10:32Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:32Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:32Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.125583ms
+[2024-01-28T18:10:33Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:10:33Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:33Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:33Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 10.349292ms
+[2024-01-28T18:10:34Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:34Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:34Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.546458ms
+[2024-01-28T18:10:35Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:35Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:35Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.616333ms
+[2024-01-28T18:10:36Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:36Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:36Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 12.779083ms
+[2024-01-28T18:10:37Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:37Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:37Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 11.298417ms
+[2024-01-28T18:10:37Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:10:38Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:38Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:38Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.754ms
+[2024-01-28T18:10:39Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:39Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:39Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.345125ms
+[2024-01-28T18:10:40Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:40Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:40Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.468125ms
+[2024-01-28T18:10:41Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:41Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:41Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 961µs
+[2024-01-28T18:10:42Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:42Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:42Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.52175ms
+[2024-01-28T18:10:42Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:10:43Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:43Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:43Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 986.75µs
+[2024-01-28T18:10:44Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:44Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:44Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.998541ms
+[2024-01-28T18:10:45Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:45Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:45Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.031167ms
+[2024-01-28T18:10:46Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:46Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:46Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.897708ms
+[2024-01-28T18:10:47Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:47Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:47Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.758833ms
+[2024-01-28T18:10:47Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:10:48Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:48Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:48Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.766542ms
+[2024-01-28T18:10:49Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:49Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:49Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.200959ms
+[2024-01-28T18:10:50Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:50Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:50Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.095375ms
+[2024-01-28T18:10:51Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:51Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:51Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.51875ms
+[2024-01-28T18:10:52Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:52Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:52Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.721459ms
+[2024-01-28T18:10:52Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:10:53Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:53Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:53Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 10.1905ms
+[2024-01-28T18:10:54Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:54Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:54Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 11.751334ms
+[2024-01-28T18:10:55Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:55Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:55Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.75125ms
+[2024-01-28T18:10:56Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:56Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:56Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.531917ms
+[2024-01-28T18:10:57Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:57Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:57Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.252625ms
+[2024-01-28T18:10:57Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:10:58Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:58Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:58Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.051209ms
+[2024-01-28T18:10:59Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:10:59Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:10:59Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.335833ms
+[2024-01-28T18:11:00Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:00Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:00Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.682ms
+[2024-01-28T18:11:01Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:01Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:01Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.301833ms
+[2024-01-28T18:11:02Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:02Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:02Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.556375ms
+[2024-01-28T18:11:02Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:11:03Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:03Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:03Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.745708ms
+[2024-01-28T18:11:04Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:04Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:04Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.189083ms
+[2024-01-28T18:11:05Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:05Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:05Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.239875ms
+[2024-01-28T18:11:06Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:06Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:06Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 7.086625ms
+[2024-01-28T18:11:07Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:07Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:07Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.772292ms
+[2024-01-28T18:11:07Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:11:08Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:08Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:08Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 8.082625ms
+[2024-01-28T18:11:09Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:09Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:09Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.104208ms
+[2024-01-28T18:11:10Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:10Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:10Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.739375ms
+[2024-01-28T18:11:11Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:11Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:11Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 10.155125ms
+[2024-01-28T18:11:12Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:12Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:12Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.831459ms
+[2024-01-28T18:11:12Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:11:13Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:13Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:13Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.650709ms
+[2024-01-28T18:11:14Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:14Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:14Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.241875ms
+[2024-01-28T18:11:15Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:15Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:15Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 907.333µs
+[2024-01-28T18:11:16Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:16Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:16Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.310708ms
+[2024-01-28T18:11:17Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:17Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:17Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.528041ms
+[2024-01-28T18:11:17Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:11:18Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:18Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:18Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.901041ms
+[2024-01-28T18:11:19Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:19Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:19Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.72575ms
+[2024-01-28T18:11:20Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:20Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:20Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.741459ms
+[2024-01-28T18:11:21Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:21Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:21Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.537875ms
+[2024-01-28T18:11:22Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:22Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:22Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.552167ms
+[2024-01-28T18:11:22Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:11:23Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:23Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:23Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.498625ms
+[2024-01-28T18:11:24Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:24Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:24Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.788542ms
+[2024-01-28T18:11:25Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:25Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:25Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.384583ms
+[2024-01-28T18:11:26Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:26Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:26Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.5115ms
+[2024-01-28T18:11:27Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:27Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:27Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.909959ms
+[2024-01-28T18:11:27Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:11:28Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:28Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:28Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.366833ms
+[2024-01-28T18:11:29Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:29Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:29Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.070917ms
+[2024-01-28T18:11:30Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:30Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:30Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.006917ms
+[2024-01-28T18:11:31Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:31Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:31Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 3.908167ms
+[2024-01-28T18:11:32Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:32Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:32Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 869.5µs
+[2024-01-28T18:11:32Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:11:33Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:33Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:33Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 876.417µs
+[2024-01-28T18:11:34Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:34Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:34Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.749875ms
+[2024-01-28T18:11:35Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:35Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:35Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.288959ms
+[2024-01-28T18:11:36Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:36Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:36Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.508167ms
+[2024-01-28T18:11:37Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:37Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:37Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.013583ms
+[2024-01-28T18:11:37Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:11:38Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:38Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:38Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.251125ms
+[2024-01-28T18:11:39Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:39Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:39Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.270375ms
+[2024-01-28T18:11:40Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:40Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:40Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.649791ms
+[2024-01-28T18:11:41Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:41Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:41Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 9.690583ms
+[2024-01-28T18:11:42Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:42Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:42Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.503042ms
+[2024-01-28T18:11:42Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:11:43Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:43Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:43Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.521ms
+[2024-01-28T18:11:44Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:44Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:44Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 6.242542ms
+[2024-01-28T18:11:45Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:45Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:45Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.367167ms
+[2024-01-28T18:11:46Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:46Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:46Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.081875ms
+[2024-01-28T18:11:47Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:47Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:47Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 875.875µs
+[2024-01-28T18:11:47Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:11:48Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:48Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:48Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.03225ms
+[2024-01-28T18:11:49Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:49Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:49Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.144458ms
+[2024-01-28T18:11:50Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:50Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:50Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.713875ms
+[2024-01-28T18:11:51Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:51Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:51Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.073708ms
+[2024-01-28T18:11:52Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:52Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:52Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 4.679125ms
+[2024-01-28T18:11:52Z [32mINFO[0m heartbeat_acquisition] Prometheus metrics fetched
+[2024-01-28T18:11:53Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:53Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:53Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 10.068459ms
+[2024-01-28T18:11:54Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:54Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:54Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 1.771292ms
+[2024-01-28T18:11:55Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:55Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:55Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 2.078708ms
+[2024-01-28T18:11:55Z [32mINFO[0m actix_server::server] SIGINT received; starting forced shutdown
+[2024-01-28T18:11:55Z [34mDEBUG[0m actix_server::accept] paused accepting connections on 0.0.0.0:8003
+[2024-01-28T18:11:55Z [32mINFO[0m actix_server::worker] shutting down idle worker
+[2024-01-28T18:11:55Z [32mINFO[0m actix_server::worker] force shutdown worker, closing 1 connections
+[2024-01-28T18:11:55Z [32mINFO[0m actix_server::worker] shutting down idle worker
+[2024-01-28T18:11:55Z [32mINFO[0m actix_server::worker] shutting down idle worker
+[2024-01-28T18:11:55Z [32mINFO[0m actix_server::worker] shutting down idle worker
+[2024-01-28T18:11:55Z [32mINFO[0m actix_server::accept] accept thread stopped
+[2024-01-28T18:11:55Z [32mINFO[0m actix_server::worker] shutting down idle worker
+[2024-01-28T18:11:55Z [32mINFO[0m actix_server::worker] shutting down idle worker
+[2024-01-28T18:11:55Z [32mINFO[0m actix_server::worker] shutting down idle worker
+[2024-01-28T18:11:55Z [32mINFO[0m actix_server::worker] shutting down idle worker
+[2024-01-28T18:11:55Z [32mINFO[0m actix_server::worker] shutting down idle worker
+[2024-01-28T18:11:55Z [32mINFO[0m heartbeat_acquisition] Shutting down...
+[2024-01-28T18:11:56Z [32mINFO[0m heartbeat_acquisition] Reading line
+[2024-01-28T18:11:56Z [33mWARN[0m heartbeat_acquisition] No GPS fix, data may be misaligned for this second
+[2024-01-28T18:11:56Z [34mDEBUG[0m heartbeat_acquisition] Time elapsed: 5.311833ms

@@ -1,5 +1,5 @@
 on: [push]
-
+# docker run -v ./:/project:rw hb build --release -v --target armv7-unknown-linux-gnueabihf
 name: ARMv7 build
 
 jobs:
@@ -9,19 +9,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Install toolchain if not cross-compiling
-        uses: dtolnay/rust-toolchain@stable
+      - name: Setup docker build
+        uses: docker/setup-buildx-action@v2
+      - name: Docker build image
         with:
-          targets: armv7-unknown-linux-gnueabihf
-      - name: Install cross
+          context: .
+          file: "Dockerfile"
+          tags: marisusis/pi-build:latest
+          load: true
+          cache-from: type=registry,ref=user/app:latest
+          cache-to: type=inline
+          push: false
+      - name: Docker run
         shell: bash
         run: |
-          cargo install cross
-      - name: check
-        shell: bash
-        run: |
-          ls
-      - name: Build
-        shell: bash
-        run: |
-          cargo build --target armv7-unknown-linux-gnueabihf
+          docker run -v ./:/project:rw marisusis/pi-build:latest build --release --target armv7-unknown-linux-gnueabihf
