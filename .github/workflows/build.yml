@@ -47,7 +47,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-        files: |
-          ./heartbeat-acquisition-rpi.tar.gz
+          files: |
+            ./heartbeat-acquisition-rpi.tar.gz
 
         
