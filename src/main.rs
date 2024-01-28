@@ -133,7 +133,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let shared_registry = Arc::new(RwLock::new(registry));
     
 
-    let buckets = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
+    let buckets = [0.0, 0.0001, 0.0005, 0.001, 0.005, 0.01, 0.05, 0.1, 1.0, 10.0];
     let gauge_gps_sats: Gauge = Gauge::default();
     let hist_process_time = Histogram::new(buckets.into_iter());
     
@@ -208,7 +208,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         // We don't need to parse the line here, we can just write it to the output file, skipping the first character '$'
         let line = line.chars().skip(1).collect::<String>();
         writer.write_all(line.as_bytes()).unwrap();
-        writer.flush();
+        match writer.flush() {
+            Ok(_) => {},
+            Err(e) => {
+                error!("Failed to flush output file: {:?}", e);
+                break;
+            }
+        }
 
         // Parse for data analysis
         let data_point = match DataPoint::parse(&line) {
@@ -226,7 +232,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         gauge_gps_sats.set(data_point.satellite_count() as i64);
 
         let end = now.elapsed();
-        hist_process_time.observe(end.as_nanos() as f64);
+        hist_process_time.observe(end.as_secs_f64());
         debug!("Time elapsed: {:?}", end);
 
 
