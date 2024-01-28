@@ -25,6 +25,10 @@ jobs:
         shell: bash
         run: |
           docker run -v ./:/project:rw marisusis/pi-build:latest build --release --target armv7-unknown-linux-gnueabihf
+      - name: List files
+        run: |
+          ls -l ./target/armv7-unknown-linux-gnueabihf/
+          ls -l .
       - name: Store the binary
         uses: actions/upload-artifact@v3
         with:
@@ -42,6 +46,9 @@ jobs:
         with:
           name: arm-build
           path: ./
+      - name: List files
+        run: |
+          ls -l .
       - name: Build archive
         shell: bash
         run: |
