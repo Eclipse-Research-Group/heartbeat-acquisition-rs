@@ -46,6 +46,7 @@ jobs:
           tar -czf heartbeat-acquisition-rpi.tar.gz heartbeat-acquisition
       - name: Release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
             ./heartbeat-acquisition-rpi.tar.gz
