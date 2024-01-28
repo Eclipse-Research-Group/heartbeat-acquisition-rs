@@ -1,26 +1,26 @@
 use uuid::Uuid;
 use std::collections::HashMap;
 
-static METADATA_START: &str = "## BEGIN METADATA ##";
-static METADATA_END: &str = "## END METADATA ##";
+static METADATA_START: &str = "## BEGIN METADATA ##\n";
+static METADATA_END: &str = "## END METADATA ##\n";
 
 pub struct CaptureFileMetadata {
     capture_id: Uuid,
-    node_id: String,
+    sample_rate: f32,
     extras: HashMap<String, String>
 }
 
 impl CaptureFileMetadata {
-    pub fn new(capture_id: Uuid, node_id: String) -> CaptureFileMetadata {
+    pub fn new(capture_id: Uuid, sample_rate: f32) -> CaptureFileMetadata {
         CaptureFileMetadata {
             capture_id: capture_id,
-            node_id: node_id,
+            sample_rate: sample_rate,
             extras: HashMap::new()
         }
     }
 
-    pub fn set(&mut self, key: String, value: String) {
-        self.extras.insert(key, value);
+    pub fn set (&mut self, key: &str, value: &str) {
+        self.extras.insert(key.to_string(), value.to_string());
     }
 
     pub fn get(&self, key: &str) -> Option<&str> {
@@ -28,13 +28,29 @@ impl CaptureFileMetadata {
     }
 
     pub fn parse(text: &str) -> CaptureFileMetadata {
-        return CaptureFileMetadata::new(Uuid::new_v4(), String::from(""));
+        let parts = text.split("\n").collect::<Vec<&str>>();
+        
+
+        return CaptureFileMetadata::new(Uuid::new_v4(), 20000.0);
+    }
+
+    pub fn capture_id(&self) -> Uuid {
+        self.capture_id
     }
 }
 
 impl ToString for CaptureFileMetadata {
     fn to_string(&self) -> String {
-        let string: String = format!("Capture ID: {}\nNode ID: {}\n", self.capture_id, self.node_id);
+        let mut string = String::new();
+        string.push_str(METADATA_START);
+        string.push_str(format!("# CAPTURE_ID\t\t{}\n# SAMPLE_RATE\t\t{}\n", self.capture_id, self.sample_rate).as_str());
+
+        // Write additional metadata
+        for (key, value) in &self.extras {
+            string.push_str(format!("# {}\t\t{}\n", key, value).as_str());
+        }
+
+        string.push_str(METADATA_END);
         return string;
     }
 }
