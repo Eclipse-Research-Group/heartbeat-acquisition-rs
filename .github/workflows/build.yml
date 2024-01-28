@@ -7,14 +7,17 @@ jobs:
     name: Linux ARMv7
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install toolchain if not cross-compiling
+        uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: stable
-          target: armv7-unknown-linux-gnueabihf
-          override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          use-cross: true
-          command: build
-          args: --target armv7-unknown-linux-gnueabihf
+          targets: armv7-unknown-linux-gnueabihf
+      - name: Install cross
+        shell: bash
+        run: |
+          cargo install cross
+      - name: Build
+        shell: bash
+        run: |
+          cargo build --target armv7-unknown-linux-gnueabihf
