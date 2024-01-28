@@ -21,6 +21,7 @@ use log::{debug, error, info, log_enabled, warn, Level};
 use uuid::Uuid;
 use std::thread;
 use prometheus_client::encoding::text::encode;
+use std::io::ErrorKind::BrokenPipe;
 use prometheus_client::metrics::counter::Counter;
 use prometheus_client::registry::{self, Registry};
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
@@ -187,7 +188,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             Ok(_) => {
                 info!("Reading line");
             },
-            Err(e) => error!("Error: {:?}", e)
+            Err(e) => {
+                if e.kind() == BrokenPipe {
+                    error!("Unable to connect to data collection port, exiting...");
+                    break;
+                }
+            }
         } 
 
         let now = Instant::now();
@@ -197,9 +203,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             continue;
         }
 
+
+
         // We don't need to parse the line here, we can just write it to the output file, skipping the first character '$'
         let line = line.chars().skip(1).collect::<String>();
         writer.write_all(line.as_bytes()).unwrap();
+        writer.flush();
 
         // Parse for data analysis
         let data_point = match DataPoint::parse(&line) {

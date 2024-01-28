@@ -61,6 +61,34 @@ impl DataPoint {
         self.flags.has_gps_fix
     }
 
+    pub fn is_clipping(&self) -> bool {
+        self.flags.is_clipping
+    }
+
+    pub fn sample_rate(&self) -> f32 {
+        self.sample_rate
+    }
+
+    pub fn timestamp(&self) -> u32 {
+        self.timestamp
+    }
+
+    pub fn latitude(&self) -> f32 {
+        self.latitude
+    }
+
+    pub fn longitude(&self) -> f32 {
+        self.longitude
+    }
+
+    pub fn elevation(&self) -> f32 {
+        self.elevation
+    }
+
+    pub fn fix(&self) -> u16 {
+        self.fix
+    }
+
     pub fn parse(line: &str) -> Result<DataPoint, String> {
         let parts: Vec<&str> = line.split(',').collect();
         let timestamp = match parts[0].parse::<u32>().unwrap() {
