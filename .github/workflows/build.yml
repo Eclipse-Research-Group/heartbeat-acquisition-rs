@@ -25,14 +25,29 @@ jobs:
         shell: bash
         run: |
           docker run -v ./:/project:rw marisusis/pi-build:latest build --release --target armv7-unknown-linux-gnueabihf
-      - name: Store the distribution packages
+      - name: Store the binary
         uses: actions/upload-artifact@v3
         with:
           name: arm-build
           path: ./target/armv7-unknown-linux-gnueabihf/release/heartbeat-acquisition
-  # publish-release:
-  #   needs: build_pi
-  #     name: Publish Github Release
-  #     runs-on: ubuntu-latest
-  #     steps:
+  publish-release:
+    needs: build_pi
+      name: Publish Github Release
+      runs-on: ubuntu-latest
+      steps:
+        - name: Download the binary
+          uses: actions/download-artifact@v3
+          with:
+            name: arm-build
+            path: ./
+        - name: Build archive
+          shell: bash
+          run: |
+            tar -czf heartbeat-acquisition-rpi.tar.gz heartbeat-acquisition
+        - name: Release
+          uses: softprops/action-gh-release@v1
+          with:
+          files: |
+            ./heartbeat-acquisition-rpi.tar.gz
+
         
