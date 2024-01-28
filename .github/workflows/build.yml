@@ -18,8 +18,8 @@ jobs:
           file: "Dockerfile"
           tags: marisusis/pi-build:latest
           load: true
-          cache-from: type=registry,ref=user/app:latest
-          cache-to: type=inline
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           push: false
       - name: Docker run
         shell: bash
