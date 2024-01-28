@@ -85,7 +85,7 @@ impl DataPoint {
         self.elevation
     }
 
-    pub fn fix(&self) -> u16 {
+    pub fn satellites(&self) -> u16 {
         self.fix
     }
 

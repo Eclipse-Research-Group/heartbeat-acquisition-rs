@@ -11,6 +11,7 @@ use std::sync::{Arc, RwLock};
 use colored::*;
 use futures::future::Shared;
 use futures::lock::Mutex;
+use prometheus_client::metrics::family::Family;
 use prometheus_client::metrics::gauge::Gauge;
 use prometheus_client::metrics::histogram::Histogram;
 use tokio::signal;
@@ -134,6 +135,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     
 
     let buckets = [0.0, 0.0001, 0.0005, 0.001, 0.005, 0.01, 0.05, 0.1, 1.0, 10.0];
+    let family = Family::<Vec<(String, String)>, Gauge>::default();
     let gauge_gps_sats: Gauge = Gauge::default();
     let hist_process_time = Histogram::new(buckets.into_iter());
     
@@ -141,6 +143,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let mut registry = shared_registry.write().unwrap();
         registry.register("gps_satellite_count", "Number of satellites in GPS fix", gauge_gps_sats.clone());
         registry.register("heartbeat_tick_time", "Number of seconds from start of capture", hist_process_time.clone());
+        registry.register("value", "Value", family.clone());
     }
 
 
@@ -230,6 +233,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
 
         gauge_gps_sats.set(data_point.satellite_count() as i64);
+        family.get_or_create(&vec![("latitude".to_string(), data_point.latitude().to_string()), ("longitude".to_string(), data_point.longitude().to_string())]).set(data_point.satellites() as i64);
+        // gauge_gps_lat.set(data_point.latitude() as i64);
+        // gauge_gps_lon.set(data_point.longitude() as i64);
+        // gauge_gps_elev.set(data_point.elevation() as i64);
 
         let end = now.elapsed();
         hist_process_time.observe(end.as_secs_f64());
