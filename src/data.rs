@@ -52,7 +52,7 @@ pub struct DataPoint {
     longitude: f32,
     elevation: f32,
     fix: u16,
-    data_string: Option<String>
+    data: Vec<f64>
 }
 
 impl DataPoint {
@@ -89,8 +89,14 @@ impl DataPoint {
         self.fix
     }
 
+    pub fn data(&self) -> &Vec<f64> {
+        &self.data
+    }
+
     pub fn parse(line: &str) -> Result<DataPoint, String> {
         let parts: Vec<&str> = line.split(',').collect();
+        let iter = parts.iter();
+
         let timestamp = match parts[0].parse::<u32>().unwrap() {
             timestamp => timestamp,
             _ => return Err("Failed to parse timestamp".to_string())
@@ -138,6 +144,13 @@ impl DataPoint {
             _ => return Err("Failed to parse angle".to_string())
         };
 
+        let mut iter = iter.skip(9);
+        let mut data = Vec::<f64>::new();
+        while let Some(part) = iter.next() {
+            let value = part.trim_end().parse::<i64>().unwrap();
+            // let value = part.parse::<i64>().unwrap();
+            data.push((value - 512) as f64 / 512.0); 
+        }
 
         let data_point = DataPoint {
             timestamp: timestamp,
@@ -147,7 +160,7 @@ impl DataPoint {
             longitude: longitude,
             elevation: elevation,
             fix: fix,
-            data_string: Some("not implemented".to_string())
+            data: data
         };
 
         return Ok(data_point);
