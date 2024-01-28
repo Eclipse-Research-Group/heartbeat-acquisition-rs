@@ -3,7 +3,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 FROM cross-base as build
 
-COPY .cargo/config.toml /root/.cargo/config.toml
+# COPY .cargo/config.toml /root/.cargo/config.toml
 
 RUN dpkg --add-architecture armhf
 
