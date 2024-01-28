@@ -17,6 +17,10 @@ jobs:
         shell: bash
         run: |
           cargo install cross
+      - name: check
+        shell: bash
+        run: |
+          ls
       - name: Build
         shell: bash
         run: |
