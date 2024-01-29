@@ -1,9 +1,14 @@
+use crate::data::{DataPointFlags, DataPoint};
 use uuid::Uuid;
-use std::collections::HashMap;
+use std::path::Path;
+use std::{collections::HashMap, fs::File};
+use std::io::Write;
+use chrono::{DateTime, Utc};
 
 static METADATA_START: &str = "## BEGIN METADATA ##\n";
 static METADATA_END: &str = "## END METADATA ##\n";
 
+#[derive(Clone)]
 pub struct CaptureFileMetadata {
     capture_id: Uuid,
     sample_rate: f32,
@@ -53,4 +58,52 @@ impl ToString for CaptureFileMetadata {
         string.push_str(METADATA_END);
         return string;
     }
+}
+
+pub struct CaptureFileWriter {
+    dir: Box<Path>,
+    created: DateTime<Utc>,
+    metadata: CaptureFileMetadata,
+    file: File,
+    filename: String
+}
+
+impl CaptureFileWriter {
+
+    pub fn new(dir: &Path, metadata: &mut CaptureFileMetadata) -> Result<CaptureFileWriter, std::io::Error> {
+        let created = Utc::now();
+        metadata.set("CREATED", created.to_rfc3339().as_str());
+        let node_id = metadata.get("NODE_ID").unwrap_or("UNKNOWN");
+        std::fs::create_dir_all(dir)?;
+        let filename = format!("{}_{}_{}.csv", node_id, created.format("%Y%m%d_%H%M%S"), metadata.capture_id.to_string()[..8].to_string());
+        let file = File::create(dir.join(&filename))?;
+        log::info!("Created file: {}", filename);
+        Ok(CaptureFileWriter {
+            dir: dir.into(),
+            created: created,
+            metadata: metadata.clone(),
+            file: file,
+            filename: filename
+        })
+    }
+
+    pub fn init(&mut self) {
+        let string = self.metadata.to_string();
+        self.file.write_all(string.as_bytes()).unwrap();
+    }
+
+    pub fn write_data(&mut self, data_point: DataPoint) {
+        // Write data
+        let string = data_point.to_string();
+        self.file.write_all(string.as_bytes()).unwrap();
+    }
+
+    pub fn write_line(&mut self, line: &str) {
+        self.file.write_all(line.as_bytes()).unwrap();
+    }
+
+    pub fn filename(&self) -> String {
+        self.filename.clone()
+    }
+
 }

@@ -5,35 +5,29 @@ use std::borrow::Cow;
 use std::fs::{self, File};
 use std::io::{BufReader, BufWriter, Write};
 use std::io::BufRead;
+use std::path::Path;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Instant;
 use std::sync::{Arc, RwLock};
 use colored::*;
-use futures::future::Shared;
-use futures::lock::Mutex;
 use prometheus_client::metrics::family::Family;
 use prometheus_client::metrics::gauge::Gauge;
 use prometheus_client::metrics::histogram::Histogram;
-use tokio::signal;
-use toml::toml;
 use serde_derive::Deserialize;
 use serialport;
 use log::{debug, error, info, log_enabled, warn, Level};
 use uuid::Uuid;
+use chrono::{DateTime, Utc};
 use std::thread;
 use prometheus_client::encoding::text::encode;
 use std::io::ErrorKind::BrokenPipe;
-use prometheus_client::metrics::counter::Counter;
 use prometheus_client::registry::{self, Registry};
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
-use futures::executor::block_on;
 use tokio_util::sync::CancellationToken;
 use std::time::SystemTime;
 
-use crate::capture::CaptureFileMetadata;
-use crate::data::DataPointFlags;
+use crate::capture::{CaptureFileMetadata, CaptureFileWriter};
 use crate::data::DataPoint;
-
 
 #[derive(Clone)]
 struct AppData {
@@ -104,27 +98,28 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         Err(e) => panic!("Unable to parse the config file: {:?}", e),
     };
     
-    info!("Found node id: {}", config.acquire.node_id);
+    info!("Using node id: {}", config.acquire.node_id.bold());
 
     info!("Opening serial port: {}", config.acquire.serial_port);
-    let port = serialport::new(config.acquire.serial_port, config.acquire.baud_rate)
+    let serial_port = match serialport::new("/dev/cu.usbmodem146173701", config.acquire.baud_rate)
         .timeout(std::time::Duration::from_millis(10000))
-        .open()
-        .expect("Failed to open serial port");
+        .open() {
+            Ok(port) => port,
+            Err(e) => {
+                panic!("Unable to open serial port: {:?}", e);
+            }
+        };
 
-    let mut reader = BufReader::new(port);
-
-    let output_file = File::create("output.txt").expect("Failed to create output file");
-    let mut writer = BufWriter::new(output_file);
+    let mut serial_port = BufReader::new(serial_port);
 
     let mut metadata = CaptureFileMetadata::new(Uuid::new_v4(), 20000.0);
 
     // Add custom metadata
     metadata.set("NODE_ID", &config.acquire.node_id);
+    metadata.set("CREATED", &Utc::now().to_rfc3339());
 
-    // Write header to file
-    let metadata_string: String = metadata.to_string();
-    writer.write_all(metadata_string.as_bytes()).unwrap();
+    let mut writer = CaptureFileWriter::new(Path::new("./.data"), &mut metadata)?;
+    writer.init();
 
     let labels = vec![
         (Cow::Borrowed("capture_id"), Cow::from(metadata.capture_id().to_string())),
@@ -150,11 +145,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let registry_for_thread = shared_registry.clone();
     let token = CancellationToken::new();
 
-    let token_clone = token.clone();
-    ctrlc::set_handler(move || {
-        token_clone.cancel();
-    })
-    .expect("Error setting Ctrl-C handler");
 
     let token_clone = token.clone();
     thread::spawn(move || {
@@ -185,11 +175,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             });
     });
 
+    let token_clone = token.clone();
+    ctrlc::set_handler(move || {
+        info!("begin cancel.");
+        token_clone.cancel();
+        info!("end cancel.");
+    })
+    .expect("Error setting Ctrl-C handler");
+
+    let mut lines_written = 0;
     while !token.is_cancelled() {
         let mut line = String::new();
-        match reader.read_line(&mut line) {
+        match serial_port.read_line(&mut line) {
             Ok(_) => {
-                info!("Reading line");
+                // info!("Reading line");
             },
             Err(e) => {
                 if e.kind() == BrokenPipe {
@@ -199,24 +198,22 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         } 
 
-        let now = Instant::now();
+        // Start timer
+        let tick_start = Instant::now();
 
         if !line.starts_with("$") {
             // Not a data line
             continue;
         }
 
-
-
         // We don't need to parse the line here, we can just write it to the output file, skipping the first character '$'
         let line = line.chars().skip(1).collect::<String>();
-        writer.write_all(line.as_bytes()).unwrap();
-        match writer.flush() {
-            Ok(_) => {},
-            Err(e) => {
-                error!("Failed to flush output file: {:?}", e);
-                break;
-            }
+        writer.write_line(&line);
+        lines_written += 1;
+        if lines_written % 5 == 0 {
+            info!("Rotating");
+            writer = CaptureFileWriter::new(Path::new("./.data"), &mut metadata)?;
+            writer.init();
         }
 
         // Parse for data analysis
@@ -234,17 +231,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         gauge_gps_sats.set(data_point.satellite_count() as i64);
         family.get_or_create(&vec![("latitude".to_string(), data_point.latitude().to_string()), ("longitude".to_string(), data_point.longitude().to_string())]).set(data_point.satellites() as i64);
-        // gauge_gps_lat.set(data_point.latitude() as i64);
-        // gauge_gps_lon.set(data_point.longitude() as i64);
-        // gauge_gps_elev.set(data_point.elevation() as i64);
 
-        let end = now.elapsed();
-        hist_process_time.observe(end.as_secs_f64());
-        debug!("Time elapsed: {:?}", end);
-
-
-        
+        let tick_time = tick_start.elapsed();
+        hist_process_time.observe(tick_time.as_secs_f64());
     }
+
+    info!("Exiting with {} lines written", lines_written);
 
     Ok(())
 
