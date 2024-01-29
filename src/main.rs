@@ -100,8 +100,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     
     info!("Using node id: {}", config.acquire.node_id.bold());
 
-    info!("Opening serial port: {}", config.acquire.serial_port);
-    let serial_port = match serialport::new("/dev/cu.usbmodem146173701", config.acquire.baud_rate)
+    info!("Opening serial port: {}", config.acquire.serial_port.bold());
+    let serial_port = match serialport::new(config.acquire.serial_port, config.acquire.baud_rate)
         .timeout(std::time::Duration::from_millis(10000))
         .open() {
             Ok(port) => port,
