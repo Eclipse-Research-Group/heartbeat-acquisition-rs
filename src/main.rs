@@ -25,6 +25,7 @@ use prometheus_client::registry::{self, Registry};
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
 use tokio_util::sync::CancellationToken;
 use std::time::SystemTime;
+use humantime::format_duration;
 
 use crate::capture::{CaptureFileMetadata, CaptureFileWriter};
 use crate::data::DataPoint;
@@ -44,6 +45,7 @@ struct ConfigFile {
 struct ConfigAcquire {
     node_id: String,
     serial_port: String,
+    data_dir: String,
     baud_rate: u32
 }
 
@@ -88,6 +90,8 @@ async fn metrics(data: web::Data<AppData>) -> impl Responder {
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     setup_logger()?;
 
+    let app_start = Instant::now();
+
     let config_contents= match fs::read_to_string("config.toml") {
         Ok(contents) => contents,
         Err(e) => panic!("Unable to open the config file: {:?}", e),
@@ -118,7 +122,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     metadata.set("NODE_ID", &config.acquire.node_id);
     metadata.set("CREATED", &Utc::now().to_rfc3339());
 
-    let mut writer = CaptureFileWriter::new(Path::new("./.data"), &mut metadata)?;
+    let mut writer = CaptureFileWriter::new(Path::new(&config.acquire.data_dir), &mut metadata)?;
     writer.init();
 
     let labels = vec![
@@ -127,7 +131,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     ];
     let registry = Registry::with_labels(labels.into_iter());
     let shared_registry = Arc::new(RwLock::new(registry));
-    
 
     let buckets = [0.0, 0.0001, 0.0005, 0.001, 0.005, 0.01, 0.05, 0.1, 1.0, 10.0];
     let family = Family::<Vec<(String, String)>, Gauge>::default();
@@ -236,7 +239,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         hist_process_time.observe(tick_time.as_secs_f64());
     }
 
-    info!("Exiting with {} lines written", lines_written);
+    info!("Exiting, ran for {}", format_duration(app_start.elapsed()).to_string());
 
     Ok(())
 

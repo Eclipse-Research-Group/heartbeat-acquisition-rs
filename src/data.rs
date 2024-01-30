@@ -147,7 +147,12 @@ impl DataPoint {
         let mut iter = iter.skip(9);
         let mut data = Vec::<f64>::new();
         while let Some(part) = iter.next() {
-            let value = part.trim_end().parse::<i64>().unwrap();
+            let value = match part.trim_end().parse::<i64>() {
+                Ok(value) => value,
+                Err(e) => {
+                    return Err(format!("Failed to parse data: {}", e));
+                }
+            };
             // let value = part.parse::<i64>().unwrap();
             data.push((value - 512) as f64 / 512.0); 
         }

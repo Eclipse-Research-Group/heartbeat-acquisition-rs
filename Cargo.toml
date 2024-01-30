@@ -1,6 +1,6 @@
 [package]
 name = "heartbeat-acquisition"
-version = "0.2.0"
+version = "0.2.2"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -25,3 +25,4 @@ fern = "0.6.2"
 humantime = "2.1.0"
 colored = "2.1.0"
 chrono = "0.4.33"
+minio = "0.1.0"
