@@ -100,6 +100,7 @@ impl CaptureFileWriter {
 
     pub fn write_line(&mut self, line: &str) {
         self.file.write_all(line.as_bytes()).unwrap();
+        self.file.flush().unwrap();
     }
 
     pub fn filename(&self) -> String {
