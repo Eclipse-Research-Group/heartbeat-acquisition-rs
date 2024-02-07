@@ -191,7 +191,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let mut line = String::new();
         match serial_port.read_line(&mut line) {
             Ok(_) => {
-                // info!("Reading line");
+                if !line.starts_with('$') {
+                    continue;
+                }
             },
             Err(e) => {
                 if e.kind() == BrokenPipe {
@@ -204,10 +206,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         // Start timer
         let tick_start = Instant::now();
 
-        if !line.starts_with("$") {
-            // Not a data line
-            continue;
-        }
+        
 
         // We don't need to parse the line here, we can just write it to the output file, skipping the first character '$'
         let line = line.chars().skip(1).collect::<String>();
@@ -215,6 +214,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         lines_written += 1;
         if lines_written % 5 == 0 {
             info!("Rotating");
+
             writer = CaptureFileWriter::new(Path::new("./.data"), &mut metadata)?;
             writer.init();
         }
@@ -224,6 +224,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             Ok(data_point) => data_point,
             Err(e) => {
                 error!("Failed to parse data point: {:?}", e);
+                writer.inform_error("Failed to parse data point");
                 continue;
             }
         };

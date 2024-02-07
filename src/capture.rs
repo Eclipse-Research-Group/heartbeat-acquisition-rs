@@ -107,4 +107,8 @@ impl CaptureFileWriter {
         self.filename.clone()
     }
 
+    pub fn inform_error(&mut self, error: &str) {
+        self.write_line(format!("# ERROR: {}", error).as_str());
+    }
+
 }
