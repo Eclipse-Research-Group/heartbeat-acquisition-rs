@@ -1,5 +1,7 @@
 pub mod data;
 pub mod capture;
+pub mod led;
+pub mod status;
 
 use std::borrow::Cow;
 use std::fs::{self, File};
@@ -17,15 +19,17 @@ use serde_derive::Deserialize;
 use serialport;
 use log::{debug, error, info, log_enabled, warn, Level};
 use uuid::Uuid;
+use chrono::prelude::*;
 use chrono::{DateTime, Utc};
 use std::thread;
 use prometheus_client::encoding::text::encode;
 use std::io::ErrorKind::BrokenPipe;
-use prometheus_client::registry::{self, Registry};
+use prometheus_client::registry::Registry;
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
 use tokio_util::sync::CancellationToken;
 use std::time::SystemTime;
 use humantime::format_duration;
+
 
 use crate::capture::{CaptureFileMetadata, CaptureFileWriter};
 use crate::data::DataPoint;
@@ -77,6 +81,20 @@ fn setup_logger() -> Result<(), fern::InitError> {
     Ok(())
 }
 
+fn load_config() -> ConfigFile { 
+    let config_contents= match fs::read_to_string("config.toml") {
+        Ok(contents) => contents,
+        Err(e) => panic!("Unable to open the config file: {:?}", e),
+    };
+
+    let config: ConfigFile = match toml::from_str(&config_contents) {
+        Ok(data) => data,
+        Err(e) => panic!("Unable to parse the config file: {:?}", e),
+    };
+
+    return config;
+}
+
 #[get("/metrics")]
 async fn metrics(data: web::Data<AppData>) -> impl Responder {
     info!("Prometheus metrics fetched");
@@ -92,15 +110,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let app_start = Instant::now();
 
-    let config_contents= match fs::read_to_string("config.toml") {
-        Ok(contents) => contents,
-        Err(e) => panic!("Unable to open the config file: {:?}", e),
-    };
-
-    let config: ConfigFile = match toml::from_str(&config_contents) {
-        Ok(data) => data,
-        Err(e) => panic!("Unable to parse the config file: {:?}", e),
-    };
+    let config = load_config();
     
     info!("Using node id: {}", config.acquire.node_id.bold());
 
@@ -143,7 +153,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         registry.register("heartbeat_tick_time", "Number of seconds from start of capture", hist_process_time.clone());
         registry.register("value", "Value", family.clone());
     }
-
 
     let registry_for_thread = shared_registry.clone();
     let token = CancellationToken::new();
@@ -205,8 +214,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         // Start timer
         let tick_start = Instant::now();
-
-        
 
         // We don't need to parse the line here, we can just write it to the output file, skipping the first character '$'
         let line = line.chars().skip(1).collect::<String>();
