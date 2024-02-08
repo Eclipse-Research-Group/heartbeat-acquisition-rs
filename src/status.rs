@@ -1,33 +1,30 @@
 use std::{sync::{Arc, Mutex, RwLock}, thread};
-
 use actix_web::{App, HttpServer};
 use prometheus_client::{encoding::text::encode, registry::{Metric, Registry}};
-
-#[cfg(target_os = "linux")]
-pub mod led;
 
 #[cfg(target_os = "linux")]
 use led::{LED, Color};
 
 #[cfg(target_os = "linux")]
 mod led {
-    use rppal::gpio::{Gpio, OutputPin, Pin, Output, PullUp, PushPull};
+    use rppal::gpio::{Gpio, OutputPin};
+    use std::error::Error;
 
     pub struct LED {
-        pin_red: OutputPin<Output<PushPull>>,
-        pin_green: OutputPin<Output<PushPull>>,
-        pin_blue: OutputPin<Output<PushPull>>,
+        pin_red: OutputPin,
+        pin_green: OutputPin,
+        pin_blue: OutputPin,
         color: Color
     }
 
     impl LED {
-        pub fn new(pin_red: u8, pin_green: u8, pin_blue: u8) -> LED {
-            LED {
-                pin_red: Pin::new(pin_red).into_output(),
-                pin_green: Pin::new(pin_green).into_output(),
-                pin_blue: Pin::new(pin_blue).into_output(),
+        pub fn new(pin_red: u8, pin_green: u8, pin_blue: u8) -> Result<LED, Box<dyn Error>> {
+            Ok(LED {
+                pin_red: Gpio::new()?.get(pin_red)?.into_output(),
+                pin_green: Gpio::new()?.get(pin_green)?.into_output(),
+                pin_blue: Gpio::new()?.get(pin_blue)?.into_output(),
                 color: Color::Off
-            }
+            })
         }
     }
 
@@ -40,7 +37,7 @@ mod led {
         Yellow,
         White,
         Off
-}
+    }
 
 }
 
@@ -76,13 +73,19 @@ impl Clone for MetricManager {
 }
 
 struct MetricManagerInner {
-    registry: Registry
+    registry: Registry,
+
+    #[cfg(target_os = "linux")]
+    led: led::LED
 }
 
 impl MetricManagerInner {
     fn new() -> MetricManagerInner {
         MetricManagerInner {
-            registry: Registry::default()
+            registry: Registry::default(),
+
+            #[cfg(target_os = "linux")]
+            led: led::LED::new(1,2,3).unwrap()
         }
     }
 }

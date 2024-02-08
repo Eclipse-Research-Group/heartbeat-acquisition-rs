@@ -1,6 +1,5 @@
 pub mod data;
 pub mod capture;
-pub mod led;
 pub mod status;
 
 use std::borrow::Cow;
