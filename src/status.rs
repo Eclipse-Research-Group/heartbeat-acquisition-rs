@@ -129,8 +129,14 @@ struct StatusManagerInner {
 
 impl StatusManagerInner {
     fn new() -> StatusManagerInner {
-        let mut led = led::LED::new(19, 20, 21).unwrap();
-        led.set_color(Color::Cyan);
+
+        #[cfg(target_os = "linux")]
+        let mut led = {
+            let mut led = led::LED::new(19, 20, 21).unwrap();
+            led.set_color(Color::White);
+            led
+        };
+
         StatusManagerInner {
             registry: Registry::default(),
 
