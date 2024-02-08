@@ -32,6 +32,7 @@ use humantime::format_duration;
 
 use crate::capture::{CaptureFileMetadata, CaptureFileWriter};
 use crate::data::DataPoint;
+use crate::status::StatusManager;
 
 #[derive(Clone)]
 struct AppData {
@@ -126,6 +127,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut serial_port = BufReader::new(serial_port);
 
     let mut metadata = CaptureFileMetadata::new(Uuid::new_v4(), 20000.0);
+
+    let metric_manager = StatusManager::new();
 
     // Add custom metadata
     metadata.set("NODE_ID", &config.acquire.node_id);

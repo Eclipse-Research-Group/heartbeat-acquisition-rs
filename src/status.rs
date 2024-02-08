@@ -3,12 +3,24 @@ use actix_web::{App, HttpServer};
 use prometheus_client::{encoding::text::encode, registry::{Metric, Registry}};
 
 #[cfg(target_os = "linux")]
-use led::{LED, Color};
+use led::LED;
+
+pub enum Color {
+    Red,
+    Green,
+    Blue,
+    Cyan,
+    Magenta,
+    Yellow,
+    White,
+    Off
+}
 
 #[cfg(target_os = "linux")]
 mod led {
     use rppal::gpio::{Gpio, OutputPin};
     use std::error::Error;
+    use crate::status::Color;
 
     pub struct LED {
         pin_red: OutputPin,
@@ -26,29 +38,65 @@ mod led {
                 color: Color::Off
             })
         }
-    }
 
-    pub enum Color {
-        Red,
-        Green,
-        Blue,
-        Cyan,
-        Magenta,
-        Yellow,
-        White,
-        Off
+        pub fn set_color(&mut self, color: Color) -> Result<(), Box<dyn Error>> {
+            match color {
+                Color::Red => {
+                    self.pin_red.set_high();
+                    self.pin_green.set_low();
+                    self.pin_blue.set_low();
+                },
+                Color::Green => {
+                    self.pin_red.set_low();
+                    self.pin_green.set_high();
+                    self.pin_blue.set_low();
+                },
+                Color::Blue => {
+                    self.pin_red.set_low();
+                    self.pin_green.set_low();
+                    self.pin_blue.set_high();
+                },
+                Color::Cyan => {
+                    self.pin_red.set_low();
+                    self.pin_green.set_high();
+                    self.pin_blue.set_high();
+                },
+                Color::Magenta => {
+                    self.pin_red.set_high();
+                    self.pin_green.set_low();
+                    self.pin_blue.set_high();
+                },
+                Color::Yellow => {
+                    self.pin_red.set_high();
+                    self.pin_green.set_high();
+                    self.pin_blue.set_low();
+                },
+                Color::White => {
+                    self.pin_red.set_high();
+                    self.pin_green.set_high();
+                    self.pin_blue.set_high();
+                },
+                Color::Off => {
+                    self.pin_red.set_low();
+                    self.pin_green.set_low();
+                    self.pin_blue.set_low();
+                },
+            }
+            self.color = color; // Save the current color state
+            Ok(())
+        }
     }
 
 }
 
-pub struct MetricManager {
-    inner: Arc<Mutex<MetricManagerInner>>
+pub struct StatusManager {
+    inner: Arc<Mutex<StatusManagerInner>>
 }
 
-impl MetricManager {
-    pub fn new() -> MetricManager {
-        MetricManager {
-            inner: Arc::new(Mutex::new(MetricManagerInner::new()))
+impl StatusManager {
+    pub fn new() -> StatusManager {
+        StatusManager {
+            inner: Arc::new(Mutex::new(StatusManagerInner::new()))
         }
     }
 
@@ -64,28 +112,35 @@ impl MetricManager {
 
 }
 
-impl Clone for MetricManager {
+impl Clone for StatusManager {
     fn clone(&self) -> Self {
-        MetricManager {
+        StatusManager {
             inner: self.inner.clone()
         }
     }
 }
 
-struct MetricManagerInner {
+struct StatusManagerInner {
     registry: Registry,
 
     #[cfg(target_os = "linux")]
     led: led::LED
 }
 
-impl MetricManagerInner {
-    fn new() -> MetricManagerInner {
-        MetricManagerInner {
+impl StatusManagerInner {
+    fn new() -> StatusManagerInner {
+        let mut led = led::LED::new(19, 20, 21).unwrap();
+        led.set_color(Color::Cyan);
+        StatusManagerInner {
             registry: Registry::default(),
 
             #[cfg(target_os = "linux")]
-            led: led::LED::new(1,2,3).unwrap()
+            led: led
         }
+    }
+
+    #[cfg(target_os = "linux")]
+    fn set_led_color(&mut self, color: Color) -> () {
+        self.led.set_color(color).unwrap();
     }
 }
