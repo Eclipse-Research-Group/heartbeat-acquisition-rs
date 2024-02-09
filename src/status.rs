@@ -1,5 +1,4 @@
 use std::{sync::{Arc, Mutex, RwLock}, thread};
-use actix_web::{App, HttpServer};
 use prometheus_client::{encoding::text::encode, registry::{Metric, Registry}};
 
 #[cfg(target_os = "linux")]

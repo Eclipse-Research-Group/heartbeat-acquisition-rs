@@ -45,7 +45,7 @@ fn parse(line: &str) -> Result<DataPointFlags, String> {
 
 #[derive(Debug)]
 pub struct DataPoint {
-    timestamp: u32,
+    timestamp: i64,
     sample_rate: f32,
     flags: DataPointFlags,
     latitude: f32,
@@ -69,7 +69,7 @@ impl DataPoint {
         self.sample_rate
     }
 
-    pub fn timestamp(&self) -> u32 {
+    pub fn timestamp(&self) -> i64 {
         self.timestamp
     }
 
@@ -94,6 +94,12 @@ impl DataPoint {
     }
 
     pub fn parse(line: &str) -> Result<DataPoint, String> {
+        let line = if line.starts_with('$') {
+            line.chars().skip(1).collect::<String>()
+        } else {
+            line.to_string()
+        };
+
         let mut iter = line.split(',');
 
         let part = iter.next().ok_or("Missing timestamp")?;
@@ -156,8 +162,6 @@ impl DataPoint {
             _ => return Err("Failed to parse data count".to_string())
         };
 
-        log::info!("Data count: {}", data_count);
-
         let mut data = Vec::<f64>::new();
         let mut sum = 0u64;
         for i in 10..10usize + data_count {
@@ -179,7 +183,7 @@ impl DataPoint {
         }
 
         let data_point = DataPoint {
-            timestamp: timestamp as u32,
+            timestamp: timestamp as i64,
             sample_rate: sample_rate,
             flags: flags,
             latitude: latitude,

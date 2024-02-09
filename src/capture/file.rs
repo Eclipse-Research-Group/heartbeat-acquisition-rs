@@ -1,4 +1,4 @@
-use crate::data::{DataPointFlags, DataPoint};
+use crate::capture::data::{DataPointFlags, DataPoint};
 use uuid::Uuid;
 use std::path::Path;
 use std::{collections::HashMap, fs::File};
@@ -65,7 +65,8 @@ pub struct CaptureFileWriter {
     created: DateTime<Utc>,
     metadata: CaptureFileMetadata,
     file: File,
-    filename: String
+    filename: String,
+    lines_written: usize
 }
 
 impl CaptureFileWriter {
@@ -77,13 +78,14 @@ impl CaptureFileWriter {
         std::fs::create_dir_all(dir)?;
         let filename = format!("{}_{}_{}.csv", node_id, created.format("%Y%m%d_%H%M%S"), metadata.capture_id.to_string()[..8].to_string());
         let file = File::create(dir.join(&filename))?;
-        log::info!("Created file: {}", filename);
+        log::info!("Created file: {}", dir.join(&filename).as_mut_os_str().to_str().unwrap());
         Ok(CaptureFileWriter {
             dir: dir.into(),
             created: created,
             metadata: metadata.clone(),
             file: file,
-            filename: filename
+            filename: filename,
+            lines_written: 0
         })
     }
 
@@ -101,14 +103,19 @@ impl CaptureFileWriter {
     pub fn write_line(&mut self, line: &str) {
         self.file.write_all(line.as_bytes()).unwrap();
         self.file.flush().unwrap();
+        self.lines_written += 1;
     }
 
     pub fn filename(&self) -> String {
         self.filename.clone()
     }
 
-    pub fn inform_error(&mut self, error: &str) {
-        self.write_line(format!("# ERROR: {}", error).as_str());
+    pub fn comment(&mut self, comment: &str) {
+        self.write_line(format!("# {}", comment).as_str());
+    }
+
+    pub fn lines_written(&self) -> usize {
+        self.lines_written
     }
 
 }

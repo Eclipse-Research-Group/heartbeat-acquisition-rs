@@ -14,3 +14,10 @@ Cargo.lock
 *.pdb
 
 config.toml
+
+# IDE
+.idea/
+*.iml
+
+# Log files
+*.log
