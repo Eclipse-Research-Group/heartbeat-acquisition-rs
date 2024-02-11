@@ -6,11 +6,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-actix-web = "4.4.1"
 futures = { version = "0.3.30", features = ["executor"] }
 log = "0.4.20"
 prometheus-client = "0.22.0"
-rocket = "0.5.0"
 serde = "1.0.195"
 serde_derive = "1.0.195"
 serialport = "4.3.0"

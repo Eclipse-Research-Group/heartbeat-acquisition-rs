@@ -14,7 +14,7 @@ pub enum LedColor {
 pub mod led {
     use rppal::gpio::{Gpio, OutputPin};
     use std::error::Error;
-    use crate::status::Color;
+    use super::LedColor;
 
     pub struct LED {
         pin_red: OutputPin,
