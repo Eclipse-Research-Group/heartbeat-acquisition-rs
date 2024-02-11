@@ -1,5 +1,6 @@
 pub mod capture;
-pub mod status;
+pub mod service;
+pub mod utils;
 
 use std::borrow::Cow;
 use std::fs;
@@ -11,6 +12,7 @@ use std::sync::{Arc, RwLock};
 use std::time::SystemTime;
 use std::time::UNIX_EPOCH;
 use actix_rt::System;
+use signal_hook::{consts::SIGINT, consts::SIGTERM, iterator::Signals};
 use colored::*;
 use prometheus_client::metrics::family::Family;
 use prometheus_client::metrics::gauge::Gauge;
@@ -30,7 +32,9 @@ use humantime::format_duration;
 
 
 use crate::capture::{CaptureFileMetadata, CaptureFileWriter, DataPoint};
-use crate::status::StatusManager;
+use crate::service::status::StatusService;
+use crate::service::web::WebService;
+use crate::utils::SingletonService;
 
 #[derive(Clone)]
 struct AppData {
@@ -93,16 +97,6 @@ fn load_config() -> ConfigFile {
     return config;
 }
 
-#[get("/metrics")]
-async fn metrics(data: web::Data<AppData>) -> impl Responder {
-    info!("Prometheus metrics fetched");
-    let registry = data.registry.read().unwrap();
-    let mut buffer = String::new();
-    encode(&mut buffer, &registry).unwrap();
-    return HttpResponse::Ok().body(buffer);
-}
-
-
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     setup_logger()?;
 
@@ -128,62 +122,30 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut metadata = CaptureFileMetadata::new(Uuid::new_v4(), 20000.0);
     metadata.set("NODE_ID", &config.acquire.node_id);
 
-    let status_manager = StatusManager::new();
-    
-    
+    // Create services
+    let status_service = StatusService::get_service();
+    let web_service = WebService::get_service();
+
+    status_service.set_led_color(crate::service::status::led::LedColor::Magenta);
+
+    // Configure prometheus registry
     let labels = vec![
         (Cow::Borrowed("capture_id"), Cow::from(metadata.capture_id().to_string())),
         (Cow::Borrowed("node_id"), Cow::from(config.acquire.node_id)),
     ];
     let registry = Registry::with_labels(labels.into_iter());
-
-
-    let shared_registry = Arc::new(RwLock::new(registry));
+    status_service.set_registry(registry);
 
     let buckets = [0.0, 0.0001, 0.0005, 0.001, 0.005, 0.01, 0.05, 0.1, 1.0, 10.0];
     let family = Family::<Vec<(String, String)>, Gauge>::default();
     let gauge_gps_sats: Gauge = Gauge::default();
     let hist_process_time = Histogram::new(buckets.into_iter());
-    
-    {
-        let mut registry = shared_registry.write().unwrap();
-        registry.register("gps_satellite_count", "Number of satellites in GPS fix", gauge_gps_sats.clone());
-        registry.register("heartbeat_tick_time", "Number of seconds from start of capture", hist_process_time.clone());
-        registry.register("value", "Value", family.clone());
-    }
 
-    let registry_for_thread = shared_registry.clone();
+    status_service.register_metric("gps_satellite_count", "Number of satellites in GPS fix", gauge_gps_sats.clone());
+    status_service.register_metric("heartbeat_tick_time", "Number of seconds from start of capture", hist_process_time.clone());
+    status_service.register_metric("value", "Value", family.clone());
+
     let token = CancellationToken::new();
-
-
-    let token_clone = token.clone();
-    thread::spawn(move || {
-        tokio::runtime::Builder::new_current_thread()
-            .enable_all()
-            .thread_name("heartbeat-acquisition-rs")
-            .build()
-            .unwrap()
-            .block_on(async {
-                let srv = HttpServer::new(move || {
-                    App::new()
-                        .service(metrics)
-                        .app_data(web::Data::new(AppData {
-                            registry: registry_for_thread.clone(),
-                        }))
-                })
-                .bind(("0.0.0.0", 8003))
-                .unwrap()
-                .run();
-                
-                tokio::select! {
-                    _ = srv => {},
-                    _ = token_clone.cancelled() => {
-                        info!("Shutting down...");
-                    },
-                }
-
-            });
-    });
 
     let token_clone = token.clone();
     ctrlc::set_handler(move || {
@@ -193,8 +155,29 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     })
     .expect("Error setting Ctrl-C handler");
 
+    let mut signals = Signals::new(&[SIGINT, SIGTERM])?;
+    thread::spawn(move || {
+        for sig in signals.forever() {
+            match sig {
+                SIGINT => {
+                    log::info!("Received SIGINT");
+                },
+                SIGTERM => {
+                    log::info!("Received SIGTERM");
+                },
+                _ => {}
+            }
+        }
+    });
+
+
+    // Start web server
+    web_service.start();
+
     let mut writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
     writer.init();
+
+    status_service.set_led_color(crate::service::status::led::LedColor::Green);
 
     while !token.is_cancelled() {
         let mut line = String::new();
@@ -243,6 +226,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
             writer.init();
         }
+
+        status_service.push_data(data_point.data());
 
         // Warn user about missing GPS fix
         if !data_point.has_gps_fix() {
