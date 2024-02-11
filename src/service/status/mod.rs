@@ -4,7 +4,6 @@ pub mod led;
 use std::{mem::MaybeUninit, sync::{Arc, Mutex, Once, RwLock}, thread};
 use prometheus_client::{encoding::text::encode, registry::{Metric, Registry}};
 use led::{LED, LedColor};
-use rocket::Data;
 use serde::{Deserialize, Serialize};
 
 use crate::{capture::DataPoint, utils::SingletonService};
