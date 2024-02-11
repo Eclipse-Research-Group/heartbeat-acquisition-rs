@@ -7,10 +7,14 @@ use std::fs;
 use std::io::BufReader;
 use std::io::BufRead;
 use std::path::Path;
+use std::sync::atomic::AtomicBool;
+use std::sync::atomic::Ordering;
 use std::time::Instant;
 use std::sync::{Arc, RwLock};
 use std::time::SystemTime;
 use std::time::UNIX_EPOCH;
+use chrono::DurationRound;
+use chrono::Utc;
 use signal_hook::{consts::SIGINT, consts::SIGTERM, iterator::Signals};
 use colored::*;
 use prometheus_client::metrics::family::Family;
@@ -48,7 +52,8 @@ struct ConfigAcquire {
     node_id: String,
     serial_port: String,
     data_dir: String,
-    baud_rate: u32
+    baud_rate: u32,
+    rotate_interval_seconds: u64
 }
 
 
@@ -103,6 +108,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     
     info!("Using node id: {}", config.acquire.node_id.bold());
 
+    let rotate_interval = chrono::TimeDelta::seconds(config.acquire.rotate_interval_seconds as i64);
+
     info!("Opening serial port: {}", config.acquire.serial_port.bold());
     let serial_port = match serialport::new(config.acquire.serial_port, config.acquire.baud_rate)
         .timeout(std::time::Duration::from_millis(10000))
@@ -141,25 +148,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     status_service.register_metric("heartbeat_tick_time", "Number of seconds from start of capture", hist_process_time.clone());
     status_service.register_metric("value", "Value", family.clone());
 
-    let token = CancellationToken::new();
-
-    let token_clone = token.clone();
-    ctrlc::set_handler(move || {
-        info!("begin cancel.");
-        token_clone.cancel();
-        info!("end cancel.");
-    })
-    .expect("Error setting Ctrl-C handler");
+    let shutdown = Arc::new(AtomicBool::new(false));
 
     let mut signals = Signals::new(&[SIGINT, SIGTERM])?;
+    let shutdown_clone = shutdown.clone();
     thread::spawn(move || {
+        let shutdown = shutdown_clone;
         for sig in signals.forever() {
             match sig {
-                SIGINT => {
-                    log::info!("Received SIGINT");
-                },
-                SIGTERM => {
-                    log::info!("Received SIGTERM");
+                SIGINT | SIGTERM => {
+                    log::info!("Received shutdown command");
+                    shutdown.store(true, Ordering::Relaxed);
+                    break;
                 },
                 _ => {}
             }
@@ -173,7 +173,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
     writer.init();
 
-    while !token.is_cancelled() {
+    while !shutdown.load(Ordering::Relaxed) {
 
         let mut line = String::new();
         match serial_port.read_line(&mut line) {
@@ -192,10 +192,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         } 
 
-        status_service.set_led_color(crate::service::status::led::LedColor::Green);
 
-        // Start timer
-        let tick_start = SystemTime::now();
+        // Get start time
+        status_service.set_led_color(crate::service::status::led::LedColor::Green);
+        let tick_start = Utc::now();
 
         // Parse for data analysis
         let data_point = match DataPoint::parse(&line) {
@@ -215,18 +215,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         };
 
+
         if data_point.timestamp() == -1 {
-            writer.comment(format!("ERR Missing timestamp, time as of writing is {}", tick_start.duration_since(UNIX_EPOCH)?.as_secs_f64()).as_str());
+            writer.comment(format!("ERR Missing timestamp, time as of writing is {}", tick_start.timestamp_millis() as f64 / 1000.0).as_str());
         }
 
         let line = line.chars().skip(1).collect::<String>();
         writer.write_line(&line);
-        if writer.lines_written() % 5 == 0 {
-            info!("Rotating");
+        if tick_start.duration_round(rotate_interval).unwrap() == tick_start.duration_round(chrono::TimeDelta::seconds(1)).unwrap() {
+            log::info!("Rotating");
             status_service.set_led_color(crate::service::status::led::LedColor::Cyan);
             writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
             writer.init();
         }
+
+
 
         status_service.push_data(&data_point).unwrap();
 
@@ -241,8 +244,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         family.get_or_create(&vec![("latitude".to_string(), data_point.latitude().to_string()), ("longitude".to_string(), data_point.longitude().to_string())]).set(data_point.satellites() as i64);
 
         // Update tick time
-        let tick_time = tick_start.elapsed()?;
-        hist_process_time.observe(tick_time.as_secs_f64());
+        let tick_end = Utc::now();
+        let duration = tick_end.signed_duration_since(tick_start);
+        hist_process_time.observe(duration.num_nanoseconds().unwrap() as f64 / 1_000_000_000.0);
     }
 
     info!("Exiting, ran for {}", format_duration(app_start.elapsed()).to_string());
