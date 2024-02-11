@@ -4,9 +4,10 @@ pub mod led;
 use std::{mem::MaybeUninit, sync::{Arc, Mutex, Once, RwLock}, thread};
 use prometheus_client::{encoding::text::encode, registry::{Metric, Registry}};
 use led::{LED, LedColor};
+use rocket::Data;
 use serde::{Deserialize, Serialize};
 
-use crate::utils::SingletonService;
+use crate::{capture::DataPoint, utils::SingletonService};
 
 pub struct StatusService {
     inner: Arc<Mutex<StatusServiceInner>>
@@ -34,13 +35,13 @@ impl StatusService {
         encoded
     }
 
-    pub fn push_data(&self, data: &Vec<f64>) -> Result<(), ()> {
-        self.inner.lock().unwrap().last_tick = data.clone();
+    pub fn push_data(&self, data: &DataPoint) -> Result<(), ()> {
+        self.inner.lock().unwrap().last_data = data.clone();
         Ok(())
     }
 
-    pub fn get_data(&self) -> Vec<f64> {
-        self.inner.lock().unwrap().last_tick.clone()
+    pub fn get_data(&self) -> DataPoint {
+        self.inner.lock().unwrap().last_data.clone()
     }
 
     pub fn set_led_color(&self, color: LedColor) {
@@ -80,7 +81,7 @@ impl Clone for StatusService {
 struct StatusServiceInner {
     registry: Registry,
     led: led::LED,
-    last_tick: Vec<f64>
+    last_data: DataPoint
 }
 
 impl StatusServiceInner {
@@ -91,7 +92,7 @@ impl StatusServiceInner {
         StatusServiceInner {
             registry: Registry::default(),
             led: led,
-            last_tick: Vec::new()
+            last_data: DataPoint::default()
         }
     }
 

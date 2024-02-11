@@ -7,7 +7,7 @@ use axum::{
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 
-use crate::utils::SingletonService;
+use crate::{capture::DataPoint, utils::SingletonService};
 
 use super::status::StatusService;
 
@@ -62,8 +62,7 @@ impl WebService {
 
 #[derive(Deserialize, Serialize)]
 struct LastDataResponse {
-    last_update: i64,
-    tick: Vec<f64>
+    data: DataPoint
 }
 
 
@@ -88,9 +87,9 @@ impl WebServiceInner {
     }
 
     async fn get_last_data() -> (StatusCode, Json<LastDataResponse>) {
+        let data = StatusService::get_service().get_data();
         (StatusCode::OK, Json(LastDataResponse { 
-            last_update: 12345,
-            tick: StatusService::get_service().get_data()
+            data: StatusService::get_service().get_data()
         }))
     }
 
@@ -101,8 +100,6 @@ impl WebServiceInner {
             .route("/", get(WebServiceInner::get_root))
             .route("/metrics", get(WebServiceInner::get_metrics))
             .route("/last_data", get(WebServiceInner::get_last_data));
-
-
 
         thread::spawn(move || {
             log::info!("Thread spawned.");

@@ -1,7 +1,15 @@
-#[derive(Debug)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DataPointFlags {
     has_gps_fix: bool,
     is_clipping: bool
+}
+
+impl Default for DataPointFlags {
+    fn default() -> DataPointFlags {
+        DataPointFlags::new()
+    }
 }
 
 impl ToString for DataPointFlags {
@@ -18,7 +26,6 @@ impl ToString for DataPointFlags {
         return result;
     }
 }
-
 
 impl DataPointFlags {
     fn new() -> DataPointFlags {
@@ -43,7 +50,7 @@ fn parse(line: &str) -> Result<DataPointFlags, String> {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct DataPoint {
     timestamp: i64,
     sample_rate: f32,

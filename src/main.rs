@@ -177,9 +177,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
     writer.init();
 
-    status_service.set_led_color(crate::service::status::led::LedColor::Green);
+    status_service.set_led_color(crate::service::status::led::LedColor::White);
 
     while !token.is_cancelled() {
+
         let mut line = String::new();
         match serial_port.read_line(&mut line) {
             Ok(_) => {
@@ -189,11 +190,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             },
             Err(e) => {
                 if e.kind() == BrokenPipe {
+                    status_service.set_led_color(crate::service::status::led::LedColor::Red);
                     error!("Unable to connect to data collection port, exiting...");
+                    
                     break;
                 }
             }
         } 
+
+        status_service.set_led_color(crate::service::status::led::LedColor::Green);
 
         // Start timer
         let tick_start = SystemTime::now();
@@ -209,6 +214,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 // TODO maybe manually add a newline
 
                 writer.comment("ERR Failed to parse data point");
+                status_service.set_led_color(crate::service::status::led::LedColor::Red);
+
 
                 continue;
             }
@@ -222,16 +229,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         writer.write_line(&line);
         if writer.lines_written() % 5 == 0 {
             info!("Rotating");
-
+            status_service.set_led_color(crate::service::status::led::LedColor::Cyan);
             writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
             writer.init();
         }
 
-        status_service.push_data(data_point.data());
+        status_service.push_data(&data_point).unwrap();
 
         // Warn user about missing GPS fix
         if !data_point.has_gps_fix() {
             warn!("No GPS fix, data may be misaligned for this second");
+            status_service.set_led_color(crate::service::status::led::LedColor::Yellow);
         }
 
         // GPS stuff
