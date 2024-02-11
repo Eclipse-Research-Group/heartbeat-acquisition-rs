@@ -122,7 +122,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let status_service = StatusService::get_service();
     let web_service = WebService::get_service();
 
-    status_service.set_led_color(crate::service::status::led::LedColor::Magenta);
+    status_service.set_led_color(crate::service::status::led::LedColor::White);
 
     // Configure prometheus registry
     let labels = vec![
@@ -172,8 +172,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
     writer.init();
-
-    status_service.set_led_color(crate::service::status::led::LedColor::White);
 
     while !token.is_cancelled() {
 
