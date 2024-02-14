@@ -1,6 +1,7 @@
 pub mod capture;
 pub mod service;
 pub mod utils;
+pub mod vendor;
 
 use std::borrow::Cow;
 use std::fs;
@@ -32,8 +33,9 @@ use humantime::format_duration;
 
 
 use crate::capture::{CaptureFileMetadata, CaptureFileWriter, DataPoint};
-use crate::service::status::StatusService;
-use crate::service::web::WebService;
+use crate::service::storage;
+use crate::service::storage::StorageServiceCredentials;
+use crate::service::{StatusService, WebService, StorageService};
 use crate::utils::SingletonService;
 
 #[derive(Clone)]
@@ -44,7 +46,8 @@ struct AppData {
 
 #[derive(Deserialize)]
 struct ConfigFile {
-    acquire: ConfigAcquire
+    acquire: ConfigAcquire,
+    storage: ConfigStorage
 }
 
 #[derive(Deserialize)]
@@ -56,6 +59,12 @@ struct ConfigAcquire {
     rotate_interval_seconds: u64
 }
 
+#[derive(Deserialize)]
+struct ConfigStorage {
+    endpoint: String,
+    secret: String,
+    key: String
+}
 
 fn setup_logger() -> Result<(), fern::InitError> {
     fern::Dispatch::new()
@@ -77,7 +86,7 @@ fn setup_logger() -> Result<(), fern::InitError> {
                 message
             ))
         })
-        .level(log::LevelFilter::Debug)
+        .level(log::LevelFilter::Trace)
         .chain(std::io::stdout())
         .chain(fern::log_file("output.log")?)
         .apply()?;
@@ -100,6 +109,7 @@ fn load_config() -> ConfigFile {
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     setup_logger()?;
+    crate::vendor::setup_pins();
 
     let app_start = Instant::now();
 
@@ -128,6 +138,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create services
     let status_service = StatusService::get_service();
     let web_service = WebService::get_service();
+    let storage_service = StorageService::new(StorageServiceCredentials::new(
+        config.storage.endpoint,
+        config.storage.secret, 
+        config.storage.key)).unwrap();
+
+    storage_service.connect().unwrap();
 
     status_service.set_led_color(crate::service::status::led::LedColor::White);
 
@@ -202,6 +218,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             Ok(data_point) => data_point,
             Err(e) => {
                 error!("Failed to parse data point: {:?}", e);
+                error!("Line: {}", line);
 
                 // Write line as it is, recover it later
                 writer.write_line(&line);
@@ -217,7 +234,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 
         if data_point.timestamp() == -1 {
-            writer.comment(format!("ERR Missing timestamp, time as of writing is {}", tick_start.timestamp_millis() as f64 / 1000.0).as_str());
+            log::warn!("Missing timestamp, including computer timestamp as a comment");
+            writer.comment(format!("ERR Missing timestamp, including computer timestamp on next line").as_str());
+            writer.comment(format!("{}", tick_start.timestamp_millis() as f64 / 1000.0).as_str());
         }
 
         let line = line.chars().skip(1).collect::<String>();
@@ -228,8 +247,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
             writer.init();
         }
-
-
 
         status_service.push_data(&data_point).unwrap();
 

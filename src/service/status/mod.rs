@@ -95,7 +95,6 @@ impl StatusServiceInner {
         }
     }
 
-
     fn set_led_color(&mut self, color: LedColor) -> () {
         self.led.set_color(color).unwrap();
     }
