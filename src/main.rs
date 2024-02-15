@@ -10,6 +10,7 @@ use std::io::BufRead;
 use std::path::Path;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
+use std::sync::Mutex;
 use std::time::Instant;
 use std::sync::{Arc, RwLock};
 use std::time::SystemTime;
@@ -108,7 +109,8 @@ fn load_config() -> ConfigFile {
     return config;
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     setup_logger()?;
     crate::vendor::setup_pins();
 
@@ -132,7 +134,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         };
 
-    let mut serial_port = BufReader::new(serial_port);
+    let serial_port = BufReader::new(serial_port);
 
     let mut metadata = CaptureFileMetadata::new(Uuid::new_v4(), 20000.0);
     metadata.set("NODE_ID", &config.acquire.node_id);
@@ -195,36 +197,89 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
     writer.init();
 
-    while !shutdown.load(Ordering::Relaxed) {
+    let serial_port = Arc::new(Mutex::new(serial_port));
 
-        let mut line = String::new();
-        match serial_port.read_line(&mut line) {
-            Ok(_) => {
-                if !line.starts_with('$') {
-                    continue;
+    while !shutdown.load(Ordering::Relaxed) {
+        
+        // First check if we need to rotate files
+        let tick_start = Utc::now();
+        if tick_start.duration_round(rotate_interval.clone()).unwrap() == tick_start.duration_round(chrono::TimeDelta::seconds(1)).unwrap() {
+            log::info!("Collected {} seconds, rotating files", rotate_interval.num_seconds());
+            status_service.set_led_color(crate::service::status::led::LedColor::Cyan);
+            let object_path = Path::new(format!("{}/", config.acquire.node_id.clone()).as_str()).join(writer.filename());
+
+            storage_service.queue_upload(storage::UploadArgs::new(
+                config.storage.bucket.clone(),
+                writer.file_path(),
+                object_path.into_os_string().into_string().unwrap()
+            ).unwrap()).unwrap();
+            drop(writer);
+
+            writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
+            writer.init();
+        }
+
+        let serial_port = serial_port.clone();
+        let serial_future = tokio::task::spawn_blocking(move ||  {
+            let mut serial_port = serial_port.lock().unwrap();
+            let mut line = String::new();
+
+            match serial_port.read_line(&mut line) {
+                Ok(count) => {
+                    log::debug!("Read {} bytes", count);
+                },
+                Err(e) => {
+                    if e.kind() == BrokenPipe {
+                        status_service.set_led_color(crate::service::status::led::LedColor::Red);
+                        error!("Unable to connect to data collection port, exiting...");
+                        return Err(anyhow::anyhow!("Unable to connect to data collection port"));
+                    } else {
+                        return Err(anyhow::anyhow!("Internal error"));
+                    }
+                }
+            } 
+
+            return Ok(line);
+        });
+
+        let line = match tokio::time::timeout(std::time::Duration::from_millis(1400), serial_future).await {
+            Ok(result) => {
+                // Didn't timeout
+                match result {
+                    Ok(result) => {
+                        // Was able to join thread
+                        match result {
+                            Ok(line) => {
+                                line
+                            },
+                            Err(_) => {
+                                // Wasn't able to get line
+                                log::error!("Internal error");
+                                continue;
+                            }
+                        }
+                    },
+                    Err(_) => {
+                        // Failed to join thread
+                        log::error!("Internal error");
+                        continue;
+                    }
                 }
             },
-            Err(e) => {
-                if e.kind() == BrokenPipe {
-                    status_service.set_led_color(crate::service::status::led::LedColor::Red);
-                    error!("Unable to connect to data collection port, exiting...");
-                    
-                    break;
-                }
+            Err(_) => {
+                log::error!("Timeout reading from serial port");
+                continue;
             }
-        } 
-
+        };
 
         // Get start time
         status_service.set_led_color(crate::service::status::led::LedColor::Green);
-        let tick_start = Utc::now();
 
         // Parse for data analysis
         let data_point = match DataPoint::parse(&line) {
             Ok(data_point) => data_point,
             Err(e) => {
                 error!("Failed to parse data point: {:?}", e);
-                // error!("Line: {}", line);
 
                 // Write line as it is, recover it later
                 writer.write_line(&line);
@@ -232,7 +287,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
                 writer.comment("ERR Failed to parse data point");
                 status_service.set_led_color(crate::service::status::led::LedColor::Red);
-
 
                 continue;
             }
@@ -247,24 +301,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let line = line.chars().skip(1).collect::<String>();
         writer.write_line(&line);
-        
-        if tick_start.duration_round(rotate_interval).unwrap() == tick_start.duration_round(chrono::TimeDelta::seconds(1)).unwrap() {
-            log::info!("Rotating");
-            status_service.set_led_color(crate::service::status::led::LedColor::Cyan);
-            let object_path = Path::new(format!("{}/", config.acquire.node_id.clone()).as_str()).join(writer.filename());
-
-            storage_service.queue_upload(storage::UploadArgs::new(
-                config.storage.bucket.clone(),
-                writer.file_path(),
-                object_path.into_os_string().into_string().unwrap()
-            ).unwrap()).unwrap();
-            drop(writer);
-
-            log::info!("Rotated");
-
-            writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
-            writer.init();
-        }
 
         status_service.push_data(&data_point).unwrap();
 

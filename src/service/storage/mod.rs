@@ -49,6 +49,10 @@ pub struct StorageService {
 
 static mut SINGLETON: MaybeUninit<StorageService> = MaybeUninit::uninit();
 
+fn lock_error<T>(e: T) -> anyhow::Error {
+    anyhow::anyhow!("Error locking storage service")
+}
+
 impl StorageService {
 
     pub fn new(credentials: StorageServiceSettings) -> Result<&'static StorageService> {
@@ -62,26 +66,30 @@ impl StorageService {
     }
 
     pub fn connect(&self) -> Result<()> {
-        self.inner.lock().unwrap().connect()?;
+        self.inner.lock()
+            .map_err(lock_error)?
+            .connect()?;
         Ok(())
     }
 
-    pub fn settings(&self) -> StorageServiceSettings {
-        self.inner.lock().unwrap().settings.clone()
+    pub fn settings(&self) -> Result<StorageServiceSettings> {
+        Ok(self.inner.lock()
+            .map_err(lock_error)?
+            .settings.clone())
     }
     
     pub fn shutdown_and_wait(&self) -> Result<()> {
         log::info!("Shutting down storage service");
-        let mut inner_lock = self.inner.lock().unwrap();
-        inner_lock.cancellationToken.cancel();
-        let thread = &mut inner_lock.thread;
-        let thread = thread.take().unwrap();
-        thread.join().unwrap();
+        self.inner.lock()
+            .map_err(lock_error)?
+            .shutdown_and_wait()?;
         Ok(())
     }
 
     pub fn queue_upload(&self, args: UploadArgs) -> Result<()> {
-        self.inner.lock().unwrap().queue_upload(args)?;
+        self.inner.lock()
+            .map_err(lock_error)?
+            .queue_upload(args)?;
         Ok(())
     }
 
@@ -220,7 +228,22 @@ impl StorageServiceInner {
     }
 
     fn queue_upload(&mut self, args: UploadArgs) -> Result<()> {
-        self.upload_queue.lock().unwrap().push_back(args);
+        self.upload_queue.lock()
+            .map_err(lock_error)?
+            .push_back(args);
+        Ok(())
+    }
+
+    fn shutdown_and_wait(&mut self) -> Result<()> {
+        log::info!("Shutting down storage service");
+        self.cancellationToken.cancel();
+        let thread = self.thread.take();
+        if let Some(thread) = thread {
+            thread.join().map_err(|e| anyhow::anyhow!("Error joining thread: {:?}", e))?;
+        } else {
+            log::warn!("No active thread found!");
+        }
+
         Ok(())
     }
 }
