@@ -193,7 +193,7 @@ impl StorageServiceInner {
                                 log::error!("Error creating upload args: {:?}", e);
                                 let mut queue = queue.lock().unwrap();
                                 queue.push_back(upload);
-                                continue;
+                                break;
                             }
                         };
 
@@ -207,9 +207,9 @@ impl StorageServiceInner {
                                     },
                                     Err(e) => {
                                         log::error!("Error uploading file: {:?}", e);
-                                        
                                         let mut queue = queue.lock().unwrap();
                                         queue.push_back(upload);
+                                        break;
                                     }
                                 }
                             }
