@@ -1,5 +1,7 @@
+use anyhow::Result;
+
 #[cfg(target_os = "linux")]
-pub fn setup_pins() {
+pub fn setup_pins() -> Result<()> {
     use rppal::gpio::{Gpio, OutputPin};
     use std::error::Error;
 
