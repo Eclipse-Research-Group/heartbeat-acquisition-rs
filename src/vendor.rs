@@ -1,7 +1,7 @@
 use anyhow::Result;
 
 #[cfg(target_os = "linux")]
-pub fn setup_pins() -> anyhow::Result<()> {
+pub fn setup_pins() -> Result<()> {
     use rppal::gpio::{Gpio, OutputPin};
     use std::error::Error;
 
@@ -15,6 +15,8 @@ pub fn setup_pins() -> anyhow::Result<()> {
     let pin_gps_fix = gpio.get(4)?.into_input_pullup();
     let pin_gps_fix = gpio.get(17)?.into_input_pullup();
     let pin_gps_fix = gpio.get(16)?.into_input_pullup();
+
+    Ok(())
 }
 
 
