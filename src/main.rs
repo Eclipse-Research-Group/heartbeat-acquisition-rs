@@ -63,7 +63,8 @@ struct ConfigAcquire {
 struct ConfigStorage {
     endpoint: String,
     secret: String,
-    key: String
+    key: String,
+    bucket: String
 }
 
 fn setup_logger() -> Result<(), fern::InitError> {
@@ -86,7 +87,7 @@ fn setup_logger() -> Result<(), fern::InitError> {
                 message
             ))
         })
-        .level(log::LevelFilter::Debug)
+        .level(log::LevelFilter::Info)
         .chain(std::io::stdout())
         .chain(fern::log_file("output.log")?)
         .apply()?;
@@ -139,9 +140,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let status_service = StatusService::get_service();
     let web_service = WebService::get_service();
     let storage_service = StorageService::new(StorageServiceSettings::new(
-        config.storage.endpoint,
-        config.storage.key, 
-        config.storage.secret)).unwrap();
+        config.storage.endpoint.clone(),
+        config.storage.key.clone(), 
+        config.storage.secret.clone(),
+        config.storage.bucket.clone()
+    )).unwrap();
 
     storage_service.connect().unwrap();
 
@@ -150,7 +153,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Configure prometheus registry
     let labels = vec![
         (Cow::Borrowed("capture_id"), Cow::from(metadata.capture_id().to_string())),
-        (Cow::Borrowed("node_id"), Cow::from(config.acquire.node_id)),
+        (Cow::Borrowed("node_id"), Cow::from(config.acquire.node_id.clone())),
     ];
     let registry = Registry::with_labels(labels.into_iter());
     status_service.set_registry(registry);
@@ -245,11 +248,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         writer.write_line(&line);
         if tick_start.duration_round(rotate_interval).unwrap() == tick_start.duration_round(chrono::TimeDelta::seconds(1)).unwrap() {
             log::info!("Rotating");
-            // Queue old file for upload
-            storage_service.queue_upload(storage::UploadArgs {
-                file_path: writer.file_path(),
-                object_name: writer.filename()
-            }).unwrap();
+
+            let object_path = Path::new(format!("{}/", config.acquire.node_id.clone()).as_str()).join(writer.filename());
+
+            storage_service.queue_upload(storage::UploadArgs::new(
+                config.storage.bucket.clone(),
+                writer.file_path(),
+                object_path.into_os_string().into_string().unwrap()
+            ).unwrap()).unwrap();
             drop(writer);
 
             log::info!("Rotated");

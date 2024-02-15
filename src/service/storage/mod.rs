@@ -12,16 +12,34 @@ use crate::utils::SingletonService;
 pub struct StorageServiceSettings {
     endpoint: String,
     key: String,
-    secret: String
+    secret: String,
+    bucket: String
 }
 
 impl StorageServiceSettings {
-    pub fn new(endpoint: String, key: String, secret: String) -> StorageServiceSettings {
+    pub fn new(endpoint: String, key: String, secret: String, bucket: String) -> StorageServiceSettings {
         StorageServiceSettings {
             endpoint,
             key,
-            secret
+            secret,
+            bucket
         }
+    }
+
+    pub fn bucket(&self) -> String {
+        self.bucket.clone()
+    }
+
+    pub fn endpoint(&self) -> String {
+        self.endpoint.clone()
+    }
+
+    pub fn key(&self) -> String {
+        self.key.clone()
+    }
+
+    pub fn secret(&self) -> String {
+        self.secret.clone()
     }
 }
 
@@ -46,6 +64,10 @@ impl StorageService {
     pub fn connect(&self) -> Result<()> {
         self.inner.lock().unwrap().connect()?;
         Ok(())
+    }
+
+    pub fn settings(&self) -> StorageServiceSettings {
+        self.inner.lock().unwrap().settings.clone()
     }
     
     pub fn shutdown_and_wait(&self) -> Result<()> {
@@ -74,8 +96,19 @@ impl StorageService {
 
 #[derive(Debug, Clone)]
 pub struct UploadArgs {
+    pub bucket_name: String,
     pub file_path: String,
-    pub object_name: String
+    pub object_path: String
+}
+
+impl UploadArgs {
+    pub fn new(bucket_name: String, file_path: String, object_path: String) -> Result<UploadArgs> {
+        Ok(UploadArgs {
+            bucket_name: bucket_name.to_string(),
+            file_path: file_path.to_string(),
+            object_path: object_path.to_string()
+        })
+    }
 }
 
 struct StorageServiceInner {
@@ -143,8 +176,8 @@ impl StorageServiceInner {
                         log::info!("Uploading file: {}", upload.file_path);
 
                         let args = match UploadObjectArgs::new(
-                            "test",
-                            upload.object_name.as_str(),
+                            upload.bucket_name.as_str(),
+                            upload.object_path.as_str(),
                             upload.file_path.as_str()
                         ) {
                             Ok(args) => args,
@@ -154,17 +187,25 @@ impl StorageServiceInner {
                             }
                         };
 
-                        match client.upload_object(
-                            &args
-                        ).await {
-                            Ok(_) => {
-                                log::info!("Uploaded file: {}", upload.file_path);
-                                log::warn!("NEED TO IMPLEMENT RE_UPLOAD IF FAIL");
-                            },
-                            Err(e) => {
-                                log::error!("Error uploading file: {:?}", e);
+                        tokio::select! {
+                            result = client.upload_object(
+                                &args
+                            ) => {
+                                match result {
+                                    Ok(_) => {
+                                        log::info!("Upload successful");
+                                    },
+                                    Err(e) => {
+                                        log::error!("Error uploading file: {:?}", e);
+                                        
+                                        let mut queue = queue.lock().unwrap();
+                                        queue.push_back(upload);
+                                    }
+                                }
                             }
                         }
+
+                        
 
                     }
                     
