@@ -119,7 +119,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     
     info!("Using node id: {}", config.acquire.node_id.bold());
 
-    let rotate_interval = chrono::TimeDelta::seconds(config.acquire.rotate_interval_seconds as i64);
+    let rotate_interval = chrono::TimeDelta::seconds(config.acquire.rotate_interval_seconds.clone() as i64);
+    info!("Rotating every {} seconds", rotate_interval.num_seconds());
 
     info!("Opening serial port: {}", config.acquire.serial_port.bold());
     let serial_port = match serialport::new(config.acquire.serial_port, config.acquire.baud_rate)
@@ -246,9 +247,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let line = line.chars().skip(1).collect::<String>();
         writer.write_line(&line);
+        
         if tick_start.duration_round(rotate_interval).unwrap() == tick_start.duration_round(chrono::TimeDelta::seconds(1)).unwrap() {
             log::info!("Rotating");
-
+            status_service.set_led_color(crate::service::status::led::LedColor::Cyan);
             let object_path = Path::new(format!("{}/", config.acquire.node_id.clone()).as_str()).join(writer.filename());
 
             storage_service.queue_upload(storage::UploadArgs::new(
@@ -260,7 +262,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
             log::info!("Rotated");
 
-            status_service.set_led_color(crate::service::status::led::LedColor::Cyan);
             writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
             writer.init();
         }
