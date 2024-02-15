@@ -181,9 +181,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 SIGINT | SIGTERM => {
                     log::info!("Received shutdown command");
                     storage_service.shutdown_and_wait().unwrap();
-
                     shutdown.store(true, Ordering::Relaxed);
-                    break;
+                    std::process::exit(0);
                 },
                 _ => {}
             }
