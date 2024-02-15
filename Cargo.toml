@@ -23,7 +23,7 @@ fern = "0.6.2"
 humantime = "2.1.0"
 colored = "2.1.0"
 chrono = "0.4.34"
-minio = "0.1.0"
+minio = { git = "https://github.com/minio/minio-rs.git" }
 atoi = "2.0.0"
 axum = "0.7.4"
 serde_json = "1.0.113"

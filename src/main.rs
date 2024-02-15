@@ -34,7 +34,7 @@ use humantime::format_duration;
 
 use crate::capture::{CaptureFileMetadata, CaptureFileWriter, DataPoint};
 use crate::service::storage;
-use crate::service::storage::StorageServiceCredentials;
+use crate::service::storage::StorageServiceSettings;
 use crate::service::{StatusService, WebService, StorageService};
 use crate::utils::SingletonService;
 
@@ -80,13 +80,13 @@ fn setup_logger() -> Result<(), fern::InitError> {
             let colored_level = format!("{}", record.level()).color(color);
             out.finish(format_args!(
                 "[{} {} {}] {}",
-                humantime::format_rfc3339_seconds(SystemTime::now()),
+                humantime::format_rfc3339_millis(SystemTime::now()),
                 colored_level,
                 record.target(),
                 message
             ))
         })
-        .level(log::LevelFilter::Trace)
+        .level(log::LevelFilter::Debug)
         .chain(std::io::stdout())
         .chain(fern::log_file("output.log")?)
         .apply()?;
@@ -138,10 +138,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create services
     let status_service = StatusService::get_service();
     let web_service = WebService::get_service();
-    let storage_service = StorageService::new(StorageServiceCredentials::new(
+    let storage_service = StorageService::new(StorageServiceSettings::new(
         config.storage.endpoint,
-        config.storage.secret, 
-        config.storage.key)).unwrap();
+        config.storage.key, 
+        config.storage.secret)).unwrap();
 
     storage_service.connect().unwrap();
 
@@ -174,6 +174,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             match sig {
                 SIGINT | SIGTERM => {
                     log::info!("Received shutdown command");
+                    storage_service.shutdown_and_wait().unwrap();
+
                     shutdown.store(true, Ordering::Relaxed);
                     break;
                 },
@@ -218,7 +220,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             Ok(data_point) => data_point,
             Err(e) => {
                 error!("Failed to parse data point: {:?}", e);
-                error!("Line: {}", line);
+                // error!("Line: {}", line);
 
                 // Write line as it is, recover it later
                 writer.write_line(&line);
@@ -243,6 +245,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         writer.write_line(&line);
         if tick_start.duration_round(rotate_interval).unwrap() == tick_start.duration_round(chrono::TimeDelta::seconds(1)).unwrap() {
             log::info!("Rotating");
+            // Queue old file for upload
+            storage_service.queue_upload(storage::UploadArgs {
+                file_path: writer.file_path(),
+                object_name: writer.filename()
+            }).unwrap();
+            drop(writer);
+
+            log::info!("Rotated");
+
             status_service.set_led_color(crate::service::status::led::LedColor::Cyan);
             writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
             writer.init();

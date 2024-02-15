@@ -106,6 +106,10 @@ impl CaptureFileWriter {
         self.lines_written += 1;
     }
 
+    pub fn file_path(&self) -> String {
+        std::path::Path::new(self.dir.as_ref()).join(&self.filename).to_str().unwrap().to_string()
+    }
+
     pub fn filename(&self) -> String {
         self.filename.clone()
     }
