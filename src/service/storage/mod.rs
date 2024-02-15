@@ -235,7 +235,6 @@ impl StorageServiceInner {
     }
 
     fn shutdown_and_wait(&mut self) -> Result<()> {
-        log::info!("Shutting down storage service");
         self.cancellationToken.cancel();
         let thread = self.thread.take();
         if let Some(thread) = thread {
