@@ -92,7 +92,7 @@ impl StorageService {
     }
 
     pub fn get_service() -> Result<&'static StorageService> {
-        if unsafe { SINGLETON.assume_init_ref() }.inner.lock().map_err(lock_error)?.thread.is_none() {
+        if unsafe { SINGLETON.as_ptr().is_null() } {
             Err(anyhow::anyhow!("Storage service not initialized"))
         } else {
             unsafe {

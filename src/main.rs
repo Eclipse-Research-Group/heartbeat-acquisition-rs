@@ -141,9 +141,9 @@ async fn main() -> Result<()> {
         config.storage.bucket.clone()
     )).unwrap();
 
+    status_service.set_led_color(service::status::led::LedColor::White);
     storage_service.connect().unwrap();
 
-    status_service.set_led_color(service::status::led::LedColor::White);
 
     // Configure prometheus registry
     let labels = vec![
@@ -181,6 +181,7 @@ async fn main() -> Result<()> {
                         }
                     }
                     shutdown.store(true, Ordering::Relaxed);
+                    status_service.set_led_color(service::status::led::LedColor::Off);
                     std::process::exit(0);
                 },
                 _ => {}
@@ -202,8 +203,8 @@ async fn main() -> Result<()> {
         // First check if we need to rotate files
         let tick_start = Utc::now();
         if tick_start.duration_round(rotate_interval.clone()).unwrap() == tick_start.duration_round(chrono::TimeDelta::seconds(1)).unwrap() {
-            info!("Collected {} seconds, rotating files", rotate_interval.num_seconds());
             status_service.set_led_color(service::status::led::LedColor::Cyan);
+            info!("Collected {} seconds, rotating files", rotate_interval.num_seconds());
             let object_path = Path::new(format!("{}/", config.acquire.node_id.clone()).as_str()).join(writer.filename());
 
             storage_service.queue_upload(storage::UploadArgs::new(
@@ -228,8 +229,6 @@ async fn main() -> Result<()> {
                 },
                 Err(e) => {
                     if e.kind() == BrokenPipe {
-                        status_service.set_led_color(service::status::led::LedColor::Red);
-                        error!("Unable to connect to data collection port, exiting...");
                         return Err(anyhow::anyhow!("Unable to connect to data collection port"));
                     } else {
                         return Err(anyhow::anyhow!("Internal error"));
@@ -240,7 +239,7 @@ async fn main() -> Result<()> {
             return Ok(line);
         });
 
-        let line = match tokio::time::timeout(std::time::Duration::from_millis(1400), serial_future).await {
+        let line = match tokio::time::timeout(std::time::Duration::from_millis(2000), serial_future).await {
             Ok(result) => {
                 // Didn't timeout
                 match result {
@@ -252,31 +251,31 @@ async fn main() -> Result<()> {
                             },
                             Err(_) => {
                                 // Wasn't able to get line
+                                status_service.set_led_color(service::status::led::LedColor::Red);
                                 log::error!("Internal error");
                                 continue;
                             }
                         }
                     },
                     Err(_) => {
-                        // Failed to join thread
+                        status_service.set_led_color(service::status::led::LedColor::Red);
                         log::error!("Internal error");
                         continue;
                     }
                 }
             },
             Err(_) => {
+                status_service.set_led_color(service::status::led::LedColor::Red);
                 log::error!("Timeout reading from serial port");
                 continue;
             }
         };
 
-        // Get start time
-        status_service.set_led_color(service::status::led::LedColor::Green);
-
         // Parse for data analysis
         let data_point = match DataPoint::parse(&line) {
             Ok(data_point) => data_point,
             Err(e) => {
+                status_service.set_led_color(service::status::led::LedColor::Red);
                 error!("Failed to parse data point: {:?}", e);
 
                 // Write line as it is, recover it later
@@ -284,7 +283,6 @@ async fn main() -> Result<()> {
                 // TODO maybe manually add a newline
 
                 writer.comment("ERR Failed to parse data point");
-                status_service.set_led_color(service::status::led::LedColor::Red);
 
                 continue;
             }
@@ -306,6 +304,9 @@ async fn main() -> Result<()> {
         if !data_point.has_gps_fix() {
             warn!("No GPS fix, data may be misaligned for this second");
             status_service.set_led_color(service::status::led::LedColor::Yellow);
+        } else {
+            // Get start time
+            status_service.set_led_color(service::status::led::LedColor::Green);
         }
 
         // GPS stuff
@@ -316,6 +317,8 @@ async fn main() -> Result<()> {
         let tick_end = Utc::now();
         let duration = tick_end.signed_duration_since(tick_start);
         hist_process_time.observe(duration.num_nanoseconds().unwrap() as f64 / 1_000_000_000.0);
+
+
     }
 
     info!("Exiting, ran for {}", format_duration(app_start.elapsed()).to_string());
