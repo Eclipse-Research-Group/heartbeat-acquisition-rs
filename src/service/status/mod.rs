@@ -1,11 +1,9 @@
 pub mod led;
 
 
-use std::{mem::MaybeUninit, sync::{Arc, Mutex, Once, RwLock}, thread};
+use std::{mem::MaybeUninit, sync::{Arc, Mutex, Once}};
 use prometheus_client::{encoding::text::encode, registry::{Metric, Registry}};
-use led::{LED, LedColor};
-use serde::{Deserialize, Serialize};
-
+use led::LedColor;
 use crate::{capture::DataPoint, utils::SingletonService};
 
 pub struct StatusService {

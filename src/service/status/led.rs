@@ -103,7 +103,7 @@ pub mod led {
             })
         }
 
-        pub fn set_color(&mut self, color: LedColor) -> Result<(), Box<dyn Error>> {
+        pub fn set_color(&mut self, _color: LedColor) -> Result<(), Box<dyn Error>> {
             Ok(())
         }
 

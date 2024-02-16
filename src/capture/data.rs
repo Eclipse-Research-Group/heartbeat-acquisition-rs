@@ -58,6 +58,8 @@ pub struct DataPoint {
     latitude: f32,
     longitude: f32,
     elevation: f32,
+    speed: f32,
+    angle: f32,
     fix: u16,
     data: Vec<f64>
 }
@@ -171,7 +173,7 @@ impl DataPoint {
 
         let mut data = Vec::<f64>::new();
         let mut sum = 0u64;
-        for i in 10..10usize + data_count {
+        for _ in 10..10usize + data_count {
             let part = iter.next().ok_or("Missing data")?;
             let value = match part.parse::<i64>() {
                 Ok(value) => value,
@@ -190,13 +192,15 @@ impl DataPoint {
         }
 
         let data_point = DataPoint {
-            timestamp: timestamp as i64,
+            timestamp: timestamp,
             sample_rate: sample_rate,
             flags: flags,
             latitude: latitude,
             longitude: longitude,
             elevation: elevation,
             fix: fix,
+            speed: speed,
+            angle: angle,
             data: data
         };
 

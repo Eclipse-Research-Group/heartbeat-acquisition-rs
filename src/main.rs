@@ -12,9 +12,8 @@ use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
 use std::sync::Mutex;
 use std::time::Instant;
-use std::sync::{Arc, RwLock};
+use std::sync::Arc;
 use std::time::SystemTime;
-use std::time::UNIX_EPOCH;
 use chrono::DurationRound;
 use chrono::Utc;
 use signal_hook::{consts::SIGINT, consts::SIGTERM, iterator::Signals};
@@ -29,21 +28,14 @@ use uuid::Uuid;
 use std::thread;
 use std::io::ErrorKind::BrokenPipe;
 use prometheus_client::registry::Registry;
-use tokio_util::sync::CancellationToken;
 use humantime::format_duration;
-
+use anyhow::Result;
 
 use crate::capture::{CaptureFileMetadata, CaptureFileWriter, DataPoint};
 use crate::service::storage;
 use crate::service::storage::StorageServiceSettings;
 use crate::service::{StatusService, WebService, StorageService};
 use crate::utils::SingletonService;
-
-#[derive(Clone)]
-struct AppData {
-    registry: Arc<RwLock<Registry>>,
-}
-
 
 #[derive(Deserialize)]
 struct ConfigFile {
@@ -110,9 +102,9 @@ fn load_config() -> ConfigFile {
 }
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() -> Result<()> {
     setup_logger()?;
-    crate::vendor::setup_pins();
+    vendor::setup_pins().unwrap();
 
     let app_start = Instant::now();
 
@@ -151,7 +143,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     storage_service.connect().unwrap();
 
-    status_service.set_led_color(crate::service::status::led::LedColor::White);
+    status_service.set_led_color(service::status::led::LedColor::White);
 
     // Configure prometheus registry
     let labels = vec![
@@ -210,8 +202,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         // First check if we need to rotate files
         let tick_start = Utc::now();
         if tick_start.duration_round(rotate_interval.clone()).unwrap() == tick_start.duration_round(chrono::TimeDelta::seconds(1)).unwrap() {
-            log::info!("Collected {} seconds, rotating files", rotate_interval.num_seconds());
-            status_service.set_led_color(crate::service::status::led::LedColor::Cyan);
+            info!("Collected {} seconds, rotating files", rotate_interval.num_seconds());
+            status_service.set_led_color(service::status::led::LedColor::Cyan);
             let object_path = Path::new(format!("{}/", config.acquire.node_id.clone()).as_str()).join(writer.filename());
 
             storage_service.queue_upload(storage::UploadArgs::new(
@@ -236,7 +228,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 },
                 Err(e) => {
                     if e.kind() == BrokenPipe {
-                        status_service.set_led_color(crate::service::status::led::LedColor::Red);
+                        status_service.set_led_color(service::status::led::LedColor::Red);
                         error!("Unable to connect to data collection port, exiting...");
                         return Err(anyhow::anyhow!("Unable to connect to data collection port"));
                     } else {
@@ -279,7 +271,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         };
 
         // Get start time
-        status_service.set_led_color(crate::service::status::led::LedColor::Green);
+        status_service.set_led_color(service::status::led::LedColor::Green);
 
         // Parse for data analysis
         let data_point = match DataPoint::parse(&line) {
@@ -292,7 +284,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 // TODO maybe manually add a newline
 
                 writer.comment("ERR Failed to parse data point");
-                status_service.set_led_color(crate::service::status::led::LedColor::Red);
+                status_service.set_led_color(service::status::led::LedColor::Red);
 
                 continue;
             }
@@ -300,7 +292,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 
         if data_point.timestamp() == -1 {
-            log::warn!("Missing timestamp, including computer timestamp as a comment");
+            warn!("Missing timestamp, including computer timestamp as a comment");
             writer.comment(format!("ERR Missing timestamp, including computer timestamp on next line").as_str());
             writer.comment(format!("{}", tick_start.timestamp_millis() as f64 / 1000.0).as_str());
         }
@@ -313,7 +305,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         // Warn user about missing GPS fix
         if !data_point.has_gps_fix() {
             warn!("No GPS fix, data may be misaligned for this second");
-            status_service.set_led_color(crate::service::status::led::LedColor::Yellow);
+            status_service.set_led_color(service::status::led::LedColor::Yellow);
         }
 
         // GPS stuff

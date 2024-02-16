@@ -1,12 +1,10 @@
-use std::{collections::VecDeque, mem::MaybeUninit, sync::{Arc, Mutex, Once, RwLock}};
+use std::{collections::VecDeque, mem::MaybeUninit, sync::{Arc, Mutex}};
 use anyhow::Result;
-use minio::s3::{creds::StaticProvider};
-use url::Url;
-use minio::s3::args::{BucketExistsArgs, MakeBucketArgs, UploadObjectArgs};
+use minio::s3::creds::StaticProvider;
+use minio::s3::args::UploadObjectArgs;
 use minio::s3::client::Client;
 use minio::s3::http::BaseUrl;
 use std::thread;
-use crate::utils::SingletonService;
 
 #[derive(Debug, Clone)]
 pub struct StorageServiceSettings {
@@ -49,7 +47,7 @@ pub struct StorageService {
 
 static mut SINGLETON: MaybeUninit<StorageService> = MaybeUninit::uninit();
 
-fn lock_error<T>(e: T) -> anyhow::Error {
+fn lock_error<T>(_e: T) -> anyhow::Error {
     anyhow::anyhow!("Error locking storage service")
 }
 
@@ -94,10 +92,12 @@ impl StorageService {
     }
 
     pub fn get_service() -> Result<&'static StorageService> {
-        static ONCE: Once = Once::new();
-
-        unsafe {
-            Ok(SINGLETON.assume_init_ref())
+        if unsafe { SINGLETON.assume_init_ref() }.inner.lock().map_err(lock_error)?.thread.is_none() {
+            Err(anyhow::anyhow!("Storage service not initialized"))
+        } else {
+            unsafe {
+                Ok(SINGLETON.assume_init_ref())
+            }
         }
     }
 }
@@ -122,7 +122,7 @@ impl UploadArgs {
 struct StorageServiceInner {
     settings: StorageServiceSettings,
     thread: Option<thread::JoinHandle<()>>,
-    cancellationToken: tokio_util::sync::CancellationToken,
+    cancellation_token: tokio_util::sync::CancellationToken,
     upload_queue: Arc<Mutex<VecDeque<UploadArgs>>>
 }
 
@@ -133,7 +133,7 @@ impl StorageServiceInner {
         Ok(StorageServiceInner {
             settings,
             thread: None,
-            cancellationToken: tokio_util::sync::CancellationToken::new(),
+            cancellation_token: tokio_util::sync::CancellationToken::new(),
             upload_queue: Arc::new(Mutex::new(VecDeque::new()))
         })
     }   
@@ -152,7 +152,7 @@ impl StorageServiceInner {
             None
         )?;
     
-        let token_clone = self.cancellationToken.clone();
+        let token_clone = self.cancellation_token.clone();
         let queue_clone = self.upload_queue.clone();
         let thread = thread::spawn(move || {
             log::debug!("Storage thread spawned.");
@@ -237,7 +237,7 @@ impl StorageServiceInner {
     }
 
     fn shutdown_and_wait(&mut self) -> Result<()> {
-        self.cancellationToken.cancel();
+        self.cancellation_token.cancel();
         let thread = self.thread.take();
         if let Some(thread) = thread {
             thread.join().map_err(|e| anyhow::anyhow!("Error joining thread: {:?}", e))?;

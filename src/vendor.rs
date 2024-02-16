@@ -21,6 +21,6 @@ pub fn setup_pins() -> Result<()> {
 
 
 #[cfg(not(target_os = "linux"))]
-pub fn setup_pins() {
-    
+pub fn setup_pins() -> Result<()> {
+    Ok(())
 }

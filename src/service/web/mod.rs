@@ -1,6 +1,6 @@
 use std::{mem::MaybeUninit, sync::{Arc, Mutex, Once}, thread};
 use axum::{
-    routing::{get, post},
+    routing::get,
     http::StatusCode,
     Json, Router,
 };
@@ -89,7 +89,7 @@ impl WebServiceInner {
     async fn get_last_data() -> (StatusCode, Json<LastDataResponse>) {
         let data = StatusService::get_service().get_data();
         (StatusCode::OK, Json(LastDataResponse { 
-            data: StatusService::get_service().get_data()
+            data: data
         }))
     }
 

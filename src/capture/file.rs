@@ -1,4 +1,4 @@
-use crate::capture::data::{DataPointFlags, DataPoint};
+use crate::capture::data::DataPoint;
 use uuid::Uuid;
 use std::path::Path;
 use std::{collections::HashMap, fs::File};
@@ -32,10 +32,9 @@ impl CaptureFileMetadata {
         self.extras.get(key).map(|s| s.as_str())
     }
 
-    pub fn parse(text: &str) -> CaptureFileMetadata {
-        let parts = text.split("\n").collect::<Vec<&str>>();
-        
-
+    pub fn parse(_text: &str) -> CaptureFileMetadata {
+        // let parts = text.split("\n").collect::<Vec<&str>>();
+        log::error!("Not implemented");
         return CaptureFileMetadata::new(Uuid::new_v4(), 20000.0);
     }
 
@@ -107,11 +106,15 @@ impl CaptureFileWriter {
     }
 
     pub fn file_path(&self) -> String {
-        std::path::Path::new(self.dir.as_ref()).join(&self.filename).to_str().unwrap().to_string()
+        Path::new(self.dir.as_ref()).join(&self.filename).to_str().unwrap().to_string()
     }
 
     pub fn filename(&self) -> String {
         self.filename.clone()
+    }
+
+    pub fn created(&self) -> DateTime<Utc> {
+        self.created
     }
 
     pub fn comment(&mut self, comment: &str) {
