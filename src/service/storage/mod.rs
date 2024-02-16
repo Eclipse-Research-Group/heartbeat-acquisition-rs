@@ -181,7 +181,7 @@ impl StorageServiceInner {
                         queue.pop_front()
                     } {
 
-                        log::info!("Uploading file: {}", upload.file_path);
+                        log::info!("Uploading file {} to {}", upload.file_path, upload.object_path);
 
                         let args = match UploadObjectArgs::new(
                             upload.bucket_name.as_str(),

@@ -115,7 +115,7 @@ impl CaptureFileWriter {
     }
 
     pub fn comment(&mut self, comment: &str) {
-        self.write_line(format!("# {}", comment).as_str());
+        self.write_line(format!("# {}\n", comment).as_str());
     }
 
     pub fn lines_written(&self) -> usize {
