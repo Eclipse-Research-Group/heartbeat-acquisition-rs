@@ -69,11 +69,11 @@ impl SingletonService<StatusService, anyhow::Error> for StatusService {
         }
     }
 
-    fn shutdown() -> Result<(), anyhow::Error> {
+    fn shutdown(&self) -> Result<(), anyhow::Error> {
         todo!()
     }
 
-    fn start() -> Result<(), anyhow::Error> {
+    fn run(&self) -> Result<(), anyhow::Error> {
         todo!()
     }
 }

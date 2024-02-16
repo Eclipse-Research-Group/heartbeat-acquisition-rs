@@ -1,11 +1,11 @@
 use std::{future::IntoFuture, mem::MaybeUninit, sync::{Arc, Mutex, Once}, thread};
 use axum::{
-    http::StatusCode, response::{IntoResponse, Response}, routing::get, Json, Router
+    http::StatusCode, response::IntoResponse, routing::get, Json, Router
 };
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 
-use crate::{capture::DataPoint, utils::SingletonService};
+use crate::{capture::DataPoint, utils::{map_lock_error, SingletonService}};
 
 use super::status::StatusService;
 
@@ -43,12 +43,12 @@ impl SingletonService<WebService, anyhow::Error> for WebService {
         
     }
 
-    fn shutdown() -> Result<(), anyhow::Error> {
-        todo!()
+    fn shutdown(&self) -> Result<(), anyhow::Error> {
+        Ok(self.inner.lock().map_err(map_lock_error)?.shutdown())
     }
 
-    fn start() -> Result<(), anyhow::Error> {
-        todo!()
+    fn run(&self) -> Result<(), anyhow::Error> {
+        Ok(self.inner.lock().map_err(map_lock_error)?.start())
     }
 }
 
@@ -57,14 +57,6 @@ impl WebService {
         WebService {
             inner: Arc::new(Mutex::new(WebServiceInner::new()))
         }
-    }
-
-    pub fn start(&self) {
-        self.inner.lock().unwrap().start();
-    }
-
-    pub fn shutdown(&self) {
-        self.inner.lock().unwrap().shutdown();
     }
 }
 
@@ -119,7 +111,7 @@ impl WebServiceInner {
     }
 
     pub fn start(&self) -> () {
-        log::info!("Starting web service...");
+        log::debug!("Starting web service...");
 
         let app: Router<()> = Router::new()
             .route("/", get(WebServiceInner::get_root))
@@ -128,7 +120,7 @@ impl WebServiceInner {
 
         let cancellation_token = self.cancellation_token.clone();
         thread::spawn(move || {
-            log::info!("Thread spawned.");
+            log::debug!("Thread spawned.");
             let runtime = tokio::runtime::Builder::new_multi_thread()
                 .worker_threads(4)
                 .thread_name("my-custom-name")

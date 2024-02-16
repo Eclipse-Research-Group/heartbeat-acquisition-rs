@@ -6,7 +6,7 @@ use minio::s3::client::Client;
 use minio::s3::http::BaseUrl;
 use std::thread;
 
-use crate::utils::SingletonService;
+use crate::utils::{map_lock_error, SingletonService};
 
 pub enum StorageServiceError {
 
@@ -53,8 +53,34 @@ pub struct StorageService {
 
 static mut SINGLETON: MaybeUninit<StorageService> = MaybeUninit::uninit();
 
-fn lock_error<T>(_e: T) -> anyhow::Error {
-    anyhow::anyhow!("Error locking storage service")
+impl SingletonService<StorageService, anyhow::Error> for StorageService {
+    fn get_service() -> Option<&'static StorageService> {
+        if unsafe { SINGLETON.as_ptr().is_null() } {
+            None
+        } else {
+            unsafe {
+                Some(SINGLETON.assume_init_ref())
+            }
+        }
+    }
+
+    fn shutdown(&self) -> Result<(), anyhow::Error> {
+        self.inner.lock()
+            .map_err(map_lock_error)?
+            .shutdown_and_wait()
+    }
+
+    fn run(&self) -> Result<(), anyhow::Error> {
+        self.inner.lock()
+            .map_err(map_lock_error)?
+            .connect()
+    }
+
+    fn is_alive(&self) -> Result<bool, anyhow::Error> {
+        Ok(self.inner.lock()
+            .map_err(map_lock_error)?
+            .is_alive())
+    }
 }
 
 impl StorageService {
@@ -69,56 +95,22 @@ impl StorageService {
         Ok(StorageService::get_service().ok_or(anyhow::anyhow!("Service not initialized"))?)
     }
 
-    pub fn connect(&self) -> Result<()> {
-        self.inner.lock()
-            .map_err(lock_error)?
-            .connect()?;
-        Ok(())
-    }
-
     pub fn settings(&self) -> Result<StorageServiceSettings> {
         Ok(self.inner.lock()
-            .map_err(lock_error)?
+            .map_err(map_lock_error)?
             .settings.clone())
     }
-    
-    pub fn shutdown_and_wait(&self) -> Result<()> {
-        log::info!("Shutting down storage service");
-        self.inner.lock()
-            .map_err(lock_error)?
-            .shutdown_and_wait()?;
-        Ok(())
-    }
+
 
     pub fn queue_upload(&self, args: UploadArgs) -> Result<()> {
         self.inner.lock()
-            .map_err(lock_error)?
+            .map_err(map_lock_error)?
             .queue_upload(args)?;
         Ok(())
     }
 }
 
-impl SingletonService<StorageService, anyhow::Error> for StorageService {
-    fn get_service() -> Option<&'static StorageService> {
-        if unsafe { SINGLETON.as_ptr().is_null() } {
-            None
-        } else {
-            unsafe {
-                Some(SINGLETON.assume_init_ref())
-            }
-        }
-    }
 
-    fn shutdown() -> Result<(), anyhow::Error> {
-        let service = StorageService::get_service().ok_or(anyhow::anyhow!("Service not initialized"))?;
-        service.shutdown_and_wait()
-    }
-
-    fn start() -> Result<(), anyhow::Error> {
-        let service = StorageService::get_service().ok_or(anyhow::anyhow!("Service not initialized"))?;
-        service.connect()
-    }
-}
 
 #[derive(Debug, Clone)]
 pub struct UploadArgs {
@@ -249,7 +241,7 @@ impl StorageServiceInner {
 
     fn queue_upload(&mut self, args: UploadArgs) -> Result<()> {
         self.upload_queue.lock()
-            .map_err(lock_error)?
+            .map_err(map_lock_error)?
             .push_back(args);
         Ok(())
     }
@@ -264,5 +256,13 @@ impl StorageServiceInner {
         }
 
         Ok(())
+    }
+
+    fn is_alive(&self) -> bool {
+        if self.thread.is_some() {
+            self.thread.as_ref().unwrap().is_finished()
+        } else {
+            false
+        }
     }
 }

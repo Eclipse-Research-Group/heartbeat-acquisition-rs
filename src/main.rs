@@ -132,7 +132,7 @@ async fn main() -> Result<()> {
     metadata.set("NODE_ID", &config.acquire.node_id);
 
     // Create services
-    let status_service = StatusService::get_service().expect("Failed to create status service");
+    let status_service: &StatusService = StatusService::get_service().expect("Failed to create status service");
     let web_service = WebService::get_service().expect("Failed to create web service");
     let storage_service = StorageService::new(StorageServiceSettings::new(
         config.storage.endpoint.clone(),
@@ -142,7 +142,15 @@ async fn main() -> Result<()> {
     )).unwrap();
 
     status_service.set_led_color(service::status::led::LedColor::White);
-    storage_service.connect().unwrap();
+
+    match storage_service.run() {
+        Ok(_) => {
+            info!("Storage service started");
+        },
+        Err(e) => {
+            error!("Failed to start storage service: {:?}", e);
+        }
+    }
 
 
     // Configure prometheus registry
@@ -171,17 +179,29 @@ async fn main() -> Result<()> {
         for sig in signals.forever() {
             match sig {
                 SIGINT | SIGTERM => {
-                    log::info!("Received shutdown command");
-                    match storage_service.shutdown_and_wait() {
+                    log::info!("Shutting down...");
+                    match storage_service.shutdown() {
                         Ok(_) => {
-                            log::info!("Storage service shutdown successfully");
+                            log::info!("Storage service shutdown gracefully");
                         },
                         Err(e) => {
-                            log::error!("Failed to shutdown storage service: {:?}", e);
+                            log::error!("Failed to shutdown storage service gracefully: {:?}", e);
                         }
                     }
+
+                    match web_service.shutdown() {
+                        Ok(_) => {
+                            log::info!("Web service shutdown gracefully");
+                        },
+                        Err(e) => {
+                            log::error!("Failed to shutdown web service gracefully: {:?}", e);
+                        }
+                    }
+
                     shutdown.store(true, Ordering::Relaxed);
                     status_service.set_led_color(service::status::led::LedColor::Off);
+
+                    log::info!("Exiting...");
                     std::process::exit(0);
                 },
                 _ => {}
@@ -191,7 +211,14 @@ async fn main() -> Result<()> {
 
 
     // Start web server
-    web_service.start();
+    match web_service.run() {
+        Ok(_) => {
+            info!("Web service started");
+        },
+        Err(e) => {
+            error!("Failed to start web service: {:?}", e);
+        }
+    }
 
     let mut writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
     writer.init();
@@ -316,8 +343,6 @@ async fn main() -> Result<()> {
         let tick_end = Utc::now();
         let duration = tick_end.signed_duration_since(tick_start);
         hist_process_time.observe(duration.num_nanoseconds().unwrap() as f64 / 1_000_000_000.0);
-
-
     }
 
     info!("Exiting, ran for {}", format_duration(app_start.elapsed()).to_string());
