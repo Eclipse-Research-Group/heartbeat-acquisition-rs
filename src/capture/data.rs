@@ -52,7 +52,7 @@ fn parse(line: &str) -> Result<DataPointFlags, String> {
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct DataPoint {
-    timestamp: i64,
+    timestamp: Option<i64>,
     sample_rate: f32,
     flags: DataPointFlags,
     latitude: f32,
@@ -78,7 +78,7 @@ impl DataPoint {
         self.sample_rate
     }
 
-    pub fn timestamp(&self) -> i64 {
+    pub fn timestamp(&self) -> Option<i64> {
         self.timestamp
     }
 
@@ -113,8 +113,8 @@ impl DataPoint {
 
         let part = iter.next().ok_or("Missing timestamp")?;
         let timestamp = match part.parse::<i64>() {
-            Ok(timestamp) => timestamp,
-            _ => return Err("Failed to parse timestamp".to_string())
+            Ok(timestamp) => Some(timestamp),
+            _ => None
         };
 
         let part = iter.next().ok_or("Missing flags")?;
@@ -214,7 +214,8 @@ impl DataPoint {
 
 impl ToString for DataPoint {
     fn to_string(&self) -> String {
-        let string: String = format!("{},{}", self.timestamp, self.flags.to_string());
-        return string;
+        todo!()
+        // let string: String = format!("{},{}", self.timestamp, self.flags.to_string());
+        // return string;
     }
 }

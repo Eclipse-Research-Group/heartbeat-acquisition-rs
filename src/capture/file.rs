@@ -126,3 +126,9 @@ impl CaptureFileWriter {
     }
 
 }
+
+impl Drop for CaptureFileWriter {
+    fn drop(&mut self) {
+        self.file.flush().unwrap();
+    }
+}

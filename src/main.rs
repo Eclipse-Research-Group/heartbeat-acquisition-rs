@@ -14,6 +14,7 @@ use std::sync::Mutex;
 use std::time::Instant;
 use std::sync::Arc;
 use std::time::SystemTime;
+use chrono::DateTime;
 use chrono::DurationRound;
 use chrono::Utc;
 use signal_hook::{consts::SIGINT, consts::SIGTERM, iterator::Signals};
@@ -220,8 +221,11 @@ async fn main() -> Result<()> {
         }
     }
 
+    
     let mut writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
     writer.init();
+
+    let mut last_rotate = DateTime::from_timestamp(0, 0).unwrap();
 
     let serial_port = Arc::new(Mutex::new(serial_port));
 
@@ -229,7 +233,10 @@ async fn main() -> Result<()> {
         
         // First check if we need to rotate files
         let tick_start = Utc::now();
-        if tick_start.duration_round(rotate_interval.clone()).unwrap() == tick_start.duration_round(chrono::TimeDelta::seconds(1)).unwrap() {
+        if tick_start.duration_round(rotate_interval.clone()).unwrap() == tick_start.duration_round(chrono::TimeDelta::seconds(1)).unwrap() 
+            && (tick_start - last_rotate).num_seconds() > rotate_interval.num_seconds() {
+            
+            last_rotate = tick_start;
             status_service.set_led_color(service::status::led::LedColor::Cyan);
             info!("Collected {} seconds, rotating files", rotate_interval.num_seconds());
             let object_path = Path::new(format!("{}/", config.acquire.node_id.clone()).as_str()).join(writer.filename());
@@ -261,7 +268,7 @@ async fn main() -> Result<()> {
                         return Err(anyhow::anyhow!("Internal error"));
                     }
                 }
-            } 
+            }
 
             return Ok(line);
         });
@@ -298,6 +305,17 @@ async fn main() -> Result<()> {
             }
         };
 
+        if line.starts_with("#") {
+            // Comment line
+            writer.comment(&line);
+            log::debug!("Comment: {}", line);
+            continue;
+        }
+
+        if !line.starts_with("$") {
+            continue;
+        }
+
         // Parse for data analysis
         let data_point = match DataPoint::parse(&line) {
             Ok(data_point) => data_point,
@@ -315,7 +333,7 @@ async fn main() -> Result<()> {
             }
         };
 
-        if data_point.timestamp() == -1 {
+        if data_point.timestamp().is_none() {
             warn!("Missing timestamp, including computer timestamp as a comment");
             writer.comment(format!("ERR Missing timestamp, including computer timestamp on next line").as_str());
             writer.comment(format!("{}", tick_start.timestamp_millis() as f64 / 1000.0).as_str());

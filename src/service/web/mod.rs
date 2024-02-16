@@ -60,7 +60,6 @@ impl WebService {
     }
 }
 
-
 #[derive(Deserialize, Serialize)]
 struct LastDataResponse {
     data: DataPoint

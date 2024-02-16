@@ -1,10 +1,11 @@
-use std::{collections::VecDeque, mem::MaybeUninit, sync::{Arc, Mutex}};
+use std::{collections::VecDeque, mem::MaybeUninit, path::{Path, PathBuf}, sync::{Arc, Mutex}};
 use anyhow::Result;
 use minio::s3::creds::StaticProvider;
 use minio::s3::args::UploadObjectArgs;
 use minio::s3::client::Client;
 use minio::s3::http::BaseUrl;
 use std::thread;
+use std::process::Command;
 
 use crate::utils::{map_lock_error, SingletonService};
 
@@ -138,8 +139,6 @@ struct StorageServiceInner {
 
 impl StorageServiceInner {
     fn new(settings: StorageServiceSettings) -> Result<StorageServiceInner> {
-        log::info!("Initializing storage service");
-
         Ok(StorageServiceInner {
             settings,
             thread: None,
@@ -147,6 +146,22 @@ impl StorageServiceInner {
             upload_queue: Arc::new(Mutex::new(VecDeque::new()))
         })
     }   
+
+    fn gzip_file(file: PathBuf) -> Result<()> {
+        let output = Command::new("gzip")
+            .arg(file.as_os_str())
+            .output()?;
+
+        if output.status.success() {
+            log::debug!("File successfully compressed: {}", file.display());
+        } else {
+            // If gzip encountered an error, stderr will contain the error message
+            let error_message = String::from_utf8_lossy(&output.stderr);
+            log::error!("gzip error: {}", error_message);
+        }
+    
+        Ok(())
+    }
 
     fn connect(&mut self) -> Result<()> {
         let static_provider = StaticProvider::new(
@@ -178,10 +193,10 @@ impl StorageServiceInner {
                 loop {
                     tokio::select! {
                         _ = tokio::time::sleep(std::time::Duration::from_secs(5)) => {
-                            log::info!("Storage thread is alive.");
+                            log::debug!("Storage thread is alive.");
                         },
                         _ = token_clone.cancelled() => {
-                            log::info!("Safely exiting storage thread.");
+                            log::debug!("Safely exiting storage thread.");
                             break;
                         }
                     }             
@@ -213,7 +228,15 @@ impl StorageServiceInner {
                             ) => {
                                 match result {
                                     Ok(_) => {
-                                        log::info!("Upload successful");
+                                        log::debug!("Upload successful");
+                                        match Self::gzip_file(PathBuf::from(upload.file_path)) {
+                                            Ok(_) => {
+                                                log::debug!("File compressed successfully");
+                                            },
+                                            Err(e) => {
+                                                log::error!("Error compressing file: {:?}", e);
+                                            }
+                                        }
                                     },
                                     Err(e) => {
                                         log::error!("Error uploading file: {:?}", e);
@@ -222,7 +245,7 @@ impl StorageServiceInner {
                                         break;
                                     }
                                 }
-                            }
+                            },
                         }
 
                         
