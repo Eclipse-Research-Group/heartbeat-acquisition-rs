@@ -1,10 +1,13 @@
 pub mod led;
 
-
 use std::{mem::MaybeUninit, sync::{Arc, Mutex, Once}};
 use prometheus_client::{encoding::text::encode, registry::{Metric, Registry}};
 use led::LedColor;
 use crate::{capture::DataPoint, utils::SingletonService};
+
+pub enum StatusServiceError {
+    NoService
+}
 
 pub struct StatusService {
     inner: Arc<Mutex<StatusServiceInner>>
@@ -47,8 +50,8 @@ impl StatusService {
 
 }
 
-impl SingletonService<StatusService> for StatusService {
-    fn get_service() -> &'static StatusService {
+impl SingletonService<StatusService, anyhow::Error> for StatusService {
+    fn get_service() -> Option<&'static StatusService> {
         static mut SINGLETON: MaybeUninit<StatusService> = MaybeUninit::uninit();
         static ONCE: Once = Once::new();
 
@@ -62,8 +65,16 @@ impl SingletonService<StatusService> for StatusService {
 
             // Now we give out a shared reference to the data, which is safe to use
             // concurrently.
-            SINGLETON.assume_init_ref()
+            Some(SINGLETON.assume_init_ref())
         }
+    }
+
+    fn shutdown() -> Result<(), anyhow::Error> {
+        todo!()
+    }
+
+    fn start() -> Result<(), anyhow::Error> {
+        todo!()
     }
 }
 

@@ -6,6 +6,12 @@ use minio::s3::client::Client;
 use minio::s3::http::BaseUrl;
 use std::thread;
 
+use crate::utils::SingletonService;
+
+pub enum StorageServiceError {
+
+}
+
 #[derive(Debug, Clone)]
 pub struct StorageServiceSettings {
     endpoint: String,
@@ -60,7 +66,7 @@ impl StorageService {
             });
         }
 
-        Ok(StorageService::get_service()?)
+        Ok(StorageService::get_service().ok_or(anyhow::anyhow!("Service not initialized"))?)
     }
 
     pub fn connect(&self) -> Result<()> {
@@ -90,15 +96,27 @@ impl StorageService {
             .queue_upload(args)?;
         Ok(())
     }
+}
 
-    pub fn get_service() -> Result<&'static StorageService> {
+impl SingletonService<StorageService, anyhow::Error> for StorageService {
+    fn get_service() -> Option<&'static StorageService> {
         if unsafe { SINGLETON.as_ptr().is_null() } {
-            Err(anyhow::anyhow!("Storage service not initialized"))
+            None
         } else {
             unsafe {
-                Ok(SINGLETON.assume_init_ref())
+                Some(SINGLETON.assume_init_ref())
             }
         }
+    }
+
+    fn shutdown() -> Result<(), anyhow::Error> {
+        let service = StorageService::get_service().ok_or(anyhow::anyhow!("Service not initialized"))?;
+        service.shutdown_and_wait()
+    }
+
+    fn start() -> Result<(), anyhow::Error> {
+        let service = StorageService::get_service().ok_or(anyhow::anyhow!("Service not initialized"))?;
+        service.connect()
     }
 }
 

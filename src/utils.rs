@@ -1,3 +1,5 @@
-pub trait SingletonService<T> {
-    fn get_service() -> &'static T;
+pub trait SingletonService<T, E> {
+    fn shutdown() -> Result<(), E>;
+    fn start() -> Result<(), E>;
+    fn get_service() -> Option<&'static T>;
 }

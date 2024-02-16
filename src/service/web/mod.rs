@@ -1,8 +1,6 @@
-use std::{mem::MaybeUninit, sync::{Arc, Mutex, Once}, thread};
+use std::{future::IntoFuture, mem::MaybeUninit, sync::{Arc, Mutex, Once}, thread};
 use axum::{
-    routing::get,
-    http::StatusCode,
-    Json, Router,
+    http::StatusCode, response::{IntoResponse, Response}, routing::get, Json, Router
 };
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
@@ -25,8 +23,8 @@ impl Clone for WebService {
     }
 }
 
-impl SingletonService<WebService> for WebService {
-    fn get_service() -> &'static WebService {
+impl SingletonService<WebService, anyhow::Error> for WebService {
+    fn get_service() -> Option<&'static WebService> {
         static mut SINGLETON: MaybeUninit<WebService> = MaybeUninit::uninit();
         static ONCE: Once = Once::new();
 
@@ -38,12 +36,19 @@ impl SingletonService<WebService> for WebService {
                 SINGLETON.write(singleton);
             });
 
-            SINGLETON.assume_init_ref()
+            Some(SINGLETON.assume_init_ref())
 
         }
 
-
         
+    }
+
+    fn shutdown() -> Result<(), anyhow::Error> {
+        todo!()
+    }
+
+    fn start() -> Result<(), anyhow::Error> {
+        todo!()
     }
 }
 
@@ -57,6 +62,10 @@ impl WebService {
     pub fn start(&self) {
         self.inner.lock().unwrap().start();
     }
+
+    pub fn shutdown(&self) {
+        self.inner.lock().unwrap().shutdown();
+    }
 }
 
 
@@ -68,13 +77,14 @@ struct LastDataResponse {
 
 
 struct WebServiceInner {
+    cancellation_token: tokio_util::sync::CancellationToken
 }
 
 impl WebServiceInner {
     fn new() -> WebServiceInner {
 
         WebServiceInner {
-
+            cancellation_token: tokio_util::sync::CancellationToken::new()
         }
     }
 
@@ -82,15 +92,30 @@ impl WebServiceInner {
         (StatusCode::OK, Json(json!({"message": "Hello, World!"})))
     }
 
-    async fn get_metrics() -> String {
-        StatusService::get_service().prometheus_encode()
+    async fn get_metrics() -> impl IntoResponse {
+        match StatusService::get_service() {
+            Some(service) => (StatusCode::OK, service.prometheus_encode()),
+            None => return (StatusCode::INTERNAL_SERVER_ERROR, "Internal server error".to_string())
+        }
     }
 
-    async fn get_last_data() -> (StatusCode, Json<LastDataResponse>) {
-        let data = StatusService::get_service().get_data();
-        (StatusCode::OK, Json(LastDataResponse { 
-            data: data
-        }))
+    async fn get_last_data() -> impl IntoResponse {
+        match StatusService::get_service() {
+            Some(service) => (StatusCode::OK, Json(Some(LastDataResponse { 
+                data: service.get_data()
+            }))),
+            None => return (StatusCode::INTERNAL_SERVER_ERROR, Json(None))
+        }
+    }
+
+    // async fn get_last_data() -> (StatusCode, Json<LastDataResponse>) {
+    //     (StatusCode::OK, Json(LastDataResponse { 
+    //         data: StatusService::get_service().unwrap().get_data()
+    //     }))
+    // }
+
+    pub fn shutdown(&self) {
+        self.cancellation_token.cancel();
     }
 
     pub fn start(&self) -> () {
@@ -101,6 +126,7 @@ impl WebServiceInner {
             .route("/metrics", get(WebServiceInner::get_metrics))
             .route("/last_data", get(WebServiceInner::get_last_data));
 
+        let cancellation_token = self.cancellation_token.clone();
         thread::spawn(move || {
             log::info!("Thread spawned.");
             let runtime = tokio::runtime::Builder::new_multi_thread()
@@ -113,8 +139,16 @@ impl WebServiceInner {
             runtime.block_on(async {
                 let listener = tokio::net::TcpListener::bind("0.0.0.0:8003").await.unwrap();
                 log::info!("Web service listening on 0.0.0.0:8003");
-                axum::serve(listener, app).await.unwrap();
-                log::error!("Web service exited!");
+
+                tokio::select! {
+                    _ = axum::serve(listener, app).into_future() => {
+                        log::error!("Web service exited!");
+                    },
+                    _ = cancellation_token.cancelled() => {
+                        log::debug!("Web service cancelled!");
+                    }
+                };
+
             });
  
         });

@@ -132,8 +132,8 @@ async fn main() -> Result<()> {
     metadata.set("NODE_ID", &config.acquire.node_id);
 
     // Create services
-    let status_service = StatusService::get_service();
-    let web_service = WebService::get_service();
+    let status_service = StatusService::get_service().expect("Failed to create status service");
+    let web_service = WebService::get_service().expect("Failed to create web service");
     let storage_service = StorageService::new(StorageServiceSettings::new(
         config.storage.endpoint.clone(),
         config.storage.key.clone(), 
@@ -287,7 +287,6 @@ async fn main() -> Result<()> {
                 continue;
             }
         };
-
 
         if data_point.timestamp() == -1 {
             warn!("Missing timestamp, including computer timestamp as a comment");
