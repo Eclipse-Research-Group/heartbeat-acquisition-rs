@@ -1,33 +1,41 @@
-use std::{collections::VecDeque, mem::MaybeUninit, path::{Path, PathBuf}, sync::{Arc, Mutex}};
 use anyhow::Result;
-use minio::s3::creds::StaticProvider;
 use minio::s3::args::UploadObjectArgs;
 use minio::s3::client::Client;
+use minio::s3::creds::StaticProvider;
 use minio::s3::http::BaseUrl;
-use std::thread;
 use std::process::Command;
+use std::thread;
+use std::{
+    collections::VecDeque,
+    mem::MaybeUninit,
+    path::PathBuf,
+    sync::{Arc, Mutex},
+};
 
 use crate::utils::{map_lock_error, SingletonService};
 
-pub enum StorageServiceError {
-
-}
+pub enum StorageServiceError {}
 
 #[derive(Debug, Clone)]
 pub struct StorageServiceSettings {
     endpoint: String,
     key: String,
     secret: String,
-    bucket: String
+    bucket: String,
 }
 
 impl StorageServiceSettings {
-    pub fn new(endpoint: String, key: String, secret: String, bucket: String) -> StorageServiceSettings {
+    pub fn new(
+        endpoint: String,
+        key: String,
+        secret: String,
+        bucket: String,
+    ) -> StorageServiceSettings {
         StorageServiceSettings {
             endpoint,
             key,
             secret,
-            bucket
+            bucket,
         }
     }
 
@@ -49,7 +57,7 @@ impl StorageServiceSettings {
 }
 
 pub struct StorageService {
-    inner: Arc<Mutex<StorageServiceInner>>
+    inner: Arc<Mutex<StorageServiceInner>>,
 }
 
 static mut SINGLETON: MaybeUninit<StorageService> = MaybeUninit::uninit();
@@ -59,37 +67,31 @@ impl SingletonService<StorageService, anyhow::Error> for StorageService {
         if unsafe { SINGLETON.as_ptr().is_null() } {
             None
         } else {
-            unsafe {
-                Some(SINGLETON.assume_init_ref())
-            }
+            unsafe { Some(SINGLETON.assume_init_ref()) }
         }
     }
 
     fn shutdown(&self) -> Result<(), anyhow::Error> {
-        self.inner.lock()
+        self.inner
+            .lock()
             .map_err(map_lock_error)?
             .shutdown_and_wait()
     }
 
     fn run(&self) -> Result<(), anyhow::Error> {
-        self.inner.lock()
-            .map_err(map_lock_error)?
-            .connect()
+        self.inner.lock().map_err(map_lock_error)?.connect()
     }
 
     fn is_alive(&self) -> Result<bool, anyhow::Error> {
-        Ok(self.inner.lock()
-            .map_err(map_lock_error)?
-            .is_alive())
+        Ok(self.inner.lock().map_err(map_lock_error)?.is_alive())
     }
 }
 
 impl StorageService {
-
     pub fn new(credentials: StorageServiceSettings) -> Result<&'static StorageService> {
         unsafe {
             SINGLETON = MaybeUninit::new(StorageService {
-            inner: Arc::new(Mutex::new(StorageServiceInner::new(credentials)?))
+                inner: Arc::new(Mutex::new(StorageServiceInner::new(credentials)?)),
             });
         }
 
@@ -97,27 +99,23 @@ impl StorageService {
     }
 
     pub fn settings(&self) -> Result<StorageServiceSettings> {
-        Ok(self.inner.lock()
-            .map_err(map_lock_error)?
-            .settings.clone())
+        Ok(self.inner.lock().map_err(map_lock_error)?.settings.clone())
     }
 
-
     pub fn queue_upload(&self, args: UploadArgs) -> Result<()> {
-        self.inner.lock()
+        self.inner
+            .lock()
             .map_err(map_lock_error)?
             .queue_upload(args)?;
         Ok(())
     }
 }
 
-
-
 #[derive(Debug, Clone)]
 pub struct UploadArgs {
     pub bucket_name: String,
     pub file_path: String,
-    pub object_path: String
+    pub object_path: String,
 }
 
 impl UploadArgs {
@@ -125,7 +123,7 @@ impl UploadArgs {
         Ok(UploadArgs {
             bucket_name: bucket_name.to_string(),
             file_path: file_path.to_string(),
-            object_path: object_path.to_string()
+            object_path: object_path.to_string(),
         })
     }
 }
@@ -134,7 +132,7 @@ struct StorageServiceInner {
     settings: StorageServiceSettings,
     thread: Option<thread::JoinHandle<()>>,
     cancellation_token: tokio_util::sync::CancellationToken,
-    upload_queue: Arc<Mutex<VecDeque<UploadArgs>>>
+    upload_queue: Arc<Mutex<VecDeque<UploadArgs>>>,
 }
 
 impl StorageServiceInner {
@@ -143,14 +141,12 @@ impl StorageServiceInner {
             settings,
             thread: None,
             cancellation_token: tokio_util::sync::CancellationToken::new(),
-            upload_queue: Arc::new(Mutex::new(VecDeque::new()))
+            upload_queue: Arc::new(Mutex::new(VecDeque::new())),
         })
-    }   
+    }
 
     fn gzip_file(file: PathBuf) -> Result<()> {
-        let output = Command::new("gzip")
-            .arg(file.as_os_str())
-            .output()?;
+        let output = Command::new("gzip").arg(file.as_os_str()).output()?;
 
         if output.status.success() {
             log::debug!("File successfully compressed: {}", file.display());
@@ -159,7 +155,7 @@ impl StorageServiceInner {
             let error_message = String::from_utf8_lossy(&output.stderr);
             log::error!("gzip error: {}", error_message);
         }
-    
+
         Ok(())
     }
 
@@ -167,16 +163,16 @@ impl StorageServiceInner {
         let static_provider = StaticProvider::new(
             self.settings.key.as_str(),
             self.settings.secret.as_str(),
-            None
+            None,
         );
 
         let client = Client::new(
             self.settings.endpoint.parse::<BaseUrl>()?,
-            Some(Box::new(static_provider)), 
+            Some(Box::new(static_provider)),
             None,
-            None
+            None,
         )?;
-    
+
         let token_clone = self.cancellation_token.clone();
         let queue_clone = self.upload_queue.clone();
         let thread = thread::spawn(move || {
@@ -186,7 +182,8 @@ impl StorageServiceInner {
                 .thread_name("storage")
                 .thread_stack_size(3 * 1024 * 1024)
                 .enable_all()
-                .build().unwrap();
+                .build()
+                .unwrap();
 
             runtime.block_on(async {
                 let queue = queue_clone;
@@ -199,19 +196,22 @@ impl StorageServiceInner {
                             log::debug!("Safely exiting storage thread.");
                             break;
                         }
-                    }             
+                    }
 
                     while let Some(upload) = {
                         let mut queue = queue.lock().unwrap();
                         queue.pop_front()
                     } {
-
-                        log::info!("Uploading file {} to {}", upload.file_path, upload.object_path);
+                        log::info!(
+                            "Uploading file {} to {}",
+                            upload.file_path,
+                            upload.object_path
+                        );
 
                         let args = match UploadObjectArgs::new(
                             upload.bucket_name.as_str(),
                             upload.object_path.as_str(),
-                            upload.file_path.as_str()
+                            upload.file_path.as_str(),
                         ) {
                             Ok(args) => args,
                             Err(e) => {
@@ -247,14 +247,9 @@ impl StorageServiceInner {
                                 }
                             },
                         }
-
-                        
-
                     }
-                    
                 }
             });
- 
         });
 
         self.thread = Some(thread);
@@ -263,7 +258,8 @@ impl StorageServiceInner {
     }
 
     fn queue_upload(&mut self, args: UploadArgs) -> Result<()> {
-        self.upload_queue.lock()
+        self.upload_queue
+            .lock()
             .map_err(map_lock_error)?
             .push_back(args);
         Ok(())
@@ -273,7 +269,9 @@ impl StorageServiceInner {
         self.cancellation_token.cancel();
         let thread = self.thread.take();
         if let Some(thread) = thread {
-            thread.join().map_err(|e| anyhow::anyhow!("Error joining thread: {:?}", e))?;
+            thread
+                .join()
+                .map_err(|e| anyhow::anyhow!("Error joining thread: {:?}", e))?;
         } else {
             log::warn!("No active thread found!");
         }

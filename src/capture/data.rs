@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DataPointFlags {
     has_gps_fix: bool,
-    is_clipping: bool
+    is_clipping: bool,
 }
 
 impl Default for DataPointFlags {
@@ -31,11 +31,11 @@ impl DataPointFlags {
     fn new() -> DataPointFlags {
         DataPointFlags {
             has_gps_fix: false,
-            is_clipping: false
+            is_clipping: false,
         }
     }
 
-fn parse(line: &str) -> Result<DataPointFlags, String> {
+    fn parse(line: &str) -> Result<DataPointFlags, String> {
         let mut flags = DataPointFlags::new();
 
         if line.contains('G') {
@@ -61,11 +61,10 @@ pub struct DataPoint {
     speed: f32,
     angle: f32,
     fix: u16,
-    data: Vec<f64>
+    data: Vec<f64>,
 }
 
 impl DataPoint {
-
     pub fn has_gps_fix(&self) -> bool {
         self.flags.has_gps_fix
     }
@@ -114,61 +113,61 @@ impl DataPoint {
         let part = iter.next().ok_or("Missing timestamp")?;
         let timestamp = match part.parse::<i64>() {
             Ok(timestamp) => Some(timestamp),
-            _ => None
+            _ => None,
         };
 
         let part = iter.next().ok_or("Missing flags")?;
         let flags = match DataPointFlags::parse(part) {
             Ok(flags) => flags,
-            _ => return Err("Failed to parse flags".to_string())
+            _ => return Err("Failed to parse flags".to_string()),
         };
 
         let part = iter.next().ok_or("Missing sample rate")?;
         let sample_rate = match part.parse::<f32>() {
             Ok(sample_rate) => sample_rate,
-            _ => return Err("Failed to parse sample rate".to_string())
+            _ => return Err("Failed to parse sample rate".to_string()),
         };
 
         let part = iter.next().ok_or("Missing latitude")?;
         let latitude = match part.parse::<f32>() {
             Ok(latitude) => latitude,
-            _ => return Err("Failed to parse latitude".to_string())
+            _ => return Err("Failed to parse latitude".to_string()),
         };
-        
+
         let part = iter.next().ok_or("Missing longitude")?;
         let longitude = match part.parse::<f32>() {
             Ok(longitude) => longitude,
-            _ => return Err("Failed to parse longitude".to_string())
+            _ => return Err("Failed to parse longitude".to_string()),
         };
 
         let part = iter.next().ok_or("Missing elevation")?;
         let elevation = match part.parse::<f32>() {
             Ok(elevation) => elevation,
-            _ => return Err("Failed to parse elevation".to_string())
+            _ => return Err("Failed to parse elevation".to_string()),
         };
 
         let part = iter.next().ok_or("Missing fix")?;
         let fix = match part.parse::<u16>() {
             Ok(fix) => fix,
-            _ => return Err("Failed to parse fix".to_string())
+            _ => return Err("Failed to parse fix".to_string()),
         };
 
         let part = iter.next().ok_or("Missing speed")?;
         let speed = match part.parse::<f32>() {
             Ok(speed) => speed,
-            _ => return Err("Failed to parse speed".to_string())
+            _ => return Err("Failed to parse speed".to_string()),
         };
-        
+
         let part = iter.next().ok_or("Missing angle")?;
         let angle = match part.parse::<f32>() {
             Ok(angle) => angle,
-            _ => return Err("Failed to parse angle".to_string())
+            _ => return Err("Failed to parse angle".to_string()),
         };
 
         let part = iter.next().ok_or("Missing data count")?;
         let data_count: usize = match part.parse::<u16>() {
             Ok(data_count) => data_count as usize,
-            _ => return Err("Failed to parse data count".to_string())
+            _ => return Err("Failed to parse data count".to_string()),
         };
 
         let mut data = Vec::<f64>::new();
@@ -177,15 +176,16 @@ impl DataPoint {
             let part = iter.next().ok_or("Missing data")?;
             let value = match part.parse::<i64>() {
                 Ok(value) => value,
-                _ => return Err("Failed to parse data".to_string())
+                _ => return Err("Failed to parse data".to_string()),
             };
 
             sum += value as u64;
             // let value = part.parse::<i64>().unwrap();
-            data.push((value - 512) as f64 / 512.0); 
+            data.push((value - 512) as f64 / 512.0);
         }
 
-        let checksum = atoi::atoi::<u64>(iter.next().ok_or("Missing checksum")?.as_bytes()).unwrap();
+        let checksum =
+            atoi::atoi::<u64>(iter.next().ok_or("Missing checksum")?.as_bytes()).unwrap();
 
         if checksum != sum {
             return Err("Checksum failed".to_string());
@@ -201,7 +201,7 @@ impl DataPoint {
             fix: fix,
             speed: speed,
             angle: angle,
-            data: data
+            data: data,
         };
 
         return Ok(data_point);

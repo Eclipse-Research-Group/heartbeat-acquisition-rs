@@ -1,24 +1,28 @@
-use std::{future::IntoFuture, mem::MaybeUninit, sync::{Arc, Mutex, Once}, thread};
-use axum::{
-    http::StatusCode, response::IntoResponse, routing::get, Json, Router
-};
+use axum::{http::StatusCode, response::IntoResponse, routing::get, Json, Router};
 use serde::{Deserialize, Serialize};
-use serde_json::{Value, json};
+use serde_json::{json, Value};
+use std::{
+    future::IntoFuture,
+    mem::MaybeUninit,
+    sync::{Arc, Mutex, Once},
+    thread,
+};
 
-use crate::{capture::DataPoint, utils::{map_lock_error, SingletonService}};
+use crate::{
+    capture::DataPoint,
+    utils::{map_lock_error, SingletonService},
+};
 
 use super::status::StatusService;
 
-
-
 pub struct WebService {
-    inner: Arc<Mutex<WebServiceInner>>
+    inner: Arc<Mutex<WebServiceInner>>,
 }
 
 impl Clone for WebService {
     fn clone(&self) -> WebService {
         WebService {
-            inner: self.inner.clone()
+            inner: self.inner.clone(),
         }
     }
 }
@@ -37,10 +41,7 @@ impl SingletonService<WebService, anyhow::Error> for WebService {
             });
 
             Some(SINGLETON.assume_init_ref())
-
         }
-
-        
     }
 
     fn shutdown(&self) -> Result<(), anyhow::Error> {
@@ -55,27 +56,24 @@ impl SingletonService<WebService, anyhow::Error> for WebService {
 impl WebService {
     pub fn new() -> WebService {
         WebService {
-            inner: Arc::new(Mutex::new(WebServiceInner::new()))
+            inner: Arc::new(Mutex::new(WebServiceInner::new())),
         }
     }
 }
 
 #[derive(Deserialize, Serialize)]
 struct LastDataResponse {
-    data: DataPoint
+    data: DataPoint,
 }
 
-
-
 struct WebServiceInner {
-    cancellation_token: tokio_util::sync::CancellationToken
+    cancellation_token: tokio_util::sync::CancellationToken,
 }
 
 impl WebServiceInner {
     fn new() -> WebServiceInner {
-
         WebServiceInner {
-            cancellation_token: tokio_util::sync::CancellationToken::new()
+            cancellation_token: tokio_util::sync::CancellationToken::new(),
         }
     }
 
@@ -86,21 +84,29 @@ impl WebServiceInner {
     async fn get_metrics() -> impl IntoResponse {
         match StatusService::get_service() {
             Some(service) => (StatusCode::OK, service.prometheus_encode()),
-            None => return (StatusCode::INTERNAL_SERVER_ERROR, "Internal server error".to_string())
+            None => {
+                return (
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    "Internal server error".to_string(),
+                )
+            }
         }
     }
 
     async fn get_last_data() -> impl IntoResponse {
         match StatusService::get_service() {
-            Some(service) => (StatusCode::OK, Json(Some(LastDataResponse { 
-                data: service.get_data()
-            }))),
-            None => return (StatusCode::INTERNAL_SERVER_ERROR, Json(None))
+            Some(service) => (
+                StatusCode::OK,
+                Json(Some(LastDataResponse {
+                    data: service.get_data(),
+                })),
+            ),
+            None => return (StatusCode::INTERNAL_SERVER_ERROR, Json(None)),
         }
     }
 
     // async fn get_last_data() -> (StatusCode, Json<LastDataResponse>) {
-    //     (StatusCode::OK, Json(LastDataResponse { 
+    //     (StatusCode::OK, Json(LastDataResponse {
     //         data: StatusService::get_service().unwrap().get_data()
     //     }))
     // }
@@ -125,7 +131,8 @@ impl WebServiceInner {
                 .thread_name("my-custom-name")
                 .thread_stack_size(3 * 1024 * 1024)
                 .enable_io()
-                .build().unwrap();
+                .build()
+                .unwrap();
 
             runtime.block_on(async {
                 let listener = tokio::net::TcpListener::bind("0.0.0.0:8003").await.unwrap();
@@ -139,10 +146,7 @@ impl WebServiceInner {
                         log::debug!("Web service cancelled!");
                     }
                 };
-
             });
- 
         });
     }
-    
 }
