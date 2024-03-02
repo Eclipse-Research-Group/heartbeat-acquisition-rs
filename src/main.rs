@@ -39,6 +39,11 @@ use crate::service::{StatusService, StorageService, WebService};
 use crate::utils::SingletonService;
 
 #[derive(Deserialize)]
+struct UserFile {
+    node_id: String,
+}
+
+#[derive(Deserialize)]
 struct ConfigFile {
     acquire: ConfigAcquire,
     storage: ConfigStorage,
@@ -46,7 +51,6 @@ struct ConfigFile {
 
 #[derive(Deserialize)]
 struct ConfigAcquire {
-    node_id: String,
     serial_port: String,
     data_dir: String,
     baud_rate: u32,
@@ -87,7 +91,7 @@ fn setup_logger() -> Result<(), fern::InitError> {
     Ok(())
 }
 
-fn load_config() -> ConfigFile {
+fn load_config() -> (ConfigFile, UserFile) {
     let config_contents = match fs::read_to_string("config.toml") {
         Ok(contents) => contents,
         Err(e) => panic!("Unable to open the config file: {:?}", e),
@@ -98,7 +102,17 @@ fn load_config() -> ConfigFile {
         Err(e) => panic!("Unable to parse the config file: {:?}", e),
     };
 
-    return config;
+    let user_contents = match fs::read_to_string("user.toml") {
+        Ok(contents) => contents,
+        Err(e) => panic!("Unable to open the user file: {:?}", e),
+    };
+
+    let user: UserFile = match toml::from_str(&user_contents) {
+        Ok(data) => data,
+        Err(e) => panic!("Unable to parse the user file: {:?}", e),
+    };
+
+    return (config, user);
 }
 
 #[tokio::main]
@@ -108,10 +122,11 @@ async fn main() -> Result<()> {
 
     let app_start = Instant::now();
 
-    let config = load_config();
+    let (config, user) = load_config();
     let data_dir = Path::new(&config.acquire.data_dir);
+    let node_id = &user.node_id;
 
-    info!("Using node id: {}", config.acquire.node_id.bold());
+    info!("Using node id: {}", node_id.bold());
 
     let rotate_interval =
         chrono::TimeDelta::seconds(config.acquire.rotate_interval_seconds.clone() as i64);
@@ -131,7 +146,7 @@ async fn main() -> Result<()> {
     let serial_port = BufReader::new(serial_port);
 
     let mut metadata = CaptureFileMetadata::new(Uuid::new_v4(), 20000.0);
-    metadata.set("NODE_ID", &config.acquire.node_id);
+    metadata.set("NODE_ID", node_id);
 
     // Create services
     let status_service: &StatusService =
@@ -162,10 +177,7 @@ async fn main() -> Result<()> {
             Cow::Borrowed("capture_id"),
             Cow::from(metadata.capture_id().to_string()),
         ),
-        (
-            Cow::Borrowed("node_id"),
-            Cow::from(config.acquire.node_id.clone()),
-        ),
+        (Cow::Borrowed("node_id"), Cow::from(node_id.clone())),
     ];
     let registry = Registry::with_labels(labels.into_iter());
     status_service.set_registry(registry);
@@ -260,8 +272,8 @@ async fn main() -> Result<()> {
                 "Collected {} seconds, rotating files",
                 rotate_interval.num_seconds()
             );
-            let object_path = Path::new(format!("{}/", config.acquire.node_id.clone()).as_str())
-                .join(writer.filename());
+            let object_path =
+                Path::new(format!("{}/", node_id.clone()).as_str()).join(writer.filename());
 
             storage_service
                 .queue_upload(
