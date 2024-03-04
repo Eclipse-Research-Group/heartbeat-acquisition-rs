@@ -1,8 +1,8 @@
 pub trait SingletonService<T, E> {
-    fn shutdown(&self) -> Result<(), E>;
-    fn run(&self) -> Result<(), E>;
-    fn is_alive(&self) -> Result<bool, E> {
-        Ok(true)
+    fn shutdown(&self) -> impl std::future::Future<Output = Result<(), E>> + Send;
+    fn run(&self) -> impl std::future::Future<Output = Result<(), E>> + Send;
+    fn is_alive(&self) -> impl std::future::Future<Output = Result<bool, E>> + Send {
+        async { Ok(true) }
     }
     fn get_service() -> Option<&'static T>;
 }

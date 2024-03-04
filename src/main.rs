@@ -33,8 +33,10 @@ use std::time::SystemTime;
 use uuid::Uuid;
 
 use crate::capture::{CaptureFileMetadata, CaptureFileWriter, DataPoint};
+use crate::service::acquisition::AcquisitionServiceSettings;
 use crate::service::storage;
 use crate::service::storage::StorageServiceSettings;
+use crate::service::AcquisitionService;
 use crate::service::{StatusService, StorageService, WebService};
 use crate::utils::SingletonService;
 
@@ -147,9 +149,15 @@ async fn main() -> Result<()> {
     ))
     .unwrap();
 
+    let acquisition_service = AcquisitionService::new(AcquisitionServiceSettings {
+        port: config.acquire.serial_port.clone(),
+        baud_rate: config.acquire.baud_rate,
+    })
+    .unwrap();
+
     status_service.set_led_color(service::status::led::LedColor::White);
 
-    match storage_service.run() {
+    match storage_service.run().await {
         Ok(_) => {
             info!("Storage service started");
         }
@@ -190,15 +198,29 @@ async fn main() -> Result<()> {
 
     let shutdown = Arc::new(AtomicBool::new(false));
 
-    let mut signals = Signals::new(&[SIGINT, SIGTERM])?;
     let shutdown_clone = shutdown.clone();
-    thread::spawn(move || {
+    tokio::spawn(async {
         let shutdown = shutdown_clone;
+        let mut signals = Signals::new(&[SIGINT, SIGTERM]).unwrap();
         for sig in signals.forever() {
             match sig {
                 SIGINT | SIGTERM => {
                     log::info!("Shutting down...");
-                    match storage_service.shutdown() {
+                    shutdown.store(true, Ordering::Relaxed);
+
+                    match acquisition_service.shutdown().await {
+                        Ok(_) => {
+                            log::info!("Acquisition service shutdown gracefully");
+                        }
+                        Err(e) => {
+                            log::error!(
+                                "Failed to shutdown acquisition service gracefully: {:?}",
+                                e
+                            );
+                        }
+                    }
+
+                    match storage_service.shutdown().await {
                         Ok(_) => {
                             log::info!("Storage service shutdown gracefully");
                         }
@@ -207,7 +229,7 @@ async fn main() -> Result<()> {
                         }
                     }
 
-                    match web_service.shutdown() {
+                    match web_service.shutdown().await {
                         Ok(_) => {
                             log::info!("Web service shutdown gracefully");
                         }
@@ -216,7 +238,6 @@ async fn main() -> Result<()> {
                         }
                     }
 
-                    shutdown.store(true, Ordering::Relaxed);
                     status_service.set_led_color(service::status::led::LedColor::Off);
 
                     log::info!("Exiting...");
@@ -228,7 +249,7 @@ async fn main() -> Result<()> {
     });
 
     // Start web server
-    match web_service.run() {
+    match web_service.run().await {
         Ok(_) => {
             info!("Web service started");
         }
@@ -242,173 +263,179 @@ async fn main() -> Result<()> {
 
     let mut last_rotate = DateTime::from_timestamp(0, 0).unwrap();
 
-    info!("Opening serial port: {}", config.acquire.serial_port.bold());
-    let serial_port = match serialport::new(config.acquire.serial_port, config.acquire.baud_rate)
-        .timeout(std::time::Duration::from_millis(10000))
-        .open()
-    {
-        Ok(port) => port,
-        Err(e) => {
-            panic!("Unable to open serial port: {:?}", e);
-        }
-    };
+    acquisition_service.run().await?;
 
-    let serial_port = BufReader::new(serial_port);
+    // info!("Opening serial port: {}", config.acquire.serial_port.bold());
+    // let serial_port = match serialport::new(config.acquire.serial_port, config.acquire.baud_rate)
+    //     .timeout(std::time::Duration::from_millis(10000))
+    //     .open()
+    // {
+    //     Ok(port) => port,
+    //     Err(e) => {
+    //         panic!("Unable to open serial port: {:?}", e);
+    //     }
+    // };
 
-    let serial_port = Arc::new(Mutex::new(serial_port));
+    // let serial_port = BufReader::new(serial_port);
 
-    while !shutdown.load(Ordering::Relaxed) {
-        // First check if we need to rotate files
-        let tick_start = Utc::now();
-        if tick_start.duration_round(rotate_interval.clone()).unwrap()
-            == tick_start
-                .duration_round(chrono::TimeDelta::seconds(1))
-                .unwrap()
-            && (tick_start - last_rotate).num_seconds() > rotate_interval.num_seconds()
-        {
-            last_rotate = tick_start;
-            status_service.set_led_color(service::status::led::LedColor::Cyan);
-            info!(
-                "Collected {} seconds, rotating files",
-                rotate_interval.num_seconds()
-            );
-            let object_path =
-                Path::new(format!("{}/", node_id.clone()).as_str()).join(writer.filename());
+    // let serial_port = Arc::new(Mutex::new(serial_port));
 
-            storage_service
-                .queue_upload(
-                    storage::UploadArgs::new(
-                        config.storage.bucket.clone(),
-                        writer.file_path(),
-                        object_path.into_os_string().into_string().unwrap(),
-                    )
-                    .unwrap(),
-                )
-                .unwrap();
-            drop(writer);
+    // while !shutdown.load(Ordering::Relaxed) {
+    //     // First check if we need to rotate files
+    //     let tick_start = Utc::now();
+    //     if tick_start.duration_round(rotate_interval.clone()).unwrap()
+    //         == tick_start
+    //             .duration_round(chrono::TimeDelta::seconds(1))
+    //             .unwrap()
+    //         && (tick_start - last_rotate).num_seconds() > rotate_interval.num_seconds()
+    //     {
+    //         last_rotate = tick_start;
+    //         status_service.set_led_color(service::status::led::LedColor::Cyan);
+    //         info!(
+    //             "Collected {} seconds, rotating files",
+    //             rotate_interval.num_seconds()
+    //         );
+    //         let object_path =
+    //             Path::new(format!("{}/", node_id.clone()).as_str()).join(writer.filename());
 
-            writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
-            writer.init();
-        }
+    //         storage_service
+    //             .queue_upload(
+    //                 storage::UploadArgs::new(
+    //                     config.storage.bucket.clone(),
+    //                     writer.file_path(),
+    //                     object_path.into_os_string().into_string().unwrap(),
+    //                 )
+    //                 .unwrap(),
+    //             )
+    //             .await
+    //             .unwrap();
+    //         drop(writer);
 
-        let serial_port = serial_port.clone();
-        let serial_future = tokio::task::spawn_blocking(move || {
-            let mut serial_port = serial_port.lock().unwrap();
-            let mut line = String::new();
+    //         writer = CaptureFileWriter::new(data_dir, &mut metadata)?;
+    //         writer.init();
+    //     }
 
-            match serial_port.read_line(&mut line) {
-                Ok(count) => {
-                    log::debug!("Read {} bytes", count);
-                }
-                Err(e) => {
-                    if e.kind() == BrokenPipe {
-                        return Err(anyhow::anyhow!("Unable to connect to data collection port"));
-                    } else {
-                        return Err(anyhow::anyhow!("Internal error"));
-                    }
-                }
-            }
+    //     let serial_port = serial_port.clone();
+    //     let serial_future = tokio::task::spawn_blocking(move || {
+    //         let mut serial_port = serial_port.lock().unwrap();
+    //         let mut line = String::new();
 
-            return Ok(line);
-        });
+    //         match serial_port.read_line(&mut line) {
+    //             Ok(count) => {
+    //                 log::debug!("Read {} bytes", count);
+    //             }
+    //             Err(e) => {
+    //                 if e.kind() == BrokenPipe {
+    //                     return Err(anyhow::anyhow!("Unable to connect to data collection port"));
+    //                 } else {
+    //                     return Err(anyhow::anyhow!("Internal error"));
+    //                 }
+    //             }
+    //         }
 
-        let line = match tokio::time::timeout(std::time::Duration::from_millis(2000), serial_future)
-            .await
-        {
-            Ok(result) => {
-                // Didn't timeout
-                match result {
-                    Ok(result) => {
-                        // Was able to join thread
-                        match result {
-                            Ok(line) => line,
-                            Err(_) => {
-                                // Wasn't able to get line
-                                status_service.set_led_color(service::status::led::LedColor::Red);
-                                log::error!("Internal error");
-                                continue;
-                            }
-                        }
-                    }
-                    Err(_) => {
-                        status_service.set_led_color(service::status::led::LedColor::Red);
-                        log::error!("Internal error");
-                        continue;
-                    }
-                }
-            }
-            Err(_) => {
-                status_service.set_led_color(service::status::led::LedColor::Red);
-                log::error!("Timeout reading from serial port");
-                continue;
-            }
-        };
+    //         Ok(line)
+    //     });
 
-        if line.starts_with("#") {
-            // Comment line
-            writer.comment(&line);
-            log::debug!("Comment: {}", line);
-            continue;
-        }
+    //     let line = match tokio::time::timeout(std::time::Duration::from_millis(2000), serial_future)
+    //         .await
+    //     {
+    //         Ok(result) => {
+    //             // Didn't timeout
+    //             match result {
+    //                 Ok(result) => {
+    //                     // Was able to join thread
+    //                     match result {
+    //                         Ok(line) => line,
+    //                         Err(_) => {
+    //                             // Wasn't able to get line
+    //                             status_service.set_led_color(service::status::led::LedColor::Red);
+    //                             log::error!("Internal error");
+    //                             continue;
+    //                         }
+    //                     }
+    //                 }
+    //                 Err(_) => {
+    //                     status_service.set_led_color(service::status::led::LedColor::Red);
+    //                     log::error!("Internal error");
+    //                     continue;
+    //                 }
+    //             }
+    //         }
+    //         Err(_) => {
+    //             status_service.set_led_color(service::status::led::LedColor::Red);
+    //             log::error!("Timeout reading from serial port");
+    //             continue;
+    //         }
+    //     };
 
-        if !line.starts_with("$") {
-            continue;
-        }
+    //     if line.starts_with("#") {
+    //         // Comment line
+    //         writer.comment(&line);
+    //         log::debug!("Comment: {}", line);
+    //         continue;
+    //     }
 
-        // Parse for data analysis
-        let data_point = match DataPoint::parse(&line) {
-            Ok(data_point) => data_point,
-            Err(e) => {
-                status_service.set_led_color(service::status::led::LedColor::Red);
-                error!("Failed to parse data point: {:?}", e);
+    //     if !line.starts_with("$") {
+    //         continue;
+    //     }
 
-                // Write line as it is, recover it later
-                writer.write_line(&line);
-                // TODO maybe manually add a newline
+    //     // Parse for data analysis
+    //     let data_point = match DataPoint::parse(&line) {
+    //         Ok(data_point) => data_point,
+    //         Err(e) => {
+    //             status_service.set_led_color(service::status::led::LedColor::Red);
+    //             error!("Failed to parse data point: {:?}", e);
 
-                writer.comment("! Failed to parse data point");
+    //             // Write line as it is, recover it later
+    //             writer.write_line(&line);
+    //             // TODO maybe manually add a newline
 
-                continue;
-            }
-        };
+    //             writer.comment("! Failed to parse data point");
 
-        if data_point.timestamp().is_none() {
-            warn!("Missing timestamp, including computer timestamp as a comment");
-            writer.comment(
-                format!("ERR Missing timestamp, including computer timestamp on next line")
-                    .as_str(),
-            );
-            writer.comment(format!("{}", tick_start.timestamp_millis() as f64 / 1000.0).as_str());
-        }
+    //             continue;
+    //         }
+    //     };
 
-        let line = line.chars().skip(1).collect::<String>();
-        writer.write_line(&line);
+    //     if data_point.timestamp().is_none() {
+    //         warn!("Missing timestamp, including computer timestamp as a comment");
+    //         writer.comment(
+    //             format!("ERR Missing timestamp, including computer timestamp on next line")
+    //                 .as_str(),
+    //         );
+    //         writer.comment(format!("{}", tick_start.timestamp_millis() as f64 / 1000.0).as_str());
+    //     }
 
-        status_service.push_data(&data_point).unwrap();
+    //     let line = line.chars().skip(1).collect::<String>();
+    //     writer.write_line(&line);
 
-        // Warn user about missing GPS fix
-        if !data_point.has_gps_fix() {
-            warn!("No GPS fix, data may be misaligned for this second");
-            status_service.set_led_color(service::status::led::LedColor::Magenta);
-        } else {
-            // Get start time
-            status_service.set_led_color(service::status::led::LedColor::Green);
-        }
+    //     status_service.push_data(&data_point).unwrap();
 
-        // GPS stuff
-        gauge_gps_sats.set(data_point.satellite_count() as i64);
-        family
-            .get_or_create(&vec![
-                ("latitude".to_string(), data_point.latitude().to_string()),
-                ("longitude".to_string(), data_point.longitude().to_string()),
-            ])
-            .set(data_point.satellites() as i64);
+    //     // Warn user about missing GPS fix
+    //     if !data_point.has_gps_fix() {
+    //         warn!("No GPS fix, data may be misaligned for this second");
+    //         status_service.set_led_color(service::status::led::LedColor::Magenta);
+    //     } else {
+    //         // Get start time
+    //         status_service.set_led_color(service::status::led::LedColor::Green);
+    //     }
 
-        // Update tick time
-        let tick_end = Utc::now();
-        let duration = tick_end.signed_duration_since(tick_start);
-        hist_process_time.observe(duration.num_nanoseconds().unwrap() as f64 / 1_000_000_000.0);
-    }
+    //     // GPS stuff
+    //     gauge_gps_sats.set(data_point.satellite_count() as i64);
+    //     family
+    //         .get_or_create(&vec![
+    //             ("latitude".to_string(), data_point.latitude().to_string()),
+    //             ("longitude".to_string(), data_point.longitude().to_string()),
+    //         ])
+    //         .set(data_point.satellites() as i64);
+
+    //     // Update tick time
+    //     let tick_end = Utc::now();
+    //     let duration = tick_end.signed_duration_since(tick_start);
+    //     hist_process_time.observe(duration.num_nanoseconds().unwrap() as f64 / 1_000_000_000.0);
+    // }
+    //
+
+    loop {}
 
     info!(
         "Exiting, ran for {}",

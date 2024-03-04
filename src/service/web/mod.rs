@@ -1,10 +1,11 @@
 use axum::{http::StatusCode, response::IntoResponse, routing::get, Json, Router};
+use futures::lock::Mutex;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::{
     future::IntoFuture,
     mem::MaybeUninit,
-    sync::{Arc, Mutex, Once},
+    sync::{Arc, Once},
     thread,
 };
 
@@ -44,12 +45,12 @@ impl SingletonService<WebService, anyhow::Error> for WebService {
         }
     }
 
-    fn shutdown(&self) -> Result<(), anyhow::Error> {
-        Ok(self.inner.lock().map_err(map_lock_error)?.shutdown())
+    async fn shutdown(&self) -> Result<(), anyhow::Error> {
+        Ok(self.inner.lock().await.shutdown().await)
     }
 
-    fn run(&self) -> Result<(), anyhow::Error> {
-        Ok(self.inner.lock().map_err(map_lock_error)?.start())
+    async fn run(&self) -> Result<(), anyhow::Error> {
+        Ok(self.inner.lock().await.start().await)
     }
 }
 
@@ -111,11 +112,11 @@ impl WebServiceInner {
     //     }))
     // }
 
-    pub fn shutdown(&self) {
+    pub async fn shutdown(&self) {
         self.cancellation_token.cancel();
     }
 
-    pub fn start(&self) -> () {
+    pub async fn start(&self) -> () {
         log::debug!("Starting web service...");
 
         let app: Router<()> = Router::new()

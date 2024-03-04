@@ -21,3 +21,5 @@ config.toml
 
 # Log files
 *.log
+
+.data/

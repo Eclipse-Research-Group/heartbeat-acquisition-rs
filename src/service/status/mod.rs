@@ -1,23 +1,28 @@
 pub mod led;
 
-use std::{mem::MaybeUninit, sync::{Arc, Mutex, Once}};
-use prometheus_client::{encoding::text::encode, registry::{Metric, Registry}};
-use led::LedColor;
 use crate::{capture::DataPoint, utils::SingletonService};
+use led::LedColor;
+use prometheus_client::{
+    encoding::text::encode,
+    registry::{Metric, Registry},
+};
+use std::{
+    mem::MaybeUninit,
+    sync::{Arc, Mutex, Once},
+};
 
 pub enum StatusServiceError {
-    NoService
+    NoService,
 }
 
 pub struct StatusService {
-    inner: Arc<Mutex<StatusServiceInner>>
+    inner: Arc<Mutex<StatusServiceInner>>,
 }
-
 
 impl StatusService {
     fn new() -> StatusService {
         StatusService {
-            inner: Arc::new(Mutex::new(StatusServiceInner::new()))
+            inner: Arc::new(Mutex::new(StatusServiceInner::new())),
         }
     }
 
@@ -26,12 +31,16 @@ impl StatusService {
     }
 
     pub fn register_metric(&self, name: &str, description: &str, metric: impl Metric) {
-        self.inner.lock().unwrap().registry.register(name, description, metric);
+        self.inner
+            .lock()
+            .unwrap()
+            .registry
+            .register(name, description, metric);
     }
 
     pub fn prometheus_encode(&self) -> String {
         let mut encoded = String::new();
-        encode(&mut encoded, &self.inner.lock().unwrap().registry, ).unwrap();
+        encode(&mut encoded, &self.inner.lock().unwrap().registry).unwrap();
         encoded
     }
 
@@ -47,7 +56,6 @@ impl StatusService {
     pub fn set_led_color(&self, color: LedColor) {
         self.inner.lock().unwrap().set_led_color(color);
     }
-
 }
 
 impl SingletonService<StatusService, anyhow::Error> for StatusService {
@@ -69,11 +77,11 @@ impl SingletonService<StatusService, anyhow::Error> for StatusService {
         }
     }
 
-    fn shutdown(&self) -> Result<(), anyhow::Error> {
+    async fn shutdown(&self) -> Result<(), anyhow::Error> {
         todo!()
     }
 
-    fn run(&self) -> Result<(), anyhow::Error> {
+    async fn run(&self) -> Result<(), anyhow::Error> {
         todo!()
     }
 }
@@ -81,7 +89,7 @@ impl SingletonService<StatusService, anyhow::Error> for StatusService {
 impl Clone for StatusService {
     fn clone(&self) -> Self {
         StatusService {
-            inner: self.inner.clone()
+            inner: self.inner.clone(),
         }
     }
 }
@@ -89,24 +97,23 @@ impl Clone for StatusService {
 struct StatusServiceInner {
     registry: Registry,
     led: led::LED,
-    last_data: DataPoint
+    last_data: DataPoint,
 }
 
 impl StatusServiceInner {
     fn new() -> StatusServiceInner {
         let mut led = led::LED::new(19, 20, 21).unwrap();
-        led.set_color(LedColor::Off).expect("Could not set LED color");
+        led.set_color(LedColor::Off)
+            .expect("Could not set LED color");
 
         StatusServiceInner {
             registry: Registry::default(),
             led: led,
-            last_data: DataPoint::default()
+            last_data: DataPoint::default(),
         }
     }
 
     fn set_led_color(&mut self, color: LedColor) -> () {
         self.led.set_color(color).unwrap();
     }
-
-
 }
