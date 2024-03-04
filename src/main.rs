@@ -132,19 +132,6 @@ async fn main() -> Result<()> {
         chrono::TimeDelta::seconds(config.acquire.rotate_interval_seconds.clone() as i64);
     info!("Rotating every {} seconds", rotate_interval.num_seconds());
 
-    info!("Opening serial port: {}", config.acquire.serial_port.bold());
-    let serial_port = match serialport::new(config.acquire.serial_port, config.acquire.baud_rate)
-        .timeout(std::time::Duration::from_millis(10000))
-        .open()
-    {
-        Ok(port) => port,
-        Err(e) => {
-            panic!("Unable to open serial port: {:?}", e);
-        }
-    };
-
-    let serial_port = BufReader::new(serial_port);
-
     let mut metadata = CaptureFileMetadata::new(Uuid::new_v4(), 20000.0);
     metadata.set("NODE_ID", node_id);
 
@@ -254,6 +241,19 @@ async fn main() -> Result<()> {
     writer.init();
 
     let mut last_rotate = DateTime::from_timestamp(0, 0).unwrap();
+
+    info!("Opening serial port: {}", config.acquire.serial_port.bold());
+    let serial_port = match serialport::new(config.acquire.serial_port, config.acquire.baud_rate)
+        .timeout(std::time::Duration::from_millis(10000))
+        .open()
+    {
+        Ok(port) => port,
+        Err(e) => {
+            panic!("Unable to open serial port: {:?}", e);
+        }
+    };
+
+    let serial_port = BufReader::new(serial_port);
 
     let serial_port = Arc::new(Mutex::new(serial_port));
 

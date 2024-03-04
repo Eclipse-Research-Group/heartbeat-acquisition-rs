@@ -121,7 +121,8 @@ impl WebServiceInner {
         let app: Router<()> = Router::new()
             .route("/", get(WebServiceInner::get_root))
             .route("/metrics", get(WebServiceInner::get_metrics))
-            .route("/last_data", get(WebServiceInner::get_last_data));
+            .route("/last_data", get(WebServiceInner::get_last_data))
+            .layer(tower_http::cors::CorsLayer::permissive());
 
         let cancellation_token = self.cancellation_token.clone();
         thread::spawn(move || {
