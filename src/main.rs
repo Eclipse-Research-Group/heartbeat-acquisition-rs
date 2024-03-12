@@ -24,6 +24,7 @@ use std::io::BufReader;
 use std::io::ErrorKind::BrokenPipe;
 use std::path::Path;
 use std::sync::atomic::AtomicBool;
+use std::sync::atomic::AtomicU64;
 use std::sync::atomic::Ordering;
 use std::sync::Arc;
 use std::sync::Mutex;
@@ -174,6 +175,8 @@ async fn main() -> Result<()> {
     ];
     let family = Family::<Vec<(String, String)>, Gauge>::default();
     let gauge_gps_sats: Gauge = Gauge::default();
+    let gauge_latitude = Gauge::<f64, AtomicU64>::default();
+    let gauge_longitude = Gauge::<f64, AtomicU64>::default();
     let hist_process_time = Histogram::new(buckets.into_iter());
 
     status_service.register_metric(
@@ -397,12 +400,14 @@ async fn main() -> Result<()> {
 
         // GPS stuff
         gauge_gps_sats.set(data_point.satellite_count() as i64);
-        family
-            .get_or_create(&vec![
-                ("latitude".to_string(), data_point.latitude().to_string()),
-                ("longitude".to_string(), data_point.longitude().to_string()),
-            ])
-            .set(data_point.satellites() as i64);
+        gauge_latitude.set(data_point.latitude() as f64);
+        gauge_longitude.set(data_point.longitude() as f64);
+        // family
+        //     .get_or_create(&vec![
+        //         ("latitude".to_string(), data_point.latitude().to_string()),
+        //         ("longitude".to_string(), data_point.longitude().to_string()),
+        //     ])
+        //     .set(data_point.satellites() as i64);
 
         // Update tick time
         let tick_end = Utc::now();
