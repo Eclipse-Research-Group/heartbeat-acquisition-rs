@@ -190,6 +190,8 @@ async fn main() -> Result<()> {
         hist_process_time.clone(),
     );
     status_service.register_metric("value", "Value", family.clone());
+    status_service.register_metric("latitude", "Latitude", gauge_latitude.clone());
+    status_service.register_metric("longitude", "Longitude", gauge_longitude.clone());
 
     let shutdown = Arc::new(AtomicBool::new(false));
 
