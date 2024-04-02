@@ -30,7 +30,7 @@ use std::sync::Arc;
 use std::sync::Mutex;
 use std::thread;
 use std::time::Instant;
-use std::time::SystemTime;
+use std::time::{SystemTime, UNIX_EPOCH};
 use uuid::Uuid;
 
 use crate::capture::{CaptureFileMetadata, CaptureFileWriter, DataPoint};
@@ -387,6 +387,7 @@ async fn main() -> Result<()> {
         }
 
         let line = line.chars().skip(1).collect::<String>();
+
         writer.write_line(&line);
 
         status_service.push_data(&data_point).unwrap();
