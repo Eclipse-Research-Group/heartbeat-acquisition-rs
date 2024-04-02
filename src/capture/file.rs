@@ -123,7 +123,7 @@ impl CaptureFileWriter {
             .duration_since(UNIX_EPOCH)
             .expect("Time went backwards");
 
-        let mut complete_line = since_the_epoch.as_secs().to_string();
+        let mut complete_line = since_the_epoch.as_secs_f64().to_string();
         complete_line.push_str(",");
         complete_line.push_str(line);
 
