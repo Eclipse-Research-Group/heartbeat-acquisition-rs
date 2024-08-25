@@ -25,7 +25,7 @@ impl SecTickModule {
     }
 
     pub fn open(&mut self) -> anyhow::Result<()> {
-        println!("Opening serial port: {} at baud rate: {}", self.serial_port, self.baud_rate);
+        log::info!("Opening serial port: {} at baud rate: {}", self.serial_port, self.baud_rate);
 
         // Open serial port
         let port = serialport::new(self.serial_port.clone(), self.baud_rate)
@@ -40,7 +40,7 @@ impl SecTickModule {
     }
 
     pub fn close(&mut self) -> anyhow::Result<()> {
-        println!("Closing serial port: {}", self.serial_port);
+        log::info!("Closing serial port: {}", self.serial_port);
 
         if let Some(port) = self.port.take() {
             todo!("Send port termination signal");
