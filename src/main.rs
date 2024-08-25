@@ -6,6 +6,7 @@ use serde::Deserialize;
 use serial::{Frame, SecTickModule};
 
 mod serial;
+mod writer;
 
 fn setup_logger() -> Result<(), fern::InitError> {
     fern::Dispatch::new()

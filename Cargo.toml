@@ -31,6 +31,8 @@ signal-hook = "0.3.17"
 anyhow = "1.0.79"
 url = "2.5.0"
 tower-http = { version = "0.5.2", features = ["cors"] }
+hdf5 = "0.8.1"
+hdf5-sys = { version = "0.8.1", features = ["static"] }
 
 [target.'cfg(target_os = "linux")'.dependencies]
 rppal = "0.17.1"

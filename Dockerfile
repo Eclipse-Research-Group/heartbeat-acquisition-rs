@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
     gcc-arm-linux-gnueabihf \
     libc6-dev-armhf-cross \
     libudev-dev:armhf \
-    libssl-dev:armhf
+    libssl-dev:armhf \
+    cmake
 
 ENV CROSS_TOOLCHAIN_PREFIX=arm-linux-gnueabihf-
 ENV CROSS_SYSROOT=/usr/arm-linux-gnueabihf
