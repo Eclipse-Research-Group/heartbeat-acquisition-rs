@@ -3,7 +3,7 @@ use std::{fs, time::{Duration, SystemTime}};
 use colored::*;
 use log::Level;
 use serde::Deserialize;
-use serial::SecTickModule;
+use serial::{Frame, SecTickModule};
 
 mod serial;
 
@@ -27,7 +27,7 @@ fn setup_logger() -> Result<(), fern::InitError> {
                 message
             ))
         })
-        .level(log::LevelFilter::Info)
+        .level(log::LevelFilter::Debug)
         .chain(std::io::stdout())
         .apply()?;
     Ok(())
@@ -68,9 +68,25 @@ async fn main() -> anyhow::Result<()> {
 
     loop {
         let line = serial.read_line().await.unwrap();
-        log::trace!("Received: {}", line);
-    }
+        log::trace!("Received line: {}", line);
 
+        if line.starts_with("#") {
+            log::info!("Received comment: {}", line);
+            continue;
+        }
+
+        let frame = match Frame::parse(&line) {
+            Ok(frame) => frame,
+            Err(e) => {
+                log::error!("Failed to parse frame: {:?}\n{}", e, &line[..line.len().min(60)]);
+                continue;
+            }
+        };
+        log::info!("Received frame at timestamp: {:?}", frame.timestamp());
+        log::debug!("Satellites: {}", frame.satellite_count());
+    
+    }
+    
     serial.close().unwrap();
 
     Ok(())
