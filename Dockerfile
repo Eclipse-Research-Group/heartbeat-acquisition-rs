@@ -9,6 +9,7 @@ RUN dpkg --add-architecture armhf
 
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
     gcc-arm-linux-gnueabihf \
+    g++-arm-linux-gnueabihf \
     libc6-dev-armhf-cross \
     libudev-dev:armhf \
     libssl-dev:armhf \
