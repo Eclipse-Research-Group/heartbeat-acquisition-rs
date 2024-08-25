@@ -38,7 +38,8 @@ async fn main() {
     serial.open().unwrap();
 
     loop {
-
+        let line = serial.read_line().await.unwrap();
+        println!("Received: {}", line);
     }
 
     serial.close().unwrap();

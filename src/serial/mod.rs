@@ -1,6 +1,9 @@
 pub mod data;
 
+use anyhow::Context;
 pub use data::Frame;
+use tokio::task::JoinHandle;
+use std::io::BufRead;
 
 use std::time::Duration;
 
@@ -12,7 +15,7 @@ pub struct SecTickModule {
     serial_port: String,
     baud_rate: u32,
     timeout: Duration,
-    port: Option<Box<dyn serialport::SerialPort>>
+    port: Option<std::sync::Arc<std::sync::Mutex<std::io::BufReader<Box<dyn serialport::SerialPort>>>>>
 }
 
 impl SecTickModule {
@@ -29,6 +32,8 @@ impl SecTickModule {
             .timeout(self.timeout)
             .open()?;
 
+        let port = std::sync::Arc::new(std::sync::Mutex::new(std::io::BufReader::new(port)));
+
         self.port = Some(port);
 
         Ok(())
@@ -38,18 +43,24 @@ impl SecTickModule {
         println!("Closing serial port: {}", self.serial_port);
 
         if let Some(port) = self.port.take() {
-            drop(port);
+            todo!("Send port termination signal");
         }
 
         Ok(())
     }
 
-    async fn read_line(&mut self) -> anyhow::Result<String> {
-        // let serial_read_future = tokio::task::spawn_blocking(move || {
+    pub async fn read_line(&mut self) -> anyhow::Result<String> {
+        let port = self.port.as_ref().context("No port open")?.clone();
+        let serial_read_future: JoinHandle<anyhow::Result<String>> = tokio::task::spawn_blocking(move || {
+            let mut line = String::new();
+            let mut port = port.lock().map_err(|_| anyhow::anyhow!("Error locking mutex"))?;
 
-        // });
+            port.read_line(&mut line)?;
 
-        Ok("".to_string())
+            Ok(line)
+        });
+
+        return serial_read_future.await?;
     }
 
     pub async fn next_data(&mut self) -> anyhow::Result<SecTickData> {
