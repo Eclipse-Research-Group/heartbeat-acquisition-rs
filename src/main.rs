@@ -131,8 +131,6 @@ async fn main() -> anyhow::Result<()> {
         tx.send(services::ServiceMessage::NewFrame(frame))?;
     }
 
-    local.stop();
-
     log::info!("All done!");
 
     Ok(())
