@@ -79,7 +79,6 @@ impl LocalService {
     }
 
     pub fn stop(&mut self) {
-        self.token.cancel();
         if let Some(handle) = self.msg_handle.take() {
             tokio::task::block_in_place(|| {
                 handle.abort();

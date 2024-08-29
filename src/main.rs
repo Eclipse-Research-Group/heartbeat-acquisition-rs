@@ -67,16 +67,15 @@ async fn main() -> anyhow::Result<()> {
     log::info!("Starting Heartbeat node with node_id=\"{}\"", config.node_id);
     log::debug!("Serial port: {}", config.serial_port);
 
-    let mut serial = SecTickModule::new(config.serial_port, 9600, Duration::from_secs(5));
+    let mut serial = SecTickModule::new(config.serial_port, 1_000_000, Duration::from_secs(5));
 
     serial.open().unwrap();
 
     let (tx, _) = tokio::sync::broadcast::channel(16);
 
-    // Start local server
-    let mut local = LocalService::new(LocalServiceConfig {
-        port: 8080
-    }, tx.clone());
+    // let mut local = LocalService::new(LocalServiceConfig {
+    //     port: 8080
+    // }, tx.clone());
 
     let rx = tx.subscribe();
 
@@ -102,7 +101,7 @@ async fn main() -> anyhow::Result<()> {
         }
     });
 
-    local.start().await?;
+    // local.start().await?;
 
     while !token.is_cancelled() {
         let line = match serial.read_line().await {
