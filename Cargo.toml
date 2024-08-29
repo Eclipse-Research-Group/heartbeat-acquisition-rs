@@ -29,7 +29,7 @@ signal-hook = "0.3.17"
 anyhow = "1.0.79"
 url = "2.5.0"
 hdf5 = { version = "0.8.1" }
-hdf5-sys = { version = "0.8.1", features = ["static"] }
+hdf5-sys = { version = "0.8.1", features = ["static", "zlib"] }
 ndarray = "0.16.1"
 
 [target.'cfg(target_os = "linux")'.dependencies]
