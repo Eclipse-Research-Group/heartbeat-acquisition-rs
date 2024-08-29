@@ -45,7 +45,9 @@ impl SecTickModule {
             let mut line = String::new();
             let mut port = port.lock().map_err(|_| anyhow::anyhow!("Error locking mutex"))?;
 
+            log::debug!("Reading line from serial port");
             port.read_line(&mut line)?;
+            log::debug!("Read line: {}", line);
 
             Ok(line)
         });
