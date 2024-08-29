@@ -73,9 +73,9 @@ async fn main() -> anyhow::Result<()> {
 
     let (tx, _) = tokio::sync::broadcast::channel(16);
 
-    // let mut local = LocalService::new(LocalServiceConfig {
-    //     port: 8080
-    // }, tx.clone());
+    let mut local = LocalService::new(LocalServiceConfig {
+        port: 8080
+    }, tx.clone());
 
     let rx = tx.subscribe();
 
@@ -83,15 +83,14 @@ async fn main() -> anyhow::Result<()> {
 
     let token = tokio_util::sync::CancellationToken::new();
 
-    let shutdown = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
+    let (shutdown_tx, mut shutdown_rx) = tokio::sync::broadcast::channel::<()>(4);
 
-    let shutdown_token = token.clone();
     let tx_arc = tx.clone();
     tokio::spawn(async move {
         match signal::ctrl_c().await {
             Ok(()) => {
                 log::info!("Shutting down, waiting for services...");
-                shutdown_token.cancel();
+                shutdown_tx.send(()).unwrap();
                 tx_arc.send(services::ServiceMessage::Shutdown).unwrap();
             },
             Err(err) => {
@@ -101,35 +100,46 @@ async fn main() -> anyhow::Result<()> {
         }
     });
 
-    // local.start().await?;
+    local.start().await?;
 
-    while !token.is_cancelled() {
-        let line = match serial.read_line().await {
-            Ok(line) => line,
-            Err(e) => {
-                log::error!("Error reading line: {:?}", e);
-                continue;
+    loop {
+        tokio::select! {
+            _ = shutdown_rx.recv() => {
+                break;
+            },
+            line = serial.read_line() => {
+                match line {
+                    Ok(line) => {
+                        log::trace!("Received line: {}", line);
+
+                        if line.starts_with("#") {
+                            log::info!("Received comment: {}", line);
+                            continue;
+                        }
+                
+                        let frame = match Frame::parse(&line) {
+                            Ok(frame) => frame,
+                            Err(e) => {
+                                log::error!("Failed to parse frame: {:?}\n{}", e, &line[..line.len().min(60)]);
+                                continue;
+                            }
+                        };
+                
+                        writer.write_frame(&frame).await?;
+                        tx.send(services::ServiceMessage::NewFrame(frame))?;
+                    },
+                    Err(e) => {
+                        log::error!("Error reading line: {:?}", e);
+                        continue;
+                    }
+                }
             }
-        };
+        }   
 
-        log::trace!("Received line: {}", line);
-
-        if line.starts_with("#") {
-            log::info!("Received comment: {}", line);
-            continue;
-        }
-
-        let frame = match Frame::parse(&line) {
-            Ok(frame) => frame,
-            Err(e) => {
-                log::error!("Failed to parse frame: {:?}\n{}", e, &line[..line.len().min(60)]);
-                continue;
-            }
-        };
-
-        writer.write_frame(&frame).await?;
-        tx.send(services::ServiceMessage::NewFrame(frame))?;
+        
     }
+
+    local.stop();
 
     log::info!("All done!");
 
