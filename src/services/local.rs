@@ -6,6 +6,7 @@ use crate::serial::Frame;
 
 use super::ServiceMessage;
 
+#[derive(Debug, Clone)]
 pub struct LocalServiceConfig {
     pub port: u16,
 }
@@ -13,6 +14,10 @@ pub struct LocalServiceConfig {
 pub struct LocalService {
     config: LocalServiceConfig,
     last_frame: std::sync::Arc<std::sync::Mutex<Option<crate::serial::Frame>>>,
+    token: tokio_util::sync::CancellationToken,
+    msg_handle: Option<tokio::task::JoinHandle<()>>,
+    server_handle: Option<tokio::task::JoinHandle<()>>,
+    tx: tokio::sync::broadcast::Sender<ServiceMessage>,
 }
 
 impl LocalService {
@@ -21,9 +26,22 @@ impl LocalService {
 
         let last_frame = std::sync::Arc::new(std::sync::Mutex::new(None));
 
+        LocalService {
+            config, 
+            last_frame: last_frame,
+            token: tokio_util::sync::CancellationToken::new(),
+            msg_handle: None,
+            server_handle: None,
+            tx: tx,
+        }
+    }
 
-        let last_frame_inner = last_frame.clone();
-        let handle = tokio::spawn(async move {
+
+    pub async fn start(&mut self) -> anyhow::Result<()> {
+
+        let last_frame_inner = self.last_frame.clone();
+        let tx = self.tx.clone();
+        let msg_handle = tokio::spawn(async move {
             let mut rx = tx.subscribe();
             loop {
                 match rx.recv().await {
@@ -42,9 +60,11 @@ impl LocalService {
                 }
             }
         });
+        self.msg_handle.replace(msg_handle);
 
-        let last_frame_inner = last_frame.clone();
-        tokio::spawn(async move {
+        let last_frame_inner = self.last_frame.clone();
+        let config = self.config.clone();
+        let server_handle = tokio::spawn(async move {
             let router = Router::new()
                 .route("/frame", get(Self::get_frame))
                 .with_state(last_frame_inner);
@@ -53,13 +73,25 @@ impl LocalService {
             axum::serve(listener, router).await.unwrap();
         });
 
-        LocalService {
-            config, 
-            last_frame: last_frame
-        }
+        self.server_handle.replace(server_handle);
+
+        Ok(())
     }
 
-
+    pub fn stop(&mut self) {
+        self.token.cancel();
+        if let Some(handle) = self.msg_handle.take() {
+            tokio::task::block_in_place(|| {
+                handle.abort();
+            });
+        }
+        if let Some(handle) = self.server_handle.take() {
+            tokio::task::block_in_place(|| {
+                handle.abort();
+            });
+        }
+    }
+            
     // State<Arc<Mutex<Option<Frame>>>>
     pub async fn get_frame(State(last_frame): State<Arc<Mutex<Option<Frame>>>>) -> impl IntoResponse {
         let last_frame = last_frame.lock().unwrap();

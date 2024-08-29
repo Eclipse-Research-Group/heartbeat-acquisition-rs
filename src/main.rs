@@ -74,25 +74,26 @@ async fn main() -> anyhow::Result<()> {
     let (tx, _) = tokio::sync::broadcast::channel(16);
 
     // Start local server
-    let local = LocalService::new(LocalServiceConfig {
+    let mut local = LocalService::new(LocalServiceConfig {
         port: 8080
     }, tx.clone());
 
+    let rx = tx.subscribe();
+
     let mut writer = writer::hdf5::HDF5Writer::new("test5.h5".into())?;
 
-    let mut signal = signal::ctrl_c();
+    let token = tokio_util::sync::CancellationToken::new();
 
-    let tx = tx.clone();
     let shutdown = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
 
-    let shutdown_arc = shutdown.clone();
+    let shutdown_token = token.clone();
     let tx_arc = tx.clone();
     tokio::spawn(async move {
         match signal::ctrl_c().await {
             Ok(()) => {
                 log::info!("Shutting down, waiting for services...");
+                shutdown_token.cancel();
                 tx_arc.send(services::ServiceMessage::Shutdown).unwrap();
-                shutdown_arc.store(true, std::sync::atomic::Ordering::SeqCst);
             },
             Err(err) => {
                 eprintln!("Unable to listen for shutdown signal: {}", err);
@@ -101,8 +102,9 @@ async fn main() -> anyhow::Result<()> {
         }
     });
 
+    local.start().await?;
 
-    while !shutdown.load(std::sync::atomic::Ordering::SeqCst) {
+    while !token.is_cancelled() {
         let line = match serial.read_line().await {
             Ok(line) => line,
             Err(e) => {
@@ -129,6 +131,8 @@ async fn main() -> anyhow::Result<()> {
         writer.write_frame(&frame).await?;
         tx.send(services::ServiceMessage::NewFrame(frame))?;
     }
+
+    local.stop();
 
     log::info!("All done!");
 
