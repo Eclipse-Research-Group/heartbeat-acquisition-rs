@@ -4,9 +4,13 @@ use colored::*;
 use log::Level;
 use serde::Deserialize;
 use serial::{Frame, SecTickModule};
+use services::local::{LocalService, LocalServiceConfig};
+use tokio::signal;
+use writer::Writer;
 
 mod serial;
 mod writer;
+mod services;
 
 fn setup_logger() -> Result<(), fern::InitError> {
     fern::Dispatch::new()
@@ -67,8 +71,54 @@ async fn main() -> anyhow::Result<()> {
 
     serial.open().unwrap();
 
-    loop {
-        let line = serial.read_line().await.unwrap();
+    let (tx, _) = tokio::sync::broadcast::channel(16);
+
+    // Start local server
+    let local = LocalService::new(LocalServiceConfig {
+        port: 8080
+    }, tx.clone());
+
+    let mut writer = writer::hdf5::HDF5Writer::new("test5.h5".into())?;
+
+    let mut signal = signal::ctrl_c();
+
+    let tx = tx.clone();
+    let shutdown = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
+
+    let shutdown_arc = shutdown.clone();
+    let tx_arc = tx.clone();
+    tokio::spawn(async move {
+        match signal::ctrl_c().await {
+            Ok(()) => {
+                log::info!("Shutting down, waiting for services...");
+                tx_arc.send(services::ServiceMessage::Shutdown).unwrap();
+                shutdown_arc.store(true, std::sync::atomic::Ordering::SeqCst);
+            },
+            Err(err) => {
+                eprintln!("Unable to listen for shutdown signal: {}", err);
+                // we also shut down in case of error
+            },
+        }
+    });
+
+
+    while !shutdown.load(std::sync::atomic::Ordering::SeqCst) {
+        let line = match tokio::time::timeout(std::time::Duration::from_secs(2), serial.read_line()).await {
+            Ok(line) => {
+                match line {
+                    Ok(line) => line,
+                    Err(e) => {
+                        log::error!("Error reading serial port: {:?}", e);
+                        continue;
+                    }
+                }
+            },
+            Err(e) => {
+                log::error!("Timeout reading serial port: {:?}", e);
+                continue;
+            }
+        };
+
         log::trace!("Received line: {}", line);
 
         if line.starts_with("#") {
@@ -83,12 +133,12 @@ async fn main() -> anyhow::Result<()> {
                 continue;
             }
         };
-        log::info!("Received frame at timestamp: {:?}", frame.timestamp());
-        log::debug!("Satellites: {}", frame.satellite_count());
-    
+
+        writer.write_frame(&frame).await?;
+        tx.send(services::ServiceMessage::NewFrame(frame))?;
     }
-    
-    serial.close().unwrap();
+
+    log::info!("All done!");
 
     Ok(())
 }

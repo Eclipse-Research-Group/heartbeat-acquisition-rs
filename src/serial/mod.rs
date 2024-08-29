@@ -39,16 +39,6 @@ impl SecTickModule {
         Ok(())
     }
 
-    pub fn close(&mut self) -> anyhow::Result<()> {
-        log::info!("Closing serial port: {}", self.serial_port);
-
-        if let Some(port) = self.port.take() {
-            todo!("Send port termination signal");
-        }
-
-        Ok(())
-    }
-
     pub async fn read_line(&mut self) -> anyhow::Result<String> {
         let port = self.port.as_ref().context("No port open")?.clone();
         let serial_read_future: JoinHandle<anyhow::Result<String>> = tokio::task::spawn_blocking(move || {

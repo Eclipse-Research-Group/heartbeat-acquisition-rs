@@ -28,7 +28,7 @@ pub struct Frame {
     speed: f32,
     angle: f32,
     fix: u16,
-    data: Vec<f64>,
+    data: Vec<i16>,
 }
 
 impl Frame {
@@ -99,18 +99,17 @@ impl Frame {
             _ => return Err(anyhow::anyhow!("Failed to parse data count")),
         };
 
-        let mut data = Vec::<f64>::new();
+        let mut data = Vec::<i16>::new();
         let mut sum = 0u64;
         for _ in 10..10usize + data_count {
             let part = iter.next().ok_or(anyhow::anyhow!("Missing data"))?;
-            let value = match part.parse::<i64>() {
+            let value = match part.parse::<i16>() {
                 Ok(value) => value,
                 _ => return Err(anyhow::anyhow!("Failed to parse data")),
             };
 
             sum += value as u64;
-            // let value = part.parse::<i64>().unwrap();
-            data.push((value - 512) as f64 / 512.0);
+            data.push(value);
         }
 
         let checksum =
@@ -143,6 +142,10 @@ impl Frame {
 
     pub fn satellite_count(&self) -> u16 {
         return self.fix
+    }
+
+    pub fn samples(&self) -> Vec<i16> {
+        return self.data.clone();
     }
 
 

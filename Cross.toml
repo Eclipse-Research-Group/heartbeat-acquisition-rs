@@ -1,4 +1,2 @@
 [target.armv7-unknown-linux-gnueabihf]
-# pre-build = "./scripts/setup.sh"
-# image = "ubuntu:latest"
 dockerfile = "Dockerfile"
