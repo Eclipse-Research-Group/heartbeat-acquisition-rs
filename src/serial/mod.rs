@@ -50,7 +50,11 @@ impl SecTickModule {
             Ok(line)
         });
 
-        return serial_read_future.await?;
+        match tokio::time::timeout(self.timeout, serial_read_future).await {
+            Ok(serial_read_future) => return serial_read_future?,
+            Err(_) => return Err(anyhow::anyhow!("Timeout reading serial port"))
+        }
+
     }
 
     pub async fn next_data(&mut self) -> anyhow::Result<SecTickData> {

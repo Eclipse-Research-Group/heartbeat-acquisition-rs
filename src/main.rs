@@ -103,18 +103,10 @@ async fn main() -> anyhow::Result<()> {
 
 
     while !shutdown.load(std::sync::atomic::Ordering::SeqCst) {
-        let line = match tokio::time::timeout(std::time::Duration::from_secs(2), serial.read_line()).await {
-            Ok(line) => {
-                match line {
-                    Ok(line) => line,
-                    Err(e) => {
-                        log::error!("Error reading serial port: {:?}", e);
-                        continue;
-                    }
-                }
-            },
+        let line = match serial.read_line().await {
+            Ok(line) => line,
             Err(e) => {
-                log::error!("Timeout reading serial port: {:?}", e);
+                log::error!("Error reading line: {:?}", e);
                 continue;
             }
         };
