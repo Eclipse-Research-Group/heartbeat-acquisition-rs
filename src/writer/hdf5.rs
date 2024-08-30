@@ -16,6 +16,13 @@ macro_rules! a_dataset {
     };
 }
 
+#[derive(Clone)]
+pub struct HDF5WriterConfig {
+    pub node_id: String,
+    pub output_path: PathBuf,
+    pub gzip_level: i8
+}
+
 pub struct HDF5Writer {
     output_path: PathBuf,
     file: hdf5::File,
@@ -35,7 +42,7 @@ impl HDF5Writer {
 
 }
 
-impl Writer for HDF5Writer {
+impl Writer<HDF5WriterConfig> for HDF5Writer {
     async fn write_frame(&mut self, when: chrono::DateTime<Utc>, frame: &crate::serial::Frame) -> anyhow::Result<()> {
         log::debug!("Writing frame to HDF5 file at index: {}", self.index);
 
@@ -88,11 +95,11 @@ impl Writer for HDF5Writer {
         Ok(())
     }
 
-    fn new(node_id: String, path: PathBuf)-> anyhow::Result<HDF5Writer> {
-        let file = hdf5::File::create(path.join(Path::new(format!("{}_{}.h5", node_id, chrono::Utc::now().format("%Y-%m-%d_%H-%M-%S")).as_str())))?;
+    fn new(config: HDF5WriterConfig)-> anyhow::Result<HDF5Writer> {
+        let file = hdf5::File::create(config.output_path.join(Path::new(format!("{}_{}.h5", config.node_id, chrono::Utc::now().format("%Y-%m-%d_%H-%M-%S")).as_str())))?;
 
         let attr = file.new_attr::<VarLenUnicode>().create("NODE_ID")?;
-        let varlen = hdf5::types::VarLenUnicode::from_str(&node_id).unwrap();
+        let varlen = hdf5::types::VarLenUnicode::from_str(&config.node_id).unwrap();
         attr.write_scalar(&varlen)?;
 
 
@@ -113,6 +120,8 @@ impl Writer for HDF5Writer {
         let ds_satellites = a_dataset!(file, "satellites", i8, [0..], 1);
 
         let ds_comments = file.new_dataset::<VarLenUnicode>()
+            .chunk(1)
+            .deflate(8)
             .shape(0..)
             .create("comments")?;
 
@@ -123,11 +132,11 @@ impl Writer for HDF5Writer {
         let data_set_samples = file.new_dataset::<i16>()
             .chunk((1, 7200))
             .shape((0.., 7200))
-            .deflate(4)
+            .deflate(config.gzip_level as u8)
             .create("samples")?;
 
         Ok(HDF5Writer {
-            output_path: path,
+            output_path: config.output_path,
             file,
             ds_gps_time,
             ds_cpu_time,

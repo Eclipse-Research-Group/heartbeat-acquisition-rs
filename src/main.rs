@@ -41,7 +41,9 @@ fn setup_logger() -> Result<(), fern::InitError> {
 #[derive(Deserialize)]
 struct HeartbeatConfig {
     serial_port: String,
-    node_id: String
+    node_id: String,
+    file_duration_mins: i64,
+    gzip_level: i8
 }
 
 fn load_config() -> HeartbeatConfig {
@@ -79,7 +81,12 @@ async fn main() -> anyhow::Result<()> {
 
     let rx = tx.subscribe();
 
-    let mut writer = writer::hdf5::HDF5Writer::new(config.node_id.clone(), "./".into())?;
+    let writer_config = writer::hdf5::HDF5WriterConfig {
+        node_id: config.node_id.clone(),
+        output_path: "./".into(),
+        gzip_level: config.gzip_level,
+    };
+    let mut writer = writer::hdf5::HDF5Writer::new(writer_config.clone())?;
 
     let token = tokio_util::sync::CancellationToken::new();
 
@@ -113,8 +120,8 @@ async fn main() -> anyhow::Result<()> {
                 let when = chrono::Utc::now();
                 match line {
                     Ok(line) => {
-                        if last_start.elapsed() > Duration::from_secs(5) {
-                            writer = writer::hdf5::HDF5Writer::new(config.node_id.clone(), "./".into())?;
+                        if last_start.elapsed() > Duration::from_secs(config.file_duration_mins as u64 * 60) {
+                            writer = writer::hdf5::HDF5Writer::new(writer_config.clone())?;
                             last_start = Instant::now();
                         }
 

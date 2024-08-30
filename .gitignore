@@ -22,3 +22,8 @@ user.toml
 
 # Log files
 *.log
+
+# Data files
+*.h5
+
+.DS_Store
