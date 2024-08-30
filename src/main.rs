@@ -189,7 +189,7 @@ async fn main() -> anyhow::Result<()> {
 
     log::info!("All done!");
 
-    led.set_color(led::LedColor::Off);
+    led.set_color(led::LedColor::Off)?;
 
     Ok(())
 }
