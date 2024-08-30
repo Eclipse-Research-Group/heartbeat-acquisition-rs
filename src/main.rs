@@ -74,11 +74,13 @@ async fn main() -> anyhow::Result<()> {
     let output_dir = std::path::Path::new(&config.output_dir);
     if !output_dir.exists() {
         log::error!("Output directory does not exist: {}", config.output_dir);
+        led.set_color(led::LedColor::Red)?;
         std::process::exit(1);
     }
 
     if !output_dir.is_dir() {
         log::error!("Output directory is not a directory: {}", config.output_dir);
+        led.set_color(led::LedColor::Red)?;
         std::process::exit(1);
     }
 
@@ -90,6 +92,7 @@ async fn main() -> anyhow::Result<()> {
         },
         Err(e) => {
             log::error!("Unable to write to output directory: {}", e);
+            led.set_color(led::LedColor::Red)?;
             std::process::exit(1);
         }
     }
