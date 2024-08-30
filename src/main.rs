@@ -1,10 +1,11 @@
-use std::{fs, time::{Duration, Instant, SystemTime}};
+use std::{fs, thread, time::{Duration, Instant, SystemTime}};
 
 use colored::*;
 use log::Level;
 use serde::Deserialize;
 use serial::{Frame, SecTickModule};
 use services::local::{LocalService, LocalServiceConfig};
+use signal_hook::{consts::{SIGINT, SIGTERM}, iterator::Signals};
 use tokio::signal;
 use writer::Writer;
 
@@ -121,17 +122,17 @@ async fn main() -> anyhow::Result<()> {
 
     let (shutdown_tx, mut shutdown_rx) = tokio::sync::broadcast::channel::<()>(4);
     let tx_arc = tx.clone();
-    tokio::spawn(async move {
-        match signal::ctrl_c().await {
-            Ok(()) => {
-                log::info!("Shutting down, waiting for services...");
-                shutdown_tx.send(()).unwrap();
-                tx_arc.send(services::ServiceMessage::Shutdown).unwrap();
-            },
-            Err(err) => {
-                eprintln!("Unable to listen for shutdown signal: {}", err);
-                // we also shut down in case of error
-            },
+    thread::spawn(move || {
+        let mut signals = Signals::new(&[SIGINT, SIGTERM]).unwrap();
+        for sig in signals.forever() {
+            match sig {
+                SIGINT | SIGTERM => {
+                    log::info!("Shutting down, waiting for services...");
+                    shutdown_tx.send(()).unwrap();
+                    tx_arc.send(services::ServiceMessage::Shutdown).unwrap();
+                },
+                _ => {}
+            }
         }
     });
 
