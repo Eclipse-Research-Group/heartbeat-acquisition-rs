@@ -1,4 +1,4 @@
-use std::{path::PathBuf, str::FromStr};
+use std::{path::{Path, PathBuf}, str::FromStr};
 
 use chrono::Utc;
 use hdf5::types::{FixedUnicode, VarLenUnicode};
@@ -25,6 +25,7 @@ pub struct HDF5Writer {
     ds_longitude: hdf5::Dataset,
     ds_elevation: hdf5::Dataset,
     ds_satellites: hdf5::Dataset,
+    ds_comments: hdf5::Dataset,
     data_set_samples: hdf5::Dataset,
     index: usize
 }
@@ -88,7 +89,7 @@ impl Writer for HDF5Writer {
     }
 
     fn new(node_id: String, path: PathBuf)-> anyhow::Result<HDF5Writer> {
-        let file = hdf5::File::create(path.clone())?;
+        let file = hdf5::File::create(path.join(Path::new(format!("{}_{}.h5", node_id, chrono::Utc::now().format("%Y-%m-%d_%H-%M-%S")).as_str())))?;
 
         let attr = file.new_attr::<VarLenUnicode>().create("NODE_ID")?;
         let varlen = hdf5::types::VarLenUnicode::from_str(&node_id).unwrap();
@@ -108,9 +109,16 @@ impl Writer for HDF5Writer {
         let ds_cpu_time = a_dataset!(file, "cpu_time", i64, [0..], 1);
         let ds_latitude = a_dataset!(file, "latitude", f32, [0..], 1);
         let ds_longitude = a_dataset!(file, "longitude", f32, [0..], 1);
-        let ds_altitude = a_dataset!(file, "elevation", f32, [0..], 1);
+        let ds_elevation = a_dataset!(file, "elevation", f32, [0..], 1);
         let ds_satellites = a_dataset!(file, "satellites", i8, [0..], 1);
 
+        let ds_comments = file.new_dataset::<VarLenUnicode>()
+            .shape(0..)
+            .create("comments")?;
+
+        let comment = hdf5::types::VarLenUnicode::from_str("You found the comments! Any messages obtained from the Teensy board will appear here.").unwrap();
+        ds_comments.resize([ds_comments.size() + 1])?;
+        ds_comments.write_slice(&[comment], &[ds_comments.size() - 1])?;
 
         let data_set_samples = file.new_dataset::<i16>()
             .chunk((1, 7200))
@@ -125,8 +133,9 @@ impl Writer for HDF5Writer {
             ds_cpu_time,
             ds_latitude,
             ds_longitude,
-            ds_elevation: ds_altitude,
+            ds_elevation,
             ds_satellites,
+            ds_comments,
             data_set_samples: data_set_samples,
             index: 0
         })
@@ -139,7 +148,9 @@ impl Writer for HDF5Writer {
     }
     
     async fn write_comment(&mut self, comment: &str) -> anyhow::Result<()> {
-        // log::warn!("Writing comment to HDF5 file: {}", comment);
+        let comment = hdf5::types::VarLenUnicode::from_str(comment).unwrap();
+        self.ds_comments.resize([self.ds_comments.size() + 1])?;
+        self.ds_comments.write_slice(&[comment], &[self.ds_comments.size() - 1])?;
         Ok(())
     }
 }

@@ -86,8 +86,7 @@ impl LocalService {
     pub fn stop(&mut self) {
         self.watch_tx.send(Some(())).unwrap();
     }
-            
-    // State<Arc<Mutex<Option<Frame>>>>
+
     pub async fn get_frame(State(last_frame): State<Arc<Mutex<Option<Frame>>>>) -> impl IntoResponse {
         let last_frame = last_frame.lock().unwrap();
         match last_frame.as_ref() {

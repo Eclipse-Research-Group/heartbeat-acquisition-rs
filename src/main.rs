@@ -1,4 +1,4 @@
-use std::{fs, time::{Duration, SystemTime}};
+use std::{fs, time::{Duration, Instant, SystemTime}};
 
 use colored::*;
 use log::Level;
@@ -79,7 +79,7 @@ async fn main() -> anyhow::Result<()> {
 
     let rx = tx.subscribe();
 
-    let mut writer = writer::hdf5::HDF5Writer::new(config.node_id, "test5.h5".into())?;
+    let mut writer = writer::hdf5::HDF5Writer::new(config.node_id.clone(), "./".into())?;
 
     let token = tokio_util::sync::CancellationToken::new();
 
@@ -102,6 +102,8 @@ async fn main() -> anyhow::Result<()> {
 
     local.start().await?;
 
+    let mut last_start = Instant::now();
+
     loop {
         tokio::select! {
             _ = shutdown_rx.recv() => {
@@ -111,6 +113,10 @@ async fn main() -> anyhow::Result<()> {
                 let when = chrono::Utc::now();
                 match line {
                     Ok(line) => {
+                        if last_start.elapsed() > Duration::from_secs(5) {
+                            writer = writer::hdf5::HDF5Writer::new(config.node_id.clone(), "./".into())?;
+                            last_start = Instant::now();
+                        }
 
                         if line.starts_with("#") {
                             writer.write_comment(&line).await?;
