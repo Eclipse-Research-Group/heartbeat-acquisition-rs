@@ -44,7 +44,8 @@ struct HeartbeatConfig {
     serial_port: String,
     node_id: String,
     file_duration_mins: i64,
-    gzip_level: i8
+    gzip_level: i8,
+    output_dir: String,
 }
 
 fn load_config() -> HeartbeatConfig {
@@ -67,7 +68,31 @@ async fn main() -> anyhow::Result<()> {
 
     let config = load_config();
     let mut led = led::LED::new(19, 20, 21)?;
-    led.set_color(led::LedColor::White);
+    led.set_color(led::LedColor::White)?;
+
+    // Check for writability to the output directory
+    let output_dir = std::path::Path::new(&config.output_dir);
+    if !output_dir.exists() {
+        log::error!("Output directory does not exist: {}", config.output_dir);
+        std::process::exit(1);
+    }
+
+    if !output_dir.is_dir() {
+        log::error!("Output directory is not a directory: {}", config.output_dir);
+        std::process::exit(1);
+    }
+
+    // Test by writing a file
+    let test_file = output_dir.join("test_file");
+    match fs::write(&test_file, "test") {
+        Ok(_) => {
+            fs::remove_file(&test_file)?;
+        },
+        Err(e) => {
+            log::error!("Unable to write to output directory: {}", e);
+            std::process::exit(1);
+        }
+    }
 
     log::info!("Starting Heartbeat node with node_id=\"{}\"", config.node_id);
     log::debug!("Serial port: {}", config.serial_port);
@@ -86,15 +111,12 @@ async fn main() -> anyhow::Result<()> {
 
     let writer_config = writer::hdf5::HDF5WriterConfig {
         node_id: config.node_id.clone(),
-        output_path: "./".into(),
+        output_path: config.output_dir.into(),
         gzip_level: config.gzip_level,
     };
     let mut writer = writer::hdf5::HDF5Writer::new(writer_config.clone())?;
 
-    let token = tokio_util::sync::CancellationToken::new();
-
     let (shutdown_tx, mut shutdown_rx) = tokio::sync::broadcast::channel::<()>(4);
-
     let tx_arc = tx.clone();
     tokio::spawn(async move {
         match signal::ctrl_c().await {
@@ -117,7 +139,7 @@ async fn main() -> anyhow::Result<()> {
     loop {
         tokio::select! {
             _ = shutdown_rx.recv() => {
-                led.set_color(led::LedColor::Yellow);
+                led.set_color(led::LedColor::Yellow)?;
                 break;
             },
             line = serial.read_line() => {
@@ -130,7 +152,7 @@ async fn main() -> anyhow::Result<()> {
                         }
 
                         if line.starts_with("#") {
-                            led.set_color(led::LedColor::Blue);
+                            led.set_color(led::LedColor::Blue)?;
                             writer.write_comment(&line).await?;
                             continue;
                         }
@@ -138,7 +160,7 @@ async fn main() -> anyhow::Result<()> {
                         let frame = match Frame::parse(&line) {
                             Ok(frame) => frame,
                             Err(e) => {
-                                led.set_color(led::LedColor::Red);
+                                led.set_color(led::LedColor::Red)?;
                                 log::error!("Failed to parse frame: {:?}\n{}", e, &line[..line.len().min(60)]);
                                 continue;
                             }
@@ -146,11 +168,11 @@ async fn main() -> anyhow::Result<()> {
                 
                         writer.write_frame(when, &frame).await?;
                         tx.send(services::ServiceMessage::NewFrame(frame))?;
-                        led.set_color(led::LedColor::Green);
+                        led.set_color(led::LedColor::Green)?;
                     },
                     Err(e) => {
                         log::error!("Error reading line: {:?}", e);
-                        led.set_color(led::LedColor::Red);
+                        led.set_color(led::LedColor::Red)?;
                         continue;
                     }
                 }
