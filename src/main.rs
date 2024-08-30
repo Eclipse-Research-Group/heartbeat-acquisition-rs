@@ -11,6 +11,7 @@ use writer::Writer;
 mod serial;
 mod writer;
 mod services;
+mod led;
 
 fn setup_logger() -> Result<(), fern::InitError> {
     fern::Dispatch::new()
@@ -65,6 +66,8 @@ async fn main() -> anyhow::Result<()> {
     setup_logger()?;
 
     let config = load_config();
+    let mut led = led::LED::new(19, 20, 21)?;
+    led.set_color(led::LedColor::White);
 
     log::info!("Starting Heartbeat node with node_id=\"{}\"", config.node_id);
     log::debug!("Serial port: {}", config.serial_port);
@@ -114,6 +117,7 @@ async fn main() -> anyhow::Result<()> {
     loop {
         tokio::select! {
             _ = shutdown_rx.recv() => {
+                led.set_color(led::LedColor::Yellow);
                 break;
             },
             line = serial.read_line() => {
@@ -126,6 +130,7 @@ async fn main() -> anyhow::Result<()> {
                         }
 
                         if line.starts_with("#") {
+                            led.set_color(led::LedColor::Blue);
                             writer.write_comment(&line).await?;
                             continue;
                         }
@@ -133,6 +138,7 @@ async fn main() -> anyhow::Result<()> {
                         let frame = match Frame::parse(&line) {
                             Ok(frame) => frame,
                             Err(e) => {
+                                led.set_color(led::LedColor::Red);
                                 log::error!("Failed to parse frame: {:?}\n{}", e, &line[..line.len().min(60)]);
                                 continue;
                             }
@@ -140,9 +146,11 @@ async fn main() -> anyhow::Result<()> {
                 
                         writer.write_frame(when, &frame).await?;
                         tx.send(services::ServiceMessage::NewFrame(frame))?;
+                        led.set_color(led::LedColor::Green);
                     },
                     Err(e) => {
                         log::error!("Error reading line: {:?}", e);
+                        led.set_color(led::LedColor::Red);
                         continue;
                     }
                 }
@@ -155,6 +163,8 @@ async fn main() -> anyhow::Result<()> {
     local.stop();
 
     log::info!("All done!");
+
+    led.set_color(led::LedColor::Off);
 
     Ok(())
 }
