@@ -79,7 +79,7 @@ async fn main() -> anyhow::Result<()> {
 
     let rx = tx.subscribe();
 
-    let mut writer = writer::hdf5::HDF5Writer::new("test5.h5".into())?;
+    let mut writer = writer::hdf5::HDF5Writer::new(config.node_id, "test5.h5".into())?;
 
     let token = tokio_util::sync::CancellationToken::new();
 
@@ -108,12 +108,12 @@ async fn main() -> anyhow::Result<()> {
                 break;
             },
             line = serial.read_line() => {
+                let when = chrono::Utc::now();
                 match line {
                     Ok(line) => {
-                        log::trace!("Received line: {}", line);
 
                         if line.starts_with("#") {
-                            log::info!("Received comment: {}", line);
+                            writer.write_comment(&line).await?;
                             continue;
                         }
                 
@@ -125,7 +125,7 @@ async fn main() -> anyhow::Result<()> {
                             }
                         };
                 
-                        writer.write_frame(&frame).await?;
+                        writer.write_frame(when, &frame).await?;
                         tx.send(services::ServiceMessage::NewFrame(frame))?;
                     },
                     Err(e) => {

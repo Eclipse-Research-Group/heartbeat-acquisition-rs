@@ -148,5 +148,19 @@ impl Frame {
         return self.data.clone();
     }
 
+    pub fn latitude(&self) -> f32 {
+        return self.latitude;
+    }
+
+    pub fn longitude(&self) -> f32 {
+        return self.longitude;
+    }
+
+    pub fn elevation(&self) -> f32 {
+        return self.elevation;
+    }
+
+    
+
 
 }
