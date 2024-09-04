@@ -14,6 +14,14 @@ impl FrameMetadata {
             is_clipping: line.contains('O'),
         });
     }
+
+    pub fn has_gps_fix(&self) -> bool {
+        return self.has_gps_fix;
+    }
+
+    pub fn is_clipping(&self) -> bool {
+        return self.is_clipping;
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -160,7 +168,9 @@ impl Frame {
         return self.elevation;
     }
 
-    
+    pub fn metadata(&self) -> FrameMetadata {
+        return self.metadata.clone();
+    }
 
 
 }

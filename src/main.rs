@@ -6,7 +6,6 @@ use serde::Deserialize;
 use serial::{Frame, SecTickModule};
 use services::local::{LocalService, LocalServiceConfig};
 use signal_hook::{consts::{SIGINT, SIGTERM}, iterator::Signals};
-use tokio::signal;
 use writer::Writer;
 
 mod serial;
@@ -48,6 +47,7 @@ struct HeartbeatConfig {
     gzip_level: i8,
     output_dir: String,
 }
+
 
 fn load_config() -> HeartbeatConfig {
     let config_contents = match fs::read_to_string("config.toml") {
@@ -171,8 +171,13 @@ async fn main() -> anyhow::Result<()> {
                         };
                 
                         writer.write_frame(when, &frame).await?;
+                        if frame.metadata().has_gps_fix() {
+                            led.set_color(led::LedColor::Green)?;
+                        } else {
+                            led.set_color(led::LedColor::Yellow)?;
+                        }
                         tx.send(services::ServiceMessage::NewFrame(frame))?;
-                        led.set_color(led::LedColor::Green)?;
+                        
                     },
                     Err(e) => {
                         log::error!("Error reading line: {:?}", e);
