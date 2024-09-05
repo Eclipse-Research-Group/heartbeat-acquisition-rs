@@ -175,7 +175,7 @@ async fn main() -> anyhow::Result<()> {
                         if frame.metadata().has_gps_fix() {
                             led.set_color(led::LedColor::Green)?;
                         } else {
-                            led.set_color(led::LedColor::Yellow)?;
+                            led.set_color(led::LedColor::Magenta)?;
                         }
                         tx.send(services::ServiceMessage::NewFrame(frame))?;
                         
