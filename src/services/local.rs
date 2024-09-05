@@ -15,14 +15,20 @@ pub struct LocalServiceConfig {
 
 pub struct LocalService {
     config: LocalServiceConfig,
-    last_frame: std::sync::Arc<std::sync::Mutex<Option<crate::serial::Frame>>>,
+    last_frame: std::sync::Arc<std::sync::Mutex<Option<AppState>>>,
     tx: tokio::sync::broadcast::Sender<ServiceMessage>,
     watch_tx: tokio::sync::watch::Sender<Option<()>>,
 }
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct AppState {
+    frame: Frame,
+    node_id: String,
+}
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct FrameResponse {
-    frame: Option<Frame>,
+    frame: Frame,
     node_id: String,
 }
 
@@ -30,23 +36,23 @@ impl LocalService {
     pub fn new(config: LocalServiceConfig,
         tx: tokio::sync::broadcast::Sender<ServiceMessage>) -> LocalService {
 
-        let last_frame = std::sync::Arc::new(std::sync::Mutex::new(None));
+        let last_response = std::sync::Arc::new(std::sync::Mutex::new(None));
 
         let (w_tx, _) = tokio::sync::watch::channel(Option::<()>::None);
 
         LocalService {
             config, 
-            last_frame: last_frame,
+            last_frame: last_response,
             tx: tx,
             watch_tx: w_tx,
         }
     }
 
-
     pub async fn start(&mut self) -> anyhow::Result<()> {
 
         let last_frame_inner = self.last_frame.clone();
         let tx = self.tx.clone();
+        let node_id = self.config.node_id.clone();
         tokio::spawn(async move {
             let mut rx = tx.subscribe();
             loop {
@@ -55,7 +61,10 @@ impl LocalService {
                         log::debug!("Received new frame");
                         match last_frame_inner.lock() {
                             Ok(mut guard) => {
-                                guard.replace(frame);
+                               guard.replace(AppState {
+                                   frame: frame,
+                                   node_id: node_id.clone(),
+                               });
                             }
                             Err(e) => {
                                 log::error!("Unable to lock last_frame: {:?}", e);
@@ -94,22 +103,19 @@ impl LocalService {
         self.watch_tx.send(Some(())).unwrap();
     }
 
-    pub async fn get_frame(State(last_frame): State<Arc<Mutex<Option<Frame>>>>) -> impl IntoResponse {
+    pub async fn get_frame(State(last_frame): State<Arc<Mutex<Option<AppState>>>>) -> impl IntoResponse {
         let last_frame = last_frame.lock().unwrap();
         match last_frame.as_ref() {
             Some(frame) => {
-                (StatusCode::OK, Json(FrameResponse {
-                    frame: Some(frame.clone()),
-                    node_id: "local".to_string(),
-                }))
+                (StatusCode::OK, Json(Some({
+                    FrameResponse {
+                        frame: frame.frame.clone(),
+                        node_id: frame.node_id.clone(),
+                    }
+                })))
             }
             None => {
-                (StatusCode::NOT_FOUND, Json({
-                    FrameResponse {
-                        frame: None,
-                        node_id: "local".to_string(),
-                    }
-                }))
+                (StatusCode::NOT_FOUND, Json(None))
             }
         }
     }
