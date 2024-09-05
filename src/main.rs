@@ -171,8 +171,9 @@ async fn main() -> anyhow::Result<()> {
                             }
                         };
                 
-                        writer.write_frame(when, &frame).await?;
+
                         if frame.metadata().has_gps_fix() {
+                            writer.write_frame(when, &frame).await?;
                             led.set_color(led::LedColor::Green)?;
                         } else {
                             led.set_color(led::LedColor::Magenta)?;

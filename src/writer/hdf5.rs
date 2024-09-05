@@ -34,6 +34,8 @@ pub struct HDF5Writer {
     ds_satellites: hdf5::Dataset,
     ds_comments: hdf5::Dataset,
     data_set_samples: hdf5::Dataset,
+    ds_gps_fix: hdf5::Dataset,
+    ds_clipping: hdf5::Dataset,
     index: usize
 }
 
@@ -85,6 +87,18 @@ impl Writer<HDF5WriterConfig> for HDF5Writer {
             &[self.index]
         )?;
 
+        self.ds_gps_fix.resize([self.index + 1])?;
+        self.ds_gps_fix.write_slice(
+            &[frame.metadata().has_gps_fix()],
+            &[self.index]
+        )?;
+
+        self.ds_clipping.resize([self.index + 1])?;
+        self.ds_clipping.write_slice(
+            &[frame.metadata().is_clipping()],
+            &[self.index]
+        )?;
+
         self.data_set_samples.resize([self.index + 1, 7200])?;
         self.data_set_samples.write_slice(&frame.samples(), (self.index, ..))?;
 
@@ -118,6 +132,8 @@ impl Writer<HDF5WriterConfig> for HDF5Writer {
         let ds_longitude = a_dataset!(file, "longitude", f32, [0..], 1);
         let ds_elevation = a_dataset!(file, "elevation", f32, [0..], 1);
         let ds_satellites = a_dataset!(file, "satellites", i8, [0..], 1);
+        let ds_gps_fix = a_dataset!(file, "gps_fix", bool, [0..], 1);
+        let ds_clipping = a_dataset!(file, "clipping", bool, [0..], 1);
 
         let ds_comments = file.new_dataset::<VarLenUnicode>()
             .chunk(1)
@@ -146,6 +162,8 @@ impl Writer<HDF5WriterConfig> for HDF5Writer {
             ds_satellites,
             ds_comments,
             data_set_samples: data_set_samples,
+            ds_gps_fix,
+            ds_clipping,
             index: 0
         })
     }
