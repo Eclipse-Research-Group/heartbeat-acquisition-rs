@@ -108,7 +108,8 @@ async fn main() -> anyhow::Result<()> {
     let (tx, _) = tokio::sync::broadcast::channel(16);
 
     let mut local = LocalService::new(LocalServiceConfig {
-        port: 8767
+        port: 8767,
+        node_id: config.node_id.clone(),
     }, tx.clone());
 
     let rx = tx.subscribe();

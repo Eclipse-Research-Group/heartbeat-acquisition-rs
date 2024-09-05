@@ -10,6 +10,7 @@ use super::ServiceMessage;
 #[derive(Debug, Clone)]
 pub struct LocalServiceConfig {
     pub port: u16,
+    pub node_id: String,
 }
 
 pub struct LocalService {
@@ -17,6 +18,12 @@ pub struct LocalService {
     last_frame: std::sync::Arc<std::sync::Mutex<Option<crate::serial::Frame>>>,
     tx: tokio::sync::broadcast::Sender<ServiceMessage>,
     watch_tx: tokio::sync::watch::Sender<Option<()>>,
+}
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct FrameResponse {
+    frame: Option<Frame>,
+    node_id: String,
 }
 
 impl LocalService {
@@ -91,10 +98,18 @@ impl LocalService {
         let last_frame = last_frame.lock().unwrap();
         match last_frame.as_ref() {
             Some(frame) => {
-                (StatusCode::OK, Json(Some(frame.clone())))
+                (StatusCode::OK, Json(FrameResponse {
+                    frame: Some(frame.clone()),
+                    node_id: "local".to_string(),
+                }))
             }
             None => {
-                (StatusCode::NOT_FOUND, Json(None))
+                (StatusCode::NOT_FOUND, Json({
+                    FrameResponse {
+                        frame: None,
+                        node_id: "local".to_string(),
+                    }
+                }))
             }
         }
     }
