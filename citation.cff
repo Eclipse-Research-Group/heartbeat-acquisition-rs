@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the following metadata."
+title: "Heartbeat Acquisition RS"
+version: "v2.2.4"
+doi: "10.5281/zenodo.13693303"
+authors:
+  - family-names: "Usis"
+    given-names: "Maris"
+date-released: 2024-09-05
+url: "https://zenodo.org/record/13693303"
+repository-code: "https://github.com/Eclipse-Research-Group/heartbeat-acquisition-rs/tree/v2.2.4"
+license: "CC-BY-4.0"
